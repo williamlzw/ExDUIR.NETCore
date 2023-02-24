@@ -4,11 +4,9 @@ ExDUIR
 
 ## Introduction
 
-Lightweight DirectUI framework for Windows platform.ExDUIR for .net.
+Lightweight DirectUI framework for Windows platform.ExDUIR for .net7
 
-Original address:https://github.com/williamlzw/ExDUIR
-
-Modified from https://github.com/F-Unction/ExDirectUI.NET
+.net framwork version:https://gitee.com/william_lzw/ExDUIR.NET
 
 ## Environment
 win10+, win7 need install KB2670838 patch
@@ -18,7 +16,7 @@ win10+, win7 need install KB2670838 patch
 * QQ group: 214406227
 
 ## Compiler
-* Visual Studio 2019,Visual Studio 2022
+* Visual Studio 2022 v17.5.0
 
 ## Characteristics
 * Rendering function is DirectX11, Direct2D, efficiency is hundreds of times higher than GDI.
@@ -35,6 +33,11 @@ win10+, win7 need install KB2670838 patch
 * Windows or components can receive drag files or text.
 * Support for modal Windows.
 * Support for restricted area message notification.
+* Support net7.0 nativeaot, can be compiled into win32 binary program can not be decompiled, running does not depend on .net environment, the program can run on win7.
+
+## Nativeaot compile
+* Create a .net 7.0 console application, change it to a windows application, and add <PublishAot>true</PublishAot> to the PropertyGroup node of the project file.
+* The framework can only rely on Microsoft.NETCore.App, and cannot have WinForm windows, and cannot have custom resource files Resources.resx. It can only be compiled for 64 bits.
 
 ## Demo
 ### demo code:  
