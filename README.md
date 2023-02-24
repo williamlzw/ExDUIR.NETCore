@@ -45,6 +45,9 @@ win10+， win7 需要安装KB2670838补丁
 ### demo all:  
 ![image](demo_image/demo_all.png)
 
+### demo nativeaot:  
+![image](demo_image/demo_aot.png)
+
 ### button:  
 ![image](demo_image/demo_button.png)
 

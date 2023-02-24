@@ -46,6 +46,9 @@ win10+, win7 need install KB2670838 patch
 ### demo all:  
 ![image](demo_image/demo_all.png)
 
+### demo nativeaot:  
+![image](demo_image/demo_aot.png)
+
 ### button:  
 ![image](demo_image/demo_button.png)
 
