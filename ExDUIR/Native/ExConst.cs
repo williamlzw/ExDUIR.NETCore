@@ -3727,5 +3727,32 @@
         /// </summary>
         public const int NIIF_USER = 0x04;
         #endregion
+
+        #region 标识_菜单_
+        /// <summary>
+        /// 文本
+        /// </summary>
+        public const int MF_STRING = 0;
+        /// <summary>
+        /// 指示菜单项已禁用，但未灰显，因此无法选择它
+        /// </summary>
+        public const int MF_DISABLED = 2;
+        /// <summary>
+        /// 选中菜单
+        /// </summary>
+        public const int MF_CHECKED = 0x08;
+        /// <summary>
+        /// 弹出式
+        /// </summary>
+        public const int MF_POPUP = 0x10;
+        /// <summary>
+        /// 指示 uIDEnableItem 提供菜单项的从零开始的相对位置
+        /// </summary>
+        public const int MF_BYPOSITION = 0x400;
+        /// <summary>
+        /// 分隔条
+        /// </summary>
+        public const int MF_SEPARATOR = 0x800;
+        #endregion
     }
 }

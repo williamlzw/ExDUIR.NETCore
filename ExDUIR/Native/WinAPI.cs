@@ -56,6 +56,18 @@ namespace ExDuiR.NET.Native
         [DllImport("user32.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "SetParent")]
         public static extern int SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "CreateMenu")]
+        public static extern IntPtr CreateMenu();
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "CreatePopupMenu")]
+        public static extern IntPtr CreatePopupMenu();
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "AppendMenuW")]
+        public static extern bool AppendMenu(IntPtr menuHandle, uint flag, IntPtr newID, string item);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "EnableMenuItem")]
+        public static extern bool EnableMenuItem(IntPtr menuHandle, uint uEnableItem, uint uEnable);
+
         [DllImport("user32.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "GetMenuItemID")]
         public static extern IntPtr GetMenuItemID(IntPtr hMenu, int nPos);
 

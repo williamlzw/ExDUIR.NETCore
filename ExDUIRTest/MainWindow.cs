@@ -140,7 +140,7 @@ namespace ExDuiRTest
             }
             else if (hObj == buttons[5].handle)
             {
-                //ListButtonWindow.CreateListButtonWindow(skin);
+                ListButtonWindow.CreateListButtonWindow(skin);
             }
             else if (hObj == buttons[6].handle)
             {
@@ -220,7 +220,7 @@ namespace ExDuiRTest
             }
             else if (hObj == buttons[25].handle)
             {
-                //CustomMenuWindow.CreateCustomMenuWindow(skin);
+                CustomMenuWindow.CreateCustomMenuWindow(skin);
             }
             else if (hObj == buttons[26].handle)
             {
@@ -276,7 +276,7 @@ namespace ExDuiRTest
             }
             else if (hObj == buttons[39].handle)
             {
-
+                //cef browser
             }
             else if (hObj == buttons[40].handle)
             {
