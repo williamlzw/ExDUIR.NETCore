@@ -35,7 +35,7 @@ win10+， win7 需要安装KB2670838补丁
 * 支持net7.0 nativeaot，可以编译为win32二进制exe不能被反编译，运行不依赖.net环境，可以运行在win7。
 
 ## Nativeaot编译
-* 创建.net 7.0控制台应用，改为windows应用，项目文件PropertyGroup节点添加<PublishAot>true</PublishAot>
+* 创建.net 7.0控制台应用，改为windows应用，项目文件PropertyGroup节点添加\<PublishAot\>true\<\/PublishAot\>
 * 框架只能依赖Microsoft.NETCore.App，不能有WinForm窗口，不能有自定义资源文件Resources.resx。只能是64位编译。
 
 ## Demo

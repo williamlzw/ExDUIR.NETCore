@@ -36,7 +36,7 @@ win10+, win7 need install KB2670838 patch
 * Support net7.0 nativeaot, can be compiled into win32 binary program can not be decompiled, running does not depend on .net environment, the program can run on win7.
 
 ## Nativeaot compile
-* Create a .net 7.0 console application, change it to a windows application, and add <PublishAot>true</PublishAot> to the PropertyGroup node of the project file.
+* Create a .net 7.0 console application, change it to a windows application, and add \<PublishAot\>true\<\/PublishAot\> to the PropertyGroup node of the project file.
 * The framework can only rely on Microsoft.NETCore.App, and cannot have WinForm windows, and cannot have custom resource files Resources.resx. It can only be compiled for 64 bits.
 
 ## Demo
