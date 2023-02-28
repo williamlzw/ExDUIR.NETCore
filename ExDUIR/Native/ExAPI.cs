@@ -1142,6 +1142,17 @@ namespace ExDuiR.NET.Native
         public static extern bool _img_createfrommemory(byte[] lpData, IntPtr dwLen, out int hImg);
 
         /// <summary>
+        /// 图像创建自png缓冲区2,BGRA格式
+        /// </summary>
+        /// <param name="nWidth">图像宽度</param>
+        /// <param name="nHeight">图像高度</param>
+        /// <param name="lpData">数据</param>
+        /// <param name="hImg">输出图像句柄</param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_createfrompngbits2")]
+        public static extern bool _img_createfrompngbits2(int nWidth, int nHeight, IntPtr lpData, out int hImg);
+
+        /// <summary>
         /// 图像创建
         /// </summary>
         /// <param name="width"></param>

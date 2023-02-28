@@ -6,9 +6,13 @@
 	    <ImplicitUsings>enable</ImplicitUsings>
 	    <Nullable>enable</Nullable>
 	    <PublishAot>true</PublishAot>
+	    <Platforms>AnyCPU;x64</Platforms>
     </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CefSharp.Common.NETCore" Version="110.0.300" />
+    <PackageReference Include="CefSharp.OffScreen.NETCore" Version="110.0.300" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="System.Resources.Extensions" Version="7.0.0" />
   </ItemGroup>
 

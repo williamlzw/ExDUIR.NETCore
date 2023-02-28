@@ -110,6 +110,8 @@ namespace ExDuiRTest
                 }
                 //设置窗口可视,必须
                 skin.Visible = true;
+                //下面这句只能调用一次
+                CefChromeBrowser.Initialize();
                 //引擎消息循环,必须
                 theApp.Run();
             }
@@ -276,7 +278,7 @@ namespace ExDuiRTest
             }
             else if (hObj == buttons[39].handle)
             {
-                //cef browser
+                CefBrowserWindow.CreateCefBrowserWindow(skin);
             }
             else if (hObj == buttons[40].handle)
             {
