@@ -1381,13 +1381,13 @@ namespace ExDuiR.NET.Frameworks.Controls
 
         public int ItemSelect
         {
-            set
-            {
-                this.SendMessage(LVM_SETSELECTIONMARK, (IntPtr)1, (IntPtr)value);
-            }
             get
             {
                 return (int)this.SendMessage(LVM_GETSELECTIONMARK, IntPtr.Zero, IntPtr.Zero);
+            }
+            set
+            {
+                this.SendMessage(LVM_SETSELECTIONMARK, (IntPtr)1, (IntPtr)value);
             }
         }
 
@@ -1606,6 +1606,12 @@ namespace ExDuiR.NET.Frameworks.Controls
         public ExPropertyGrid(ExControl parent) : base(parent)
         {
         }
+
+        public void ClearAll()
+        {
+            this.SendMessage(PGM_CLEAR, IntPtr.Zero, IntPtr.Zero);
+        }
+
         public string GetItemValue(string itemName)
         {
             var ret = this.SendMessage(PGM_GETITEMVALUE, IntPtr.Zero, Marshal.StringToHGlobalUni(itemName));
@@ -1701,11 +1707,6 @@ namespace ExDuiR.NET.Frameworks.Controls
         {
         }
 
-        public void ClearAll()
-        {
-            this.SendMessage(LVM_DELETEALLITEMS, IntPtr.Zero, IntPtr.Zero);
-        }
-
         /// <summary>
         /// 取/置表头背景色
         /// </summary>
@@ -1773,6 +1774,12 @@ namespace ExDuiR.NET.Frameworks.Controls
         {
             this.SendMessage(LVM_UPDATE);
         }
+
+        public void ClearAll()
+        {
+            this.SendMessage(LVM_DELETEALLITEMS);
+        }
+
         public new string ClassName => "ReportListView";
     }
 
@@ -2050,6 +2057,10 @@ namespace ExDuiR.NET.Frameworks.Controls
         public void Update()
         {
             this.SendMessage(TVM_UPDATE);
+        }
+        public void ClearAll()
+        {
+            this.SendMessage(TVM_DELETEITEM, 1, TVI_ROOT);
         }
         public new string ClassName => "TreeView";
     }
