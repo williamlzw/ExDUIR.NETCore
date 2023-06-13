@@ -693,13 +693,19 @@
         /// <summary>
         /// 编辑框风格_隐藏插入符
         /// </summary>
-        ///
         public const int EES_HIDDENCARET = 8192;
         /// <summary>
         /// 编辑框风格_下划线
         /// </summary>
-        ///
         public const int EES_UNDERLINE = 16384;
+        /// <summary>
+        /// 编辑框风格_字母输入
+        /// </summary>
+        public const int EES_LETTER = 32768;
+        /// <summary>
+        /// 编辑框风格_数字字母输入
+        /// </summary>
+        public const int EES_NUMERIC_LETTER = 65536;
         #endregion
 
         #region 消息_列表_
