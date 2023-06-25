@@ -2599,10 +2599,12 @@ namespace ExDuiR.NET.Frameworks.Controls
                     List<ExPoint> points = new List<ExPoint>();
                     if (polygon.count > 0)
                     {
-                        for(int j = 0; j < polygon.count; j++)
+                        for (int j = 0; j < polygon.count; j++)
                         {
-                            int x = Marshal.ReadInt32(polygon.points + j * 8);
-                            int y = Marshal.ReadInt32(polygon.points + j * 8 + 4);
+                            IntPtr targetPtrX = IntPtr.Add(polygon.points, j * 8);
+                            float x = Marshal.PtrToStructure<float>(targetPtrX);
+                            IntPtr targetPtrY = IntPtr.Add(polygon.points, j * 8 + 4);
+                            float y = Marshal.PtrToStructure<float>(targetPtrY);
                             var point = new ExPoint();
                             point.x = (int)((x - offsetLeft) * scale);
                             point.y = (int)((y - offsetTop) * scale);
@@ -2622,19 +2624,21 @@ namespace ExDuiR.NET.Frameworks.Controls
                 var polygonArr = new ExPolygonArray();
                 polygonArr.count = value.Count;
                 polygonArr.polygons = Marshal.AllocHGlobal(value.Count * Marshal.SizeOf(typeof(IntPtr)));
-                for(int i = 0; i< polygonArr.count; i++)
+                for (int i = 0; i < polygonArr.count; i++)
                 {
                     var points = value[i];
                     var ptr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(ExPolygon)));
                     var polygon = new ExPolygon();
                     polygon.count = points.Count;
                     polygon.points = Marshal.AllocHGlobal(points.Count * Marshal.SizeOf(typeof(ExPoint)));
-                    for(int j = 0; j < points.Count; j++)
+                    for (int j = 0; j < points.Count; j++)
                     {
-                        int x = (int)(points[j].x / scale + offsetLeft);
-                        int y = (int)(points[j].y / scale + offsetTop);
-                        Marshal.WriteInt32(polygon.points + j * Marshal.SizeOf(typeof(ExPoint)), x);
-                        Marshal.WriteInt32(polygon.points + j * Marshal.SizeOf(typeof(ExPoint)) + 4, y);
+                        float x = (int)(points[j].x / scale + offsetLeft);
+                        float y = (int)(points[j].y / scale + offsetTop);
+                        IntPtr targetPtrX = IntPtr.Add(polygon.points, j * 8);
+                        IntPtr targetPtrY = IntPtr.Add(polygon.points, j * 8 + 4);
+                        Marshal.StructureToPtr(x, targetPtrX, false);
+                        Marshal.StructureToPtr(y, targetPtrY, false);
                     }
                     Marshal.StructureToPtr<ExPolygon>(polygon, ptr, true);
                     Marshal.WriteIntPtr(polygonArr.polygons + i * Marshal.SizeOf(typeof(IntPtr)), ptr);
