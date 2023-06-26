@@ -170,7 +170,7 @@ namespace ExDuiR.NET.Frameworks.Controls
         public ExCarousel(ExControl parent) : base(parent)
         {
         }
-        public  void SetSize(int width, int height)
+        public void SetSize(int width, int height)
         {
             this.SendMessage(CM_SIZE, (IntPtr)500, (IntPtr)500);
         }
@@ -221,7 +221,7 @@ namespace ExDuiR.NET.Frameworks.Controls
             : base(pOwner, "CheckButton", sText, x, y, nWidth, nHeight, -1, -1, dwTextFormat)
         {
         }
-        public ExCheckButton(IExBaseUIEle oParent, string sTitle, int x, int y, int nWidth, int nHeight, int dwStyle = -1, int dwStyleEx = -1, int dwTextFormat = -1, int nID = 0,  IntPtr lParam = default, ExObjProcDelegate pfnObjProc = null)
+        public ExCheckButton(IExBaseUIEle oParent, string sTitle, int x, int y, int nWidth, int nHeight, int dwStyle = -1, int dwStyleEx = -1, int dwTextFormat = -1, int nID = 0, IntPtr lParam = default, ExObjProcDelegate pfnObjProc = null)
             : base(oParent, "CheckButton", sTitle, x, y, nWidth, nHeight, dwStyle, dwStyleEx, dwTextFormat, nID, lParam, IntPtr.Zero, pfnObjProc)
         {
         }
@@ -736,7 +736,7 @@ namespace ExDuiR.NET.Frameworks.Controls
                     cpMin = enlink.chrg.cpMin
                 },
                 pwzText = Marshal.AllocHGlobal((enlink.chrg.cpMax - enlink.chrg.cpMin + 2) * 2)
-             };
+            };
             var ptr = Marshal.AllocHGlobal(Marshal.SizeOf(textRange));
             Marshal.StructureToPtr<ExTextRange>(textRange, ptr, true);
             this.SendMessage(EM_GETTEXTRANGE, IntPtr.Zero, ptr);
@@ -1615,7 +1615,7 @@ namespace ExDuiR.NET.Frameworks.Controls
         public string GetItemValue(string itemName)
         {
             var ret = this.SendMessage(PGM_GETITEMVALUE, IntPtr.Zero, Marshal.StringToHGlobalUni(itemName));
-            if(ret != IntPtr.Zero)
+            if (ret != IntPtr.Zero)
             {
                 return Marshal.PtrToStringUni(ret);
             }
@@ -2342,7 +2342,7 @@ namespace ExDuiR.NET.Frameworks.Controls
         /// </summary>
         /// <param name="indexGroup">分组索引 从1开始</param>
         /// <param name="indexItem">项目索引 从1开始</param>
-        public void DelItem(int indexGroup,int indexItem)
+        public void DelItem(int indexGroup, int indexItem)
         {
             this.SendMessage(RM_DELITEM, (IntPtr)indexGroup, (IntPtr)indexItem);
         }
@@ -2398,7 +2398,7 @@ namespace ExDuiR.NET.Frameworks.Controls
             var ptrIndexItem = Marshal.AllocHGlobal(4);
             var ret = this.SendMessage(RM_GETSEL, ptrIndexGroup, ptrIndexItem);
             string retStr = "";
-            if(ret!=IntPtr.Zero)
+            if (ret != IntPtr.Zero)
             {
                 retStr = Marshal.PtrToStringUni(ret);
             }
@@ -2460,7 +2460,7 @@ namespace ExDuiR.NET.Frameworks.Controls
         {
             set
             {
-                if(value)
+                if (value)
                 {
                     this.SendMessage(MFM_STATE_PAUSE, IntPtr.Zero, IntPtr.Zero);
                 }
@@ -2492,7 +2492,7 @@ namespace ExDuiR.NET.Frameworks.Controls
         {
             set
             {
-               this.SendMessage(MFM_SET_POSITION, IntPtr.Zero, (IntPtr)value);
+                this.SendMessage(MFM_SET_POSITION, IntPtr.Zero, (IntPtr)value);
             }
         }
         public new string ClassName => "MediaFoundation";
@@ -2534,7 +2534,7 @@ namespace ExDuiR.NET.Frameworks.Controls
         {
             set
             {
-                if(value == null)
+                if (value == null)
                 {
                     this.SendMessage(TBM_SET_BKG, IntPtr.Zero, IntPtr.Zero);
                 }
@@ -2633,8 +2633,8 @@ namespace ExDuiR.NET.Frameworks.Controls
                     polygon.points = Marshal.AllocHGlobal(points.Count * Marshal.SizeOf(typeof(ExPoint)));
                     for (int j = 0; j < points.Count; j++)
                     {
-                        float x = (int)(points[j].x / scale + offsetLeft);
-                        float y = (int)(points[j].y / scale + offsetTop);
+                        float x = ((float)points[j].x / scale + offsetLeft);
+                        float y = ((float)points[j].y / scale + offsetTop);
                         IntPtr targetPtrX = IntPtr.Add(polygon.points, j * 8);
                         IntPtr targetPtrY = IntPtr.Add(polygon.points, j * 8 + 4);
                         Marshal.StructureToPtr(x, targetPtrX, false);

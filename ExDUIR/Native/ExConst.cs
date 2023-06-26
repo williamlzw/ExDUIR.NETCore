@@ -3925,8 +3925,11 @@
         /// <summary>
         /// 事件_标注板_激活闭合路径,lParam返回路径索引,从1开始
         /// </summary>
-        ///
         public const int TBN_HIT_PATH = 20000;
+        /// <summary>
+        /// 事件_标注板_鼠标移动, wParam返回鼠标所处图横坐标,lParam返回鼠标所处图纵坐标
+        /// </summary>
+        public const int TBN_MOUSE_MOVE = 20001;
         #endregion
     }
 }
