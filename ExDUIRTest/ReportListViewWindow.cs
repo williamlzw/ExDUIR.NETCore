@@ -69,7 +69,7 @@ namespace ExDuiRTest
                     pwzText = Marshal.StringToHGlobalUni("居中可点击"),
                     nWidth = 110,
                     crText = Util.ExRGB2ARGB(65535, 255),
-                    dwStyle = ERLV_CS_CLICKABLE | ERLV_CS_COLCOR,
+                    dwStyle = ERLV_CS_CLICKABLE | ERLV_CS_COLOUR,
                     dwTextFormat = DT_CENTER | DT_VCENTER,
                     crBkg = Util.ExRGBA(120, 230, 180, 255)
                 };
@@ -95,7 +95,7 @@ namespace ExDuiRTest
                     ExReportListItemInfo item1 = new ExReportListItemInfo
                     {
                         nImageIndex = i,
-                        dwStyle = (i % 3 == 0 ? ERLV_RS_CHECKBOX | ERLV_RS_CHECKBOX_CHECK | ERLV_RS_ROWCOLCOR : 0),
+                        dwStyle = (i % 3 == 0 ? ERLV_RS_CHECKBOX | ERLV_RS_CHECKBOX_CHECK | ERLV_RS_ROWCOLOUR : 0),
                         iRow = rowIndex,
                         crRowBkg = Util.ExRGBA(31, 100, 200, 255)
                     };
@@ -115,7 +115,7 @@ namespace ExDuiRTest
                         iCol = 2,
                         iRow = i,
                         pwzText = Marshal.StringToHGlobalUni("第二列"),
-                        cellStyle = ERLV_RS_CELLCOLCOR,
+                        cellStyle = ERLV_RS_CELLCOLOUR,
                         cellBkgCr = Util.ExRGBA(130, 130, 25, 255)
                     };
                     reportlistview.SetCell(cell2);
@@ -125,7 +125,7 @@ namespace ExDuiRTest
                         iCol = 3,
                         iRow = i,
                         pwzText = Marshal.StringToHGlobalUni("第三列"),
-                        cellStyle = ERLV_RS_CELLTEXTCOLCOR,
+                        cellStyle = ERLV_RS_CELLTEXTCOLOUR,
                         cellTextCr = Util.ExRGBA(130, 25, 130, 255)
                     };
                     reportlistview.SetCell(cell3);
