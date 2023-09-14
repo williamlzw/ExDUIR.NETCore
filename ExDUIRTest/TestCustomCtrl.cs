@@ -49,7 +49,7 @@ namespace ExDuiRTest
 
         public static int RegisterControl()
         {
-            return ExAPI.Ex_ObjRegister("TestCustomCtrl", EOS_VISIBLE, EOS_EX_FOCUSABLE, 0, 0, IntPtr.Zero, 0, s_pfnObjClassProc);
+            return ExAPI.Ex_ObjRegister("TestCustomCtrl", OBJECT_STYLE_VISIBLE, OBJECT_STYLE_EX_FOCUSABLE, 0, 0, IntPtr.Zero, 0, s_pfnObjClassProc);
         }
 
         public TestCustomCtrl(IExBaseUIEle pOwner, string sText, int x, int y, int nWidth, int nHeight)
@@ -401,7 +401,7 @@ namespace ExDuiRTest
 
         public static int RegisterControl()
         {
-            return ExAPI.Ex_ObjRegister("CefChromeBrowser", EOS_VISIBLE, EOS_EX_FOCUSABLE, 0, 0, IntPtr.Zero, 0, s_pfnObjClassProc);
+            return ExAPI.Ex_ObjRegister("CefChromeBrowser", OBJECT_STYLE_VISIBLE, OBJECT_STYLE_EX_FOCUSABLE, 0, 0, IntPtr.Zero, 0, s_pfnObjClassProc);
         }
 
         /// <summary>
