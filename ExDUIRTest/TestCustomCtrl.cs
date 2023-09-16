@@ -20,25 +20,94 @@ using System.Text;
 namespace ExDuiRTest
 {
     /// <summary>
-    /// 扩展组件演示,继承自ExControl
+    /// 扩展组件演示,继承自ExControl,演示c#类成员属性与底层库通过Prop交互数据
     /// </summary>
     public class TestCustomCtrl : ExControl
     {
+        public class TestStruct
+        {
+            public string str;
+            public object obj;
+        }
+
+        private const int CustomCtrl_MESSAGE_GET_STRUCT = 10000;
+        private const int CustomCtrl_MESSAGE_SET_STRUCT = 10001;
+        private const int CustomCtrl_MESSAGE_GET_PARAM = 10002;
+        private const int CustomCtrl_MESSAGE_SET_PARAM = 10003;
+
+        public TestStruct Struct
+        {
+            get
+            {
+                var ptr = this.SendMessage(CustomCtrl_MESSAGE_GET_STRUCT);
+                GCHandle gcHandle = GCHandle.FromIntPtr(ptr);
+                TestStruct obj = (TestStruct)gcHandle.Target;
+                return obj;
+            }
+            set
+            {
+                GCHandle gcHandle = GCHandle.Alloc(value);
+                IntPtr ptr = GCHandle.ToIntPtr(gcHandle);
+                this.SendMessage(CustomCtrl_MESSAGE_SET_STRUCT, IntPtr.Zero, ptr);
+            }
+        }
+
+        /// <summary>
+        /// c#类成员属性
+        /// </summary>
+        public int Param 
+        {
+            get
+            {
+                return (int)this.SendMessage(CustomCtrl_MESSAGE_GET_PARAM);
+            }
+            set
+            {
+                this.SendMessage(CustomCtrl_MESSAGE_SET_PARAM, IntPtr.Zero, value);
+            }
+        }
+
         private static ExObjClassProcDelegate s_pfnObjClassProc = new ExObjClassProcDelegate(
             (IntPtr hWnd, int hObj, int uMsg, IntPtr wParam, IntPtr lParam, IntPtr pvData) =>
         {
             ExControl Obj = new ExControl(hObj);
             switch (uMsg)
             {
+                case WM_CREATE:
+                    {
+                        Obj.InitPropList(2);
+                        break;
+                    }
                 case WM_PAINT:
                     {
                         //开始绘制与EndPaint配套调用
                         Obj.BeginPaint(out var ps);
                         ExCanvas canvas = new ExCanvas(ps.hCanvas);
+                        var brush = new ExBrush(Util.ExRGBA(255, 0, 0, 255));
                         canvas.Clear(Color.Yellow.ToArgb());
+                        canvas.DrawText(Obj.Font, brush, Obj.Text, -1, DT_CENTER | DT_VCENTER, ps.rcPaint.nLeft, ps.rcPaint.nTop, ps.rcPaint.nRight, ps.rcPaint.nBottom);
                         //结束绘制
                         Obj.EndPaint(ref ps);
+                        brush.Dispose();
                         break;
+                    }
+                case CustomCtrl_MESSAGE_SET_STRUCT:
+                    {
+                        Obj.SetProp(0, lParam);
+                        break;
+                    }
+                case CustomCtrl_MESSAGE_GET_STRUCT:
+                    {
+                        return Obj.GetProp(0);
+                    }
+                case CustomCtrl_MESSAGE_SET_PARAM:
+                    {
+                        Obj.SetProp(1, lParam);
+                        break;
+                    }
+                case CustomCtrl_MESSAGE_GET_PARAM:
+                    {
+                        return Obj.GetProp(1);
                     }
                 default:
                     break;

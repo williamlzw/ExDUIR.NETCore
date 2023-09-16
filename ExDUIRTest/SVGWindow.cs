@@ -33,8 +33,7 @@ namespace ExDuiRTest
                 var canvas = new ExCanvas((int)wParam);
                 canvas.Clear(Util.ExRGBA(150, 150, 150, 255));
                 var font = new ExFont("Resources/文道灵飞小楷.ttf", 64);
-                var ret = canvas.DrawText(font, Util.ExRGBA(200, 0, 200, 200), "我是测试文本", -1, -1, 20, 450, 450, 530);
-                Console.WriteLine(ret);
+                canvas.DrawText(font, Util.ExRGBA(200, 0, 200, 200), "我是测试文本", -1, -1, 20, 450, 450, 530);
                 font.Dispose();
 
                 canvas.DrawSvgFromFile("Resources/niu1.svg", 0, 50, 50, 200, 200);
