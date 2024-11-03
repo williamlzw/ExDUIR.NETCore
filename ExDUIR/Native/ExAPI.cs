@@ -1221,28 +1221,28 @@ namespace ExDuiR.NET.Native
         /// <param name="lpDefaultI18N">默认语言包指针.(值可为0)</param>
         /// <param name="dwDefaultI18NLen">默认语言包长度.(值可为0)</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_Init")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_Init")]
         public static extern bool Ex_Init(IntPtr hInstance, int dwGlobalFlags, IntPtr hDefaultCursor,
             string lpszDefaultClassName, byte[] lpDefaultTheme, IntPtr dwDefaultThemeLen, byte[] lpDefaultI18N, IntPtr dwDefaultI18NLen);
 
         /// <summary>
         /// 反初始化引擎
         /// </summary>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_UnInit")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_UnInit")]
         public static extern void Ex_UnInit();
 
         /// <summary>
         /// 获取最后错误代码.相关常量 :#ERROR_EX_
         /// </summary>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_GetLastError")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_GetLastError")]
         public static extern int Ex_GetLastError();
 
         /// <summary>
         /// 设置最后错误代码.相关常量 :#ERROR_EX_
         /// </summary>
         /// <param name="nError"></param>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_SetLastError")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_SetLastError")]
         public static extern void Ex_SetLastError(int nError);
 
         /// <summary>
@@ -1252,7 +1252,7 @@ namespace ExDuiR.NET.Native
         /// <param name="dwLen">图像数据长度</param>
         /// <param name="retBitMap">返回位图句柄</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_LoadBitMapFromMemory")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_LoadBitMapFromMemory")]
         public static extern bool Ex_LoadBitMapFromMemory(byte[] lpData, IntPtr dwLen, ref IntPtr retBitMap);
 
         /// <summary>
@@ -1264,7 +1264,7 @@ namespace ExDuiR.NET.Native
         /// <param name="lParam">附加参数.(值可为0)</param>
         /// <param name="lpfnMsgProc"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_DUIBindWindowEx")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUIBindWindowEx")]
         public static extern int Ex_DUIBindWindowEx(IntPtr hWnd, IntPtr hTheme, int dwStyle, IntPtr lParam, ExWndProcDelegate lpfnMsgProc);
 
         /// <summary>
@@ -1275,7 +1275,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hIconsm">窗口小图标句柄</param>
         /// <param name="hCursor">窗口鼠标句柄</param>
         /// <returns>返回窗口类原子</returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_WndRegisterClass")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_WndRegisterClass")]
         public static extern ushort Ex_WndRegisterClass(string lpwzClassName, IntPtr hIcon, IntPtr hIconsm, IntPtr hCursor);
 
         /// <summary>
@@ -1291,14 +1291,14 @@ namespace ExDuiR.NET.Native
         /// <param name="dwStyle">窗口风格</param>
         /// <param name="dwStyleEx">窗口扩展风格</param>
         /// <returns>返回窗口句柄</returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_WndCreate")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_WndCreate")]
         public static extern IntPtr Ex_WndCreate(IntPtr hWndParent, string lpwzClassName, string lpwzWindowName, int x, int y, int width, int height, int dwStyle, int dwStyleEx);
 
         /// <summary>
         /// 窗口消息循环
         /// </summary>
         /// <returns>返回msg.wParam</returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_WndMsgLoop")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_WndMsgLoop")]
         public static extern IntPtr Ex_WndMsgLoop();
 
         /// <summary>
@@ -1307,7 +1307,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hWnd">预居中的原始窗口</param>
         /// <param name="hWndFrom">预居中的目标窗口,如果为0则为屏幕居中</param>
         /// <param name="bFullScreen">是否全屏模式</param>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_WndCenterFrom")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_WndCenterFrom")]
         public static extern void Ex_WndCenterFrom(IntPtr hWnd, IntPtr hWndFrom, bool bFullScreen);
 
         /// <summary>
@@ -1319,7 +1319,7 @@ namespace ExDuiR.NET.Native
         /// <param name="dwFrames">动画总帧数</param>
         /// <param name="dwFlags">动画标记</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_DUIShowWindow")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUIShowWindow")]
         public static extern bool Ex_DUIShowWindow(int hExDui, int nCmdShow, int dwTimer, int dwFrames, int dwFlags);
 
         /// <summary>
@@ -1334,7 +1334,7 @@ namespace ExDuiR.NET.Native
         /// <param name="wParam">参数1</param>
         /// <param name="lParam">参数2</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_DUIShowWindowEx")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUIShowWindowEx")]
         public static extern bool Ex_DUIShowWindowEx(int hExDui, int nCmdShow, int dwTimer, int dwFrames, int dwFlags, int uEasing, IntPtr wParam, IntPtr lParam);
 
         /// <summary>
@@ -1346,7 +1346,7 @@ namespace ExDuiR.NET.Native
         /// <param name="wParam"></param>
         /// <param name="lParam"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjDefProc")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjDefProc")]
         public static extern IntPtr Ex_ObjDefProc(IntPtr hWnd, int hObj, int uMsg, IntPtr wParam, IntPtr lParam);
 
         /// <summary>
@@ -1361,7 +1361,7 @@ namespace ExDuiR.NET.Native
         /// <param name="dwFlags">画布标志 #ECVF_(值可为0)</param>
         /// <param name="pfnObjProc">组件默认回调</param>
         /// <returns>成功返回组件类名原子,失败返回0</returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjRegister")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjRegister")]
         public static extern int Ex_ObjRegister(string lptszClassName, int dwStyle, int dwStyleEx, int dwTextFormat, int cbObjExtra, IntPtr hCursor, int dwFlags, ExObjClassProcDelegate pfnObjProc);
 
         /// <summary>
@@ -1376,7 +1376,7 @@ namespace ExDuiR.NET.Native
         /// <param name="height">高度</param>
         /// <param name="hParent">父组件句柄</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjCreate")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjCreate")]
         public static extern IntPtr Ex_ObjCreate(string lptszClassName, string lptszObjTitle, int dwStyle, int x, int y, int width, int height, IntPtr hParent);
 
         /// <summary>
@@ -1397,7 +1397,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hTheme">主题句柄.0为默认</param>
         /// <param name="lpfnMsgProc"></param>
         /// <returns>返回组件句柄</returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjCreateEx")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjCreateEx")]
         public static extern int Ex_ObjCreateEx(int dwStyleEx, string lptszClassName, string lptszObjTitle, int dwStyle, int x, int y, int width, int height, int hParent, int nID, int dwTextFormat, IntPtr lParam, IntPtr hTheme, ExObjProcDelegate lpfnMsgProc);
 
         /// <summary>
@@ -1405,7 +1405,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="n"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_Scale")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_Scale")]
         public static extern float Ex_Scale(float n);
 
         /// <summary>
@@ -1413,7 +1413,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hObj"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjDestroy")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjDestroy")]
         public static extern bool Ex_ObjDestroy(int hObj);
 
         /// <summary>
@@ -1424,7 +1424,7 @@ namespace ExDuiR.NET.Native
         /// <param name="wParam"></param>
         /// <param name="lParam"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjSendMessage")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjSendMessage")]
         public static extern IntPtr Ex_ObjSendMessage(int hObj, int uMsg, IntPtr wParam, IntPtr lParam);
 
         /// <summary>
@@ -1433,7 +1433,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="lpPS"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjBeginPaint")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjBeginPaint")]
         public static extern bool Ex_ObjBeginPaint(int hObj, out ExPaintStruct lpPS);
 
         /// <summary>
@@ -1442,7 +1442,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="lpPS"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjEndPaint")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjEndPaint")]
         public static extern bool Ex_ObjEndPaint(int hObj, ref ExPaintStruct lpPS);
 
         /// <summary>
@@ -1451,7 +1451,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="lpRect"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjGetRect")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjGetRect")]
         public static extern bool Ex_ObjGetRect(int hObj, out ExRect lpRect);
 
         /// <summary>
@@ -1461,7 +1461,7 @@ namespace ExDuiR.NET.Native
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjClientToWindow")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjClientToWindow")]
         public static extern bool Ex_ObjClientToWindow(int hObj, ref int x, ref int y);
 
         /// <summary>
@@ -1471,7 +1471,7 @@ namespace ExDuiR.NET.Native
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjClientToScreen")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjClientToScreen")]
         public static extern bool Ex_ObjClientToScreen(int hObj, ref int x, ref int y);
 
         /// <summary>
@@ -1480,7 +1480,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="lprcRedraw"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjInvalidateRect")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjInvalidateRect")]
         public static extern bool Ex_ObjInvalidateRect(int hObj, IntPtr lprcRedraw);
 
         /// <summary>
@@ -1488,7 +1488,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hObj"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjUpdate")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjUpdate")]
         public static extern bool Ex_ObjUpdate(int hObj);
 
         /// <summary>
@@ -1497,7 +1497,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="lpRect"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjGetClientRect")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjGetClientRect")]
         public static extern bool Ex_ObjGetClientRect(int hObj, out ExRect lpRect);
 
         /// <summary>
@@ -1506,7 +1506,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="fEnable">是否可用</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjEnable")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjEnable")]
         public static extern bool Ex_ObjEnable(int hObj, bool fEnable);
 
         /// <summary>
@@ -1514,7 +1514,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hObj"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjIsEnable")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjIsEnable")]
         public static extern bool Ex_ObjIsEnable(int hObj);
 
         /// <summary>
@@ -1522,7 +1522,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hObj"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjIsVisible")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjIsVisible")]
         public static extern bool Ex_ObjIsVisible(int hObj);
 
         /// <summary>
@@ -1531,7 +1531,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="fShow"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjShow")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjShow")]
         public static extern bool Ex_ObjShow(int hObj, bool fShow);
 
         /// <summary>
@@ -1540,7 +1540,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="nIndex">相关常量 #OBJECT_LONG_</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjGetLong")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjGetLong")]
         public static extern IntPtr Ex_ObjGetLong(int hObj, int nIndex);
 
         /// <summary>
@@ -1548,7 +1548,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hObj"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjGetParent")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjGetParent")]
         public static extern int Ex_ObjGetParent(int hObj);
 
         /// <summary>
@@ -1558,7 +1558,7 @@ namespace ExDuiR.NET.Native
         /// <param name="nIndex">#OBJECT_LONG_</param>
         /// <param name="dwNewLong"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjSetLong")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjSetLong")]
         public static extern IntPtr Ex_ObjSetLong(int hObj, int nIndex, Delegate dwNewLong);
 
         /// <summary>
@@ -1568,7 +1568,7 @@ namespace ExDuiR.NET.Native
         /// <param name="nIndex">#OBJECT_LONG_</param>
         /// <param name="dwNewLong"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjSetLong")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjSetLong")]
         public static extern IntPtr Ex_ObjSetLong(int hObj, int nIndex, IntPtr dwNewLong);
 
         /// <summary>
@@ -1582,7 +1582,7 @@ namespace ExDuiR.NET.Native
         /// <param name="height"></param>
         /// <param name="flags">相关常量 #SWP_</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjSetPos")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjSetPos")]
         public static extern bool Ex_ObjSetPos(int hObj, IntPtr hObjInsertAfter, int x, int y, int width, int height, int flags);
 
         /// <summary>
@@ -1590,7 +1590,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hObj"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjIsValidate")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjIsValidate")]
         public static extern bool Ex_ObjIsValidate(int hObj);
 
         /// <summary>
@@ -1600,7 +1600,7 @@ namespace ExDuiR.NET.Native
         /// <param name="lpEnumFunc">callback(hObj,lParam).返回1继续枚举,返回0停止枚举</param>
         /// <param name="lParam">附带参数</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjEnumChild")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjEnumChild")]
         public static extern bool Ex_ObjEnumChild(int hObjParent, ExObjEnumCallbackDelegate lpEnumFunc, IntPtr lParam);
 
         /// <summary>
@@ -1610,7 +1610,7 @@ namespace ExDuiR.NET.Native
         /// <param name="lpString">缓冲区指针</param>
         /// <param name="nMaxCount">缓冲区长度</param>
         /// <returns>返回已拷贝字符长度</returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjGetText")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjGetText")]
         public static extern IntPtr Ex_ObjGetText(int hObj, StringBuilder lpString, IntPtr nMaxCount);
 
         /// <summary>
@@ -1618,7 +1618,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hObj"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjGetTextLength")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjGetTextLength")]
         public static extern IntPtr Ex_ObjGetTextLength(int hObj);
 
         /// <summary>
@@ -1628,7 +1628,7 @@ namespace ExDuiR.NET.Native
         /// <param name="lpString">指向一个空结束的字符串的指针</param>
         /// <param name="fRedraw"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjSetText")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjSetText")]
         public static extern bool Ex_ObjSetText(int hObj, IntPtr lpString, bool fRedraw);
 
         /// <summary>
@@ -1638,7 +1638,7 @@ namespace ExDuiR.NET.Native
         /// <param name="dwTextFormat">DT_常量</param>
         /// <param name="fRedraw"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjSetTextFormat")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjSetTextFormat")]
         public static extern bool Ex_ObjSetTextFormat(int hObj, int dwTextFormat, bool fRedraw);
 
         /// <summary>
@@ -1647,7 +1647,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="lpText">提示文本.该值为0则关闭提示文本</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjTooltipsPop")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjTooltipsPop")]
         public static extern bool Ex_ObjTooltipsPop(int hObj, string lpText);
 
         /// <summary>
@@ -1662,7 +1662,7 @@ namespace ExDuiR.NET.Native
         /// <param name="nIcon"></param>
         /// <param name="fShow"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjTooltipsPopEx")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjTooltipsPopEx")]
         public static extern bool Ex_ObjTooltipsPopEx(int hObj, string lpTitle, string lpText, int x, int y, int dwTime, int nIcon, bool fShow);
 
         /// <summary>
@@ -1672,7 +1672,7 @@ namespace ExDuiR.NET.Native
         /// <param name="x">handle:0相对屏幕/其他相对窗口</param>
         /// <param name="y"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_DUIGetObjFromPoint")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUIGetObjFromPoint")]
         public static extern int Ex_DUIGetObjFromPoint(int handle, int x, int y);
 
         /// <summary>
@@ -1680,7 +1680,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hObj"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjSetFocus")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjSetFocus")]
         public static extern bool Ex_ObjSetFocus(int hObj);
 
         /// <summary>
@@ -1688,7 +1688,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hObj"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjKillFocus")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjKillFocus")]
         public static extern bool Ex_ObjKillFocus(int hObj);
 
         /// <summary>
@@ -1697,7 +1697,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="dwKey"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjGetProp")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjGetProp")]
         public static extern IntPtr Ex_ObjGetProp(int hObj, IntPtr dwKey);
 
         /// <summary>
@@ -1707,7 +1707,7 @@ namespace ExDuiR.NET.Native
         /// <param name="dwKey"></param>
         /// <param name="dwValue"></param>
         /// <returns>返回旧属性</returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjSetProp")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjSetProp")]
         public static extern IntPtr Ex_ObjSetProp(int hObj, IntPtr dwKey, IntPtr dwValue);
 
         /// <summary>
@@ -1720,17 +1720,8 @@ namespace ExDuiR.NET.Native
         /// <param name="height"></param>
         /// <param name="bRepaint"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjMove")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjMove")]
         public static extern bool Ex_ObjMove(int hObj, int x, int y, int width, int height, bool bRepaint);
-
-        /// <summary>
-        /// 初始化Miniblink浏览器
-        /// </summary>
-        /// <param name="libPath">依赖父路径</param>
-        /// <param name="dllPath">库文件名</param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjMiniblinkBrowserInitialize")]
-        public static extern bool Ex_ObjMiniblinkBrowserInitialize(IntPtr libPath, IntPtr dllPath);
 
         /// <summary>
         /// 组件返回特定关系（如Z序或所有者）的组件句柄。
@@ -1738,7 +1729,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="nCmd">相关常量 #GW_</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjGetObj")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjGetObj")]
         public static extern int Ex_ObjGetObj(int hObj, int nCmd);
 
         /// <summary>
@@ -1749,7 +1740,7 @@ namespace ExDuiR.NET.Native
         /// <param name="lpClassName">欲查找的组件类名指针/Ex_ATOM()</param>
         /// <param name="lpTitle">欲查找的组件标题</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjFind")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjFind")]
         public static extern int Ex_ObjFind(int hObjParent, int hObjChildAfter, string lpClassName, string lpTitle);
 
         /// <summary>
@@ -1758,7 +1749,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="fCanbeRedraw"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjSetRedraw")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjSetRedraw")]
         public static extern bool Ex_ObjSetRedraw(int hObj, bool fCanbeRedraw);
 
         /// <summary>
@@ -1769,7 +1760,7 @@ namespace ExDuiR.NET.Native
         /// <param name="dwKeyLen"></param>
         /// <param name="bDefault"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ThemeLoadFromFile")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ThemeLoadFromFile")]
         public static extern IntPtr Ex_ThemeLoadFromFile(string lptszFile, byte[] lpKey, IntPtr dwKeyLen, bool bDefault);
 
         /// <summary>
@@ -1781,7 +1772,7 @@ namespace ExDuiR.NET.Native
         /// <param name="dwKeyLen"></param>
         /// <param name="bDefault"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ThemeLoadFromMemory")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ThemeLoadFromMemory")]
         public static extern IntPtr Ex_ThemeLoadFromMemory(byte[] lpData, IntPtr dwDataLen, byte[] lpKey, IntPtr dwKeyLen, bool bDefault);
 
         /// <summary>
@@ -1789,7 +1780,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hTheme"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ThemeFree")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ThemeFree")]
         public static extern bool Ex_ThemeFree(IntPtr hTheme);
 
         /// <summary>
@@ -1797,7 +1788,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="lptstring"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_Atom")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_Atom")]
         public static extern int Ex_Atom(string lptstring);
 
         /// <summary>
@@ -1811,7 +1802,7 @@ namespace ExDuiR.NET.Native
         /// <param name="debuggingPort">调试端口</param>
         /// <param name="lpBeforeCommandLine"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjCefBrowserInitialize")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjCefBrowserInitialize")]
         public static extern bool Ex_ObjCefBrowserInitialize(IntPtr hModule, string libPath, IntPtr dllName, IntPtr cachePath, IntPtr userAgent, int debuggingPort, ExCefBeforeCommandLineCallbackDelegate lpBeforeCommandLine);
 
         /// <summary>
@@ -1821,7 +1812,7 @@ namespace ExDuiR.NET.Native
         /// <param name="atomClass"></param>
         /// <param name="atomProp"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ThemeGetValuePtr")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ThemeGetValuePtr")]
         public static extern IntPtr Ex_ThemeGetValuePtr(IntPtr hTheme, int atomClass, int atomProp);
 
         /// <summary>
@@ -1831,7 +1822,7 @@ namespace ExDuiR.NET.Native
         /// <param name="nIndex"></param>
         /// <param name="dwNewlong"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_DUISetLong")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUISetLong")]
         public static extern IntPtr Ex_DUISetLong(int hExDui, int nIndex, IntPtr dwNewlong);
 
         /// <summary>
@@ -1840,7 +1831,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hExDui"></param>
         /// <param name="nIndex"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_DUIGetLong")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUIGetLong")]
         public static extern IntPtr Ex_DUIGetLong(int hExDui, int nIndex);
 
         /// <summary>
@@ -1849,7 +1840,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hExDui"></param>
         /// <param name="lpClientRect"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_DUIGetClientRect")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUIGetClientRect")]
         public static extern bool Ex_DUIGetClientRect(int hExDui, out ExRect lpClientRect);
 
         /// <summary>
@@ -1860,7 +1851,7 @@ namespace ExDuiR.NET.Native
         /// <param name="wParam"></param>
         /// <param name="lParam"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjPostMessage")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjPostMessage")]
         public static extern bool Ex_ObjPostMessage(int hObj, int uMsg, IntPtr wParam, IntPtr lParam);
 
         /// <summary>
@@ -1877,7 +1868,7 @@ namespace ExDuiR.NET.Native
         /// <param name="dwAlpha"></param>
         /// <param name="fUpdate"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjSetBackgroundImage")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjSetBackgroundImage")]
         public static extern bool Ex_ObjSetBackgroundImage(int handle, byte[] lpImage, int dwImageLen, int X, int Y, int dwRepeat, ref ExRect pRcGrids, int dwFlags, int dwAlpha, bool fUpdate);
 
         /// <summary>
@@ -1886,7 +1877,7 @@ namespace ExDuiR.NET.Native
         /// <param name="handle"></param>
         /// <param name="lpBackgroundImage"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjGetBackgroundImage")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjGetBackgroundImage")]
         public static extern bool Ex_ObjGetBackgroundImage(int handle, out ExBackgroundImageInfo lpBackgroundImage);
 
         /// <summary>
@@ -1897,7 +1888,7 @@ namespace ExDuiR.NET.Native
         /// <param name="fResetFrame"></param>
         /// <param name="fUpdate"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjSetBackgroundPlayState")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjSetBackgroundPlayState")]
         public static extern bool Ex_ObjSetBackgroundPlayState(int handle, bool fPlayFrames, bool fResetFrame, bool fUpdate);
 
         /// <summary>
@@ -1907,7 +1898,7 @@ namespace ExDuiR.NET.Native
         /// <param name="fDeviation"></param>
         /// <param name="fUpdate"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjSetBlur")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjSetBlur")]
         public static extern bool Ex_ObjSetBlur(int hObj, float fDeviation, bool fUpdate);
 
         /// <summary>
@@ -1915,7 +1906,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="handle"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjDestroyBackground")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjDestroyBackground")]
         public static extern int Ex_ObjDestroyBackground(int handle);
 
         /// <summary>
@@ -1924,7 +1915,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="uElapse"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjSetTimer")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjSetTimer")]
         public static extern int Ex_ObjSetTimer(int hObj, int uElapse);
 
         /// <summary>
@@ -1932,7 +1923,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hObj"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjKillTimer")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjKillTimer")]
         public static extern bool Ex_ObjKillTimer(int hObj);
 
         /// <summary>
@@ -1943,7 +1934,7 @@ namespace ExDuiR.NET.Native
         /// <param name="wParam"></param>
         /// <param name="lParam"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjDispatchMessage")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjDispatchMessage")]
         public static extern IntPtr Ex_ObjDispatchMessage(int hObj, int uMsg, IntPtr wParam, IntPtr lParam);
 
         /// <summary>
@@ -1955,7 +1946,7 @@ namespace ExDuiR.NET.Native
         /// <param name="lprcRedraw"></param>
         /// <param name="fRedraw"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjSetUIState")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjSetUIState")]
         public static extern bool Ex_ObjSetUIState(int hObj, int dwState, bool bRemove, IntPtr lprcRedraw, bool fRedraw);
 
         /// <summary>
@@ -1970,7 +1961,7 @@ namespace ExDuiR.NET.Native
         /// <param name="nPos"></param>
         /// <param name="fRedraw"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjScrollSetInfo")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjScrollSetInfo")]
         public static extern int Ex_ObjScrollSetInfo(int hObj, int fnBar, int fMask, int nMin, int nMax, int nPage, int nPos, bool fRedraw);
 
         /// <summary>
@@ -1982,7 +1973,7 @@ namespace ExDuiR.NET.Native
         /// <param name="nMax"></param>
         /// <param name="bRedraw"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjScrollSetRange")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjScrollSetRange")]
         public static extern bool Ex_ObjScrollSetRange(int hObj, int nBar, int nMin, int nMax, bool bRedraw);
 
         /// <summary>
@@ -1993,7 +1984,7 @@ namespace ExDuiR.NET.Native
         /// <param name="nPos"></param>
         /// <param name="bRedraw"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjScrollSetPos")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjScrollSetPos")]
         public static extern int Ex_ObjScrollSetPos(int hObj, int nBar, int nPos, bool bRedraw);
 
         /// <summary>
@@ -2002,7 +1993,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="nBar"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjScrollGetControl")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjScrollGetControl")]
         public static extern int Ex_ObjScrollGetControl(int hObj, int nBar);
 
         /// <summary>
@@ -2016,7 +2007,7 @@ namespace ExDuiR.NET.Native
         /// <param name="lParam"></param>
         /// <param name="pvData"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjCallProc")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjCallProc")]
         public static extern IntPtr Ex_ObjCallProc(IntPtr lpPrevObjProc, IntPtr hWnd, int hObj, int uMsg, IntPtr wParam, IntPtr lParam, IntPtr pvData);
 
         /// <summary>
@@ -2025,7 +2016,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="nBar"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjScrollGetPos")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjScrollGetPos")]
         public static extern int Ex_ObjScrollGetPos(int hObj, int nBar);
 
         /// <summary>
@@ -2037,7 +2028,7 @@ namespace ExDuiR.NET.Native
         /// <param name="uType"></param>
         /// <param name="dwFlags"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_MessageBox")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MessageBox")]
         public static extern int Ex_MessageBox(int handle, string lpText, string lpCaption, int uType, int dwFlags);
 
         /// <summary>
@@ -2053,7 +2044,7 @@ namespace ExDuiR.NET.Native
         /// <param name="dwFlags"></param>
         /// <param name="lpfnMsgProc"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_MessageBoxEx")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MessageBoxEx")]
         public static extern int Ex_MessageBoxEx(int handle, string lpText, string lpCaption, int uType, string lpCheckBox, ref bool lpCheckBoxChecked, int dwMilliseconds, int dwFlags, ExWndProcDelegate lpfnMsgProc);
 
         /// <summary>
@@ -2063,7 +2054,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hTheme"></param>
         /// <param name="dwStyle"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_DUIBindWindow")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUIBindWindow")]
         public static extern IntPtr Ex_DUIBindWindow(IntPtr hWnd, IntPtr hTheme, int dwStyle);
 
         /// <summary>
@@ -2072,7 +2063,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hExDuiOrhObj"></param>
         /// <param name="nID"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjGetFromID")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjGetFromID")]
         public static extern int Ex_ObjGetFromID(int hExDuiOrhObj, int nID);
 
         /// <summary>
@@ -2081,7 +2072,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hExDuiOrhObj"></param>
         /// <param name="lpwzName"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjGetFromName")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjGetFromName")]
         public static extern int Ex_ObjGetFromName(int hExDuiOrhObj, string lpwzName);
 
         /// <summary>
@@ -2091,7 +2082,7 @@ namespace ExDuiR.NET.Native
         /// <param name="nEvent"></param>
         /// <param name="pfnCallback"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjHandleEvent")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjHandleEvent")]
         public static extern bool Ex_ObjHandleEvent(int hObj, int nEvent, ExObjEventProcDelegate pfnCallback);
 
         /// <summary>
@@ -2100,7 +2091,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hTheme"></param>
         /// <param name="nIndex"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ThemeGetColor")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ThemeGetColor")]
         public static extern int Ex_ThemeGetColor(IntPtr hTheme, int nIndex);
 
         /// <summary>
@@ -2108,7 +2099,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hObj"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjGetUIState")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjGetUIState")]
         public static extern int Ex_ObjGetUIState(int hObj);
 
         /// <summary>
@@ -2119,7 +2110,7 @@ namespace ExDuiR.NET.Native
         /// <param name="dwColor"></param>
         /// <param name="fRedraw"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjSetColor")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjSetColor")]
         public static extern int Ex_ObjSetColor(int hObj, int nIndex, int dwColor, bool fRedraw);
 
         /// <summary>
@@ -2128,7 +2119,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="nIndex"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjGetColor")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjGetColor")]
         public static extern int Ex_ObjGetColor(int hObj, int nIndex);
 
         /// <summary>
@@ -2146,7 +2137,7 @@ namespace ExDuiR.NET.Native
         /// <param name="bStrikeOut">是否删除线</param>
         /// <param name="bLink">是否超链接</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjEditSetSelCharFormat")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjEditSetSelCharFormat")]
         public static extern IntPtr Ex_ObjEditSetSelCharFormat(int hObj, int dwMask, int crText, string wzFontFace, int dwFontSize, int offsetY, bool bBold, bool bItalic, bool bUnderLine, bool bStrikeOut, bool bLink);
 
         /// <summary>
@@ -2160,7 +2151,7 @@ namespace ExDuiR.NET.Native
         /// <param name="offsetX">非首行缩进,可空</param>
         /// <param name="wAlignment">段落对齐方式,可空 PFA_常量</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjEditSetSelParFormat")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjEditSetSelParFormat")]
         public static extern IntPtr Ex_ObjEditSetSelParFormat(int hObj, int dwMask, ushort wNumbering, int dxStartIndent, int dxRightIndent, int offsetX, ushort wAlignment);
 
         /// <summary>
@@ -2168,7 +2159,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="lpwzFile"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ResLoadFromFile")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ResLoadFromFile")]
         public static extern IntPtr Ex_ResLoadFromFile(string lpwzFile);
 
         /// <summary>
@@ -2177,7 +2168,7 @@ namespace ExDuiR.NET.Native
         /// <param name="lpData"></param>
         /// <param name="dwDataLen"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ResLoadFromMemory")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ResLoadFromMemory")]
         public static extern IntPtr Ex_ResLoadFromMemory(byte[] lpData, IntPtr dwDataLen);
 
         /// <summary>
@@ -2188,7 +2179,7 @@ namespace ExDuiR.NET.Native
         /// <param name="lpFile"></param>
         /// <param name="dwFileLen"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ResGetFile")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ResGetFile")]
         public static extern bool Ex_ResGetFile(IntPtr hRes, string lpwzPath, out byte[] lpFile, out IntPtr dwFileLen);
 
         /// <summary>
@@ -2199,14 +2190,14 @@ namespace ExDuiR.NET.Native
         /// <param name="lpFile"></param>
         /// <param name="dwFileLen"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ResGetFileFromAtom")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ResGetFileFromAtom")]
         public static extern bool Ex_ResGetFileFromAtom(IntPtr hRes, int atomPath, out byte[] lpFile, out IntPtr dwFileLen);
 
         /// <summary>
         /// 资源释放
         /// </summary>
         /// <param name="hRes"></param>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ResFree")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ResFree")]
         public static extern void Ex_ResFree(IntPtr hRes);
 
         /// <summary>
@@ -2217,7 +2208,7 @@ namespace ExDuiR.NET.Native
         /// <param name="wParam"></param>
         /// <param name="lParam"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjDispatchNotify")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjDispatchNotify")]
         public static extern IntPtr Ex_ObjDispatchNotify(int hObj, int nCode, IntPtr wParam, IntPtr lParam);
 
         /// <summary>
@@ -2227,7 +2218,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hIcon"></param>
         /// <param name="lpwzTips"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_DUITrayIconSet")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUITrayIconSet")]
         public static extern bool Ex_DUITrayIconSet(int hExDui, IntPtr hIcon, string lpwzTips);
 
         /// <summary>
@@ -2238,7 +2229,7 @@ namespace ExDuiR.NET.Native
         /// <param name="lpwzInfoTitle"></param>
         /// <param name="dwInfoFlags"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_DUITrayIconPopup")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUITrayIconPopup")]
         public static extern bool Ex_DUITrayIconPopup(int hExDui, string lpwzInfo, string lpwzInfoTitle, int dwInfoFlags);
 
         /// <summary>
@@ -2246,7 +2237,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="lpBuffer"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_FreeBuffer")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_FreeBuffer")]
         public static extern bool Ex_FreeBuffer(IntPtr lpBuffer);
 
         /// <summary>
@@ -2256,7 +2247,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hCanvas"></param>
         /// <param name="lprcPaint"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjDrawBackgroundProc")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjDrawBackgroundProc")]
         public static extern bool Ex_ObjDrawBackgroundProc(int hObj, int hCanvas, ref ExRect lprcPaint);
 
         /// <summary>
@@ -2264,7 +2255,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hExDuiOrhObj"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjGetFocus")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjGetFocus")]
         public static extern int Ex_ObjGetFocus(int hExDuiOrhObj);
 
         /// <summary>
@@ -2280,7 +2271,7 @@ namespace ExDuiR.NET.Native
         /// <param name="atomSrcRect"></param>
         /// <param name="dwAlpha"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ThemeDrawControl")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ThemeDrawControl")]
         public static extern bool Ex_ThemeDrawControl(IntPtr hTheme, int hCanvas, float dstLeft, float dstTop, float dstRight, float dstBottom, int atomClass, int atomSrcRect, int dwAlpha);
 
         /// <summary>
@@ -2288,7 +2279,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="dwLen"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_AllocBuffer")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_AllocBuffer")]
         public static extern IntPtr Ex_AllocBuffer(IntPtr dwLen);
 
         /// <summary>
@@ -2297,7 +2288,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="phExDUI"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjGetParentEx")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjGetParentEx")]
         public static extern int Ex_ObjGetParentEx(int hObj, out int phExDUI);
 
         /// <summary>
@@ -2306,7 +2297,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="lpRect"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjGetTextRect")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjGetTextRect")]
         public static extern bool Ex_ObjGetTextRect(int hObj, out ExRect lpRect);
 
         /// <summary>
@@ -2326,7 +2317,7 @@ namespace ExDuiR.NET.Native
         /// <param name="atomBackgroundFlags"></param>
         /// <param name="dwAlpha"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ThemeDrawControlEx")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ThemeDrawControlEx")]
         public static extern bool Ex_ThemeDrawControlEx(IntPtr hTheme, int hCanvas, float dstLeft, float dstTop, float dstRight, float dstBottom, int atomClass, int atomSrcRect, int atomBackgroundRepeat, int atomBackgroundPositon, int atomBackgroundGrid, int atomBackgroundFlags, int dwAlpha);
 
         /// <summary>
@@ -2335,7 +2326,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="lpString"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjTooltipsSetText")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjTooltipsSetText")]
         public static extern bool Ex_ObjTooltipsSetText(int hObj, string lpString);
 
         /// <summary>
@@ -2351,7 +2342,7 @@ namespace ExDuiR.NET.Native
         /// <param name="pfnCallback"></param>
         /// <param name="dwFlags">相关常量 EMNF_</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_TrackPopupMenu")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_TrackPopupMenu")]
         public static extern bool Ex_TrackPopupMenu(IntPtr hMenu, int uFlags, int x, int y, IntPtr nReserved, int handle, IntPtr lpRc, ExWndProcDelegate pfnCallback, int dwFlags);
 
         /// <summary>
@@ -2359,7 +2350,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hWnd"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_DUIFromWindow")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUIFromWindow")]
         public static extern int Ex_DUIFromWindow(IntPtr hWnd);
 
         /// <summary>
@@ -2370,7 +2361,7 @@ namespace ExDuiR.NET.Native
         /// <param name="lpnMinPos"></param>
         /// <param name="lpnMaxPos"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjScrollGetRange")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjScrollGetRange")]
         public static extern bool Ex_ObjScrollGetRange(int hObj, int nBar, out int lpnMinPos, out int lpnMaxPos);
 
         /// <summary>
@@ -2379,7 +2370,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="nBar"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjScrollGetTrackPos")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjScrollGetTrackPos")]
         public static extern int Ex_ObjScrollGetTrackPos(int hObj, int nBar);
 
         /// <summary>
@@ -2392,7 +2383,7 @@ namespace ExDuiR.NET.Native
         /// <param name="lpnPos"></param>
         /// <param name="lpnTrackPos"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjScrollGetInfo")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjScrollGetInfo")]
         public static extern bool Ex_ObjScrollGetInfo(int hObj, int nBar, out int lpnMin, out int lpnMax, out int lpnPos, out int lpnTrackPos);
 
         /// <summary>
@@ -2401,7 +2392,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hExDUIOrObj"></param>
         /// <param name="nNodeID"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjGetFromNodeID")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjGetFromNodeID")]
         public static extern int Ex_ObjGetFromNodeID(int hExDUIOrObj, int nNodeID);
 
         /// <summary>
@@ -2411,7 +2402,7 @@ namespace ExDuiR.NET.Native
         /// <param name="lpRect"></param>
         /// <param name="nType"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjGetRectEx")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjGetRectEx")]
         public static extern bool Ex_ObjGetRectEx(int hObj, out ExRect lpRect, int nType);
 
         /// <summary>
@@ -2419,7 +2410,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="handle"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjLayoutGet")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjLayoutGet")]
         public static extern IntPtr Ex_ObjLayoutGet(int handle);
 
         /// <summary>
@@ -2429,7 +2420,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hLayout"></param>
         /// <param name="fUpdate"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjLayoutSet")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjLayoutSet")]
         public static extern bool Ex_ObjLayoutSet(int handle, int hLayout, bool fUpdate);
 
         /// <summary>
@@ -2437,7 +2428,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="handle"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjLayoutUpdate")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjLayoutUpdate")]
         public static extern bool Ex_ObjLayoutUpdate(int handle);
 
         /// <summary>
@@ -2446,7 +2437,7 @@ namespace ExDuiR.NET.Native
         /// <param name="handle"></param>
         /// <param name="bChildren"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjLayoutClear")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjLayoutClear")]
         public static extern bool Ex_ObjLayoutClear(int handle, bool bChildren);
 
         /// <summary>
@@ -2460,7 +2451,7 @@ namespace ExDuiR.NET.Native
         /// <param name="bottom"></param>
         /// <param name="fRedraw"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjSetPadding")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjSetPadding")]
         public static extern bool Ex_ObjSetPadding(int hObj, int nPaddingType, int left, int top, int right, int bottom, bool fRedraw);
 
         /// <summary>
@@ -2472,7 +2463,7 @@ namespace ExDuiR.NET.Native
         /// <param name="dwFontstyle"></param>
         /// <param name="fRedraw"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjSetFontFromFamily")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjSetFontFromFamily")]
         public static extern bool Ex_ObjSetFontFromFamily(int hObj, string lpszFontfamily, int dwFontsize, int dwFontstyle, bool fRedraw);
 
         /// <summary>
@@ -2480,7 +2471,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hObj"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjGetFont")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjGetFont")]
         public static extern int Ex_ObjGetFont(int hObj);
 
         /// <summary>
@@ -2491,7 +2482,7 @@ namespace ExDuiR.NET.Native
         /// <param name="ptX"></param>
         /// <param name="ptY"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjPointTransform")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjPointTransform")]
         public static extern bool Ex_ObjPointTransform(int hObjSrc, int hObjDst, ref int ptX, ref int ptY);
 
         /// <summary>
@@ -2500,7 +2491,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="fEnable"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjEnableEventBubble")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjEnableEventBubble")]
         public static extern bool Ex_ObjEnableEventBubble(int hObj, bool fEnable);
 
         /// <summary>
@@ -2509,7 +2500,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="lpClassInfo"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjGetClassInfo")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjGetClassInfo")]
         public static extern bool Ex_ObjGetClassInfo(int hObj, out ExClassInfo lpClassInfo);
 
         /// <summary>
@@ -2518,7 +2509,7 @@ namespace ExDuiR.NET.Native
         /// <param name="wzClassName"></param>
         /// <param name="lpClassInfo"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjGetClassInfoEx")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjGetClassInfoEx")]
         public static extern bool Ex_ObjGetClassInfoEx(string wzClassName, out ExClassInfo lpClassInfo);
 
         /// <summary>
@@ -2538,7 +2529,7 @@ namespace ExDuiR.NET.Native
         /// <param name="param3"></param>
         /// <param name="param4"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_easing_create")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_easing_create")]
         public static extern IntPtr _easing_create(int dwType, IntPtr pEasingContext, int dwMode, ExEasingProcDelegate pContext, int nTotalTime, int nInterval, int nState, int nStart, int nStop, IntPtr param1, IntPtr param2, IntPtr param3, IntPtr param4);
 
         /// <summary>
@@ -2558,7 +2549,7 @@ namespace ExDuiR.NET.Native
         /// <param name="param3"></param>
         /// <param name="param4"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_easing_create")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_easing_create")]
         public static extern IntPtr _easing_create(int dwType, IntPtr pEasingContext, int dwMode, IntPtr pContext, int nTotalTime, int nInterval, int nState, int nStart, int nStop, IntPtr param1, IntPtr param2, IntPtr param3, IntPtr param4);
 
         /// <summary>
@@ -2567,14 +2558,14 @@ namespace ExDuiR.NET.Native
         /// <param name="pEasing"></param>
         /// <param name="nState"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_easing_setstate")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_easing_setstate")]
         public static extern bool _easing_setstate(IntPtr pEasing, int nState);
 
         /// <summary>
         /// 暂停
         /// </summary>
         /// <param name="us"></param>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_Sleep")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_Sleep")]
         public static extern void Ex_Sleep(int us);
 
         /// <summary>
@@ -2582,7 +2573,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="pEasing"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_easing_getstate")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_easing_getstate")]
         public static extern int _easing_getstate(IntPtr pEasing);
 
         /// <summary>
@@ -2591,7 +2582,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="nPropCount"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjInitPropList")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjInitPropList")]
         public static extern bool Ex_ObjInitPropList(int hObj, int nPropCount);
 
         /// <summary>
@@ -2600,7 +2591,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="dwKey"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjRemoveProp")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjRemoveProp")]
         public static extern IntPtr Ex_ObjRemoveProp(int hObj, IntPtr dwKey);
 
         /// <summary>
@@ -2610,7 +2601,7 @@ namespace ExDuiR.NET.Native
         /// <param name="lpfnCbk"></param>
         /// <param name="lParam"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjEnumProps")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjEnumProps")]
         public static extern int Ex_ObjEnumProps(int hObj, ExObjPropEnumCallbackDelegate lpfnCbk, IntPtr lParam);
 
         /// <summary>
@@ -2623,7 +2614,7 @@ namespace ExDuiR.NET.Native
         /// <param name="bottomleft"></param>
         /// <param name="fUpdate"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjSetRadius")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjSetRadius")]
         public static extern bool Ex_ObjSetRadius(int hObj, float topleft, float topright, float bottomright, float bottomleft, bool fUpdate);
 
         /// <summary>
@@ -2633,7 +2624,7 @@ namespace ExDuiR.NET.Native
         /// <param name="wBar"></param>
         /// <param name="fShow"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjScrollShow")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjScrollShow")]
         public static extern bool Ex_ObjScrollShow(int hObj, int wBar, bool fShow);
 
         /// <summary>
@@ -2643,7 +2634,7 @@ namespace ExDuiR.NET.Native
         /// <param name="wSB"></param>
         /// <param name="wArrows"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjScrollEnable")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjScrollEnable")]
         public static extern bool Ex_ObjScrollEnable(int hObj, int wSB, int wArrows);
 
         /// <summary>
@@ -2653,7 +2644,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hFont"></param>
         /// <param name="fRedraw"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjSetFont")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjSetFont")]
         public static extern bool Ex_ObjSetFont(int hObj, int hFont, bool fRedraw);
 
         /// <summary>
@@ -2662,7 +2653,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="fEnable"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjEnableIME")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjEnableIME")]
         public static extern bool Ex_ObjEnableIME(int hObj, bool fEnable);
 
         /// <summary>
@@ -2671,7 +2662,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObjOrExDui"></param>
         /// <param name="fOpen"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjSetIMEState")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjSetIMEState")]
         public static extern bool Ex_ObjSetIMEState(int hObjOrExDui, bool fOpen);
 
         /// <summary>
@@ -2680,7 +2671,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="fDisable"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjDisableTranslateSpaceAndEnterToClick")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjDisableTranslateSpaceAndEnterToClick")]
         public static extern bool Ex_ObjDisableTranslateSpaceAndEnterToClick(int hObj, bool fDisable);
 
         /// <summary>
@@ -2689,7 +2680,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="hParent"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjSetParent")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjSetParent")]
         public static extern bool Ex_ObjSetParent(int hObj, int hParent);
 
         /// <summary>
@@ -2700,7 +2691,7 @@ namespace ExDuiR.NET.Native
         /// <param name="uType"></param>
         /// <param name="nIndex"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_LoadImageFromMemory")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_LoadImageFromMemory")]
         public static extern IntPtr Ex_LoadImageFromMemory(byte[] lpData, IntPtr dwLen, int uType, int nIndex);
 
         /// <summary>
@@ -2710,7 +2701,7 @@ namespace ExDuiR.NET.Native
         /// <param name="pDataObject"></param>
         /// <param name="dwFormat"></param>
         /// <returns>返回是否适用</returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjCheckDropFormat")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjCheckDropFormat")]
         public static extern bool Ex_ObjCheckDropFormat(int hObj, IntPtr pDataObject, int dwFormat);
 
         /// <summary>
@@ -2721,7 +2712,7 @@ namespace ExDuiR.NET.Native
         /// <param name="lpwzBuffer"></param>
         /// <param name="cchMaxLength"></param>
         /// <returns>返回字符数,0表示失败</returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjGetDropString")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjGetDropString")]
         public static extern int Ex_ObjGetDropString(int hObj, IntPtr pDataObject, StringBuilder lpwzBuffer, int cchMaxLength);
 
         /// <summary>
@@ -2730,7 +2721,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="fEnable"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "Ex_ObjEnablePaintingMsg")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjEnablePaintingMsg")]
         public static extern bool Ex_ObjEnablePaintingMsg(int hObj, bool fEnable);
 
 
@@ -2743,7 +2734,7 @@ namespace ExDuiR.NET.Native
         /// <param name="cbImage"></param>
         /// <param name="nIndexInsert"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_imglist_add")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_imglist_add")]
         public static extern IntPtr _imglist_add(IntPtr hImageList, byte[] lpImage, IntPtr cbImage, IntPtr nIndexInsert);
 
         /// <summary>
@@ -2753,7 +2744,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hImage"></param>
         /// <param name="nIndexInsert"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_imglist_addimage")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_imglist_addimage")]
         public static extern IntPtr _imglist_addimage(IntPtr hImageList, int hImage, IntPtr nIndexInsert);
 
         /// <summary>
@@ -2761,7 +2752,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hImageList"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_imglist_count")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_imglist_count")]
         public static extern int _imglist_count(IntPtr hImageList);
 
         /// <summary>
@@ -2770,7 +2761,7 @@ namespace ExDuiR.NET.Native
         /// <param name="nWidth"></param>
         /// <param name="nHeight"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_imglist_create")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_imglist_create")]
         public static extern IntPtr _imglist_create(int nWidth, int nHeight);
 
         /// <summary>
@@ -2778,7 +2769,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hImageList"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_imglist_destroy")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_imglist_destroy")]
         public static extern bool _imglist_destroy(IntPtr hImageList);
 
         /// <summary>
@@ -2787,7 +2778,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hImageList"></param>
         /// <param name="nIndex"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_imglist_del")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_imglist_del")]
         public static extern bool _imglist_del(IntPtr hImageList, IntPtr nIndex);
 
         /// <summary>
@@ -2802,7 +2793,7 @@ namespace ExDuiR.NET.Native
         /// <param name="nBottom"></param>
         /// <param name="nAlpha"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_imglist_draw")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_imglist_draw")]
         public static extern bool _imglist_draw(IntPtr hImageList, IntPtr nIndex, int hCanvas, int nLeft, int nTop, int nRight, int nBottom, int nAlpha);
 
         /// <summary>
@@ -2811,7 +2802,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hImageList"></param>
         /// <param name="nIndex"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_imglist_get")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_imglist_get")]
         public static extern IntPtr _imglist_get(IntPtr hImageList, IntPtr nIndex);
 
         /// <summary>
@@ -2822,7 +2813,7 @@ namespace ExDuiR.NET.Native
         /// <param name="lpImage"></param>
         /// <param name="cbImage"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_imglist_set")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_imglist_set")]
         public static extern bool _imglist_set(IntPtr hImageList, IntPtr nIndex, byte[] lpImage, IntPtr cbImage);
 
         /// <summary>
@@ -2832,7 +2823,7 @@ namespace ExDuiR.NET.Native
         /// <param name="nIndex"></param>
         /// <param name="hImage"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_imglist_setimage")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_imglist_setimage")]
         public static extern bool _imglist_setimage(IntPtr hImageList, IntPtr nIndex, int hImage);
 
         /// <summary>
@@ -2842,7 +2833,7 @@ namespace ExDuiR.NET.Native
         /// <param name="pWidth"></param>
         /// <param name="pHeight"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_imglist_count")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_imglist_count")]
         public static extern bool _imglist_size(IntPtr hImageList, out int pWidth, out int pHeight);
         #endregion
 
@@ -2851,7 +2842,7 @@ namespace ExDuiR.NET.Native
         /// 矩阵创建
         /// </summary>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_matrix_create")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_matrix_create")]
         public static extern IntPtr _matrix_create();
 
         /// <summary>
@@ -2859,7 +2850,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="pMatrix"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_matrix_destroy")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_matrix_destroy")]
         public static extern bool _matrix_destroy(IntPtr pMatrix);
 
         /// <summary>
@@ -2867,7 +2858,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="pMatrix"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_matrix_reset")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_matrix_reset")]
         public static extern bool _matrix_reset(IntPtr pMatrix);
 
         /// <summary>
@@ -2876,7 +2867,7 @@ namespace ExDuiR.NET.Native
         /// <param name="pMatrix"></param>
         /// <param name="fAngle"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_matrix_rotate")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_matrix_rotate")]
         public static extern bool _matrix_rotate(IntPtr pMatrix, float fAngle);
 
         /// <summary>
@@ -2886,7 +2877,7 @@ namespace ExDuiR.NET.Native
         /// <param name="scaleX"></param>
         /// <param name="scaleY"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_matrix_scale")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_matrix_scale")]
         public static extern bool _matrix_scale(IntPtr pMatrix, float scaleX, float scaleY);
 
         /// <summary>
@@ -2896,7 +2887,7 @@ namespace ExDuiR.NET.Native
         /// <param name="offsetX"></param>
         /// <param name="offsetY"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_matrix_translate")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_matrix_translate")]
         public static extern bool _matrix_translate(IntPtr pMatrix, float offsetX, float offsetY);
         #endregion
 
@@ -2906,7 +2897,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hPath"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_rgn_createfrompath")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_rgn_createfrompath")]
         public static extern IntPtr _rgn_createfrompath(int hPath);
 
         /// <summary>
@@ -2917,7 +2908,7 @@ namespace ExDuiR.NET.Native
         /// <param name="right"></param>
         /// <param name="bottom"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_rgn_createfromrect")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_rgn_createfromrect")]
         public static extern IntPtr _rgn_createfromrect(float left, float top, float right, float bottom);
 
         /// <summary>
@@ -2930,7 +2921,7 @@ namespace ExDuiR.NET.Native
         /// <param name="radiusX"></param>
         /// <param name="radiusY"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_rgn_createfromroundrect")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_rgn_createfromroundrect")]
         public static extern IntPtr _rgn_createfromroundrect(float left, float top, float right, float bottom, float radiusX, float radiusY);
 
         /// <summary>
@@ -2942,7 +2933,7 @@ namespace ExDuiR.NET.Native
         /// <param name="dstOffsetX"></param>
         /// <param name="dstOffsetY"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_rgn_combine")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_rgn_combine")]
         public static extern IntPtr _rgn_combine(IntPtr hRgnSrc, IntPtr hRgnDst, int nCombineMode, int dstOffsetX, int dstOffsetY);
 
         /// <summary>
@@ -2950,7 +2941,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hRgn"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_rgn_destroy")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_rgn_destroy")]
         public static extern bool _rgn_destroy(IntPtr hRgn);
 
         /// <summary>
@@ -2959,7 +2950,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hRgn"></param>
         /// <param name="lpRect">返回外接矩形</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_rgn_getbounds")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_rgn_getbounds")]
         public static extern bool _rgn_getbounds(IntPtr hRgn, ref ExRectF lpRect);
 
         /// <summary>
@@ -2969,7 +2960,7 @@ namespace ExDuiR.NET.Native
         /// <param name="points">返回所有点数组</param>
         /// <param name="pointsCount">返回点个数</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_rgn_getlines")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_rgn_getlines")]
         public static extern bool _rgn_getlines(IntPtr hRgn, ref IntPtr points, ref int pointsCount);
 
         /// <summary>
@@ -2979,7 +2970,7 @@ namespace ExDuiR.NET.Native
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_rgn_hittest")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_rgn_hittest")]
         public static extern bool _rgn_hittest(IntPtr hRgn, float x, float y);
 
         /// <summary>
@@ -2989,7 +2980,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hRgn2">区域2</param>
         /// <param name="retRelation">返回关系 0无法确定 1不相交 2属于(被包含) 3包含 4相交</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_rgn_hittest2")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_rgn_hittest2")]
         public static extern bool _rgn_hittest2(IntPtr hRgn1, IntPtr hRgn2, out int retRelation);
         #endregion
 
@@ -3005,7 +2996,7 @@ namespace ExDuiR.NET.Native
         /// <param name="x3"></param>
         /// <param name="y3"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_path_addbezier")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_path_addbezier")]
         public static extern bool _path_addbezier(int hPath, float x1, float y1, float x2, float y2, float x3, float y3);
 
         /// <summary>
@@ -3020,7 +3011,7 @@ namespace ExDuiR.NET.Native
         /// <param name="radiusY">弧中心坐标Y</param>
         /// <param name="fClockwise">是否顺时针</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_path_addarc")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_path_addarc")]
         public static extern bool _path_addarc(int hPath, float x1, float y1, float x2, float y2, float radiusX, float radiusY, bool fClockwise);
 
         /// <summary>
@@ -3034,7 +3025,7 @@ namespace ExDuiR.NET.Native
         /// <param name="nAngleBegin">弧的起始角度</param>
         /// <param name="nAngleEnd">弧的终止角度</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_path_addarc2")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_path_addarc2")]
         public static extern bool _path_addarc2(int hPath, float left, float top, float right, float bottom, float nAngleBegin, float nAngleEnd);
 
         /// <summary>
@@ -3050,7 +3041,7 @@ namespace ExDuiR.NET.Native
         /// <param name="fClockwise">是否顺时针</param>
         /// <param name="barcSize">是否大于180°</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_path_addarc3")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_path_addarc3")]
         public static extern bool _path_addarc3(IntPtr hPath, float x, float y, float radiusX, float radiusY, float startAngle, float sweepAngle, bool fClockwise, bool barcSize);
 
         /// <summary>
@@ -3062,7 +3053,7 @@ namespace ExDuiR.NET.Native
         /// <param name="x2"></param>
         /// <param name="y2"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_path_addline")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_path_addline")]
         public static extern bool _path_addline(int hPath, float x1, float y1, float x2, float y2);
 
         /// <summary>
@@ -3074,7 +3065,7 @@ namespace ExDuiR.NET.Native
         /// <param name="x2"></param>
         /// <param name="y2"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_path_addquadraticbezier")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_path_addquadraticbezier")]
         public static extern bool _path_addquadraticbezier(int hPath, float x1, float y1, float x2, float y2);
 
         /// <summary>
@@ -3086,7 +3077,7 @@ namespace ExDuiR.NET.Native
         /// <param name="right"></param>
         /// <param name="bottom"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_path_addrect")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_path_addrect")]
         public static extern bool _path_addrect(int hPath, float left, float top, float right, float bottom);
 
         /// <summary>
@@ -3102,7 +3093,7 @@ namespace ExDuiR.NET.Native
         /// <param name="radiusBottomLeft"></param>
         /// <param name="radiusBottomRight"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_path_addroundedrect")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_path_addroundedrect")]
         public static extern bool _path_addroundedrect(int hPath, float left, float top, float right, float bottom, float radiusTopLeft, float radiusTopRight, float radiusBottomLeft, float radiusBottomRight);
 
         /// <summary>
@@ -3110,7 +3101,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hPath"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_path_beginfigure")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_path_beginfigure")]
         public static extern bool _path_beginfigure(int hPath);
 
         /// <summary>
@@ -3120,7 +3111,7 @@ namespace ExDuiR.NET.Native
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_path_beginfigure2")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_path_beginfigure2")]
         public static extern bool _path_beginfigure2(int hPath, float x, float y);
 
         /// <summary>
@@ -3131,7 +3122,7 @@ namespace ExDuiR.NET.Native
         /// <param name="y"></param>
         /// <param name="figureBegin">PATH_BEGIN_FLAG_</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_path_beginfigure3")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_path_beginfigure3")]
         public static extern bool _path_beginfigure3(int hPath, float x, float y, int figureBegin);
 
         /// <summary>
@@ -3140,7 +3131,7 @@ namespace ExDuiR.NET.Native
         /// <param name="dwFlags"></param>
         /// <param name="hPath"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_path_create")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_path_create")]
         public static extern bool _path_create(int dwFlags, out int hPath);
 
         /// <summary>
@@ -3148,7 +3139,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hPath"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_path_close")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_path_close")]
         public static extern bool _path_close(int hPath);
 
         /// <summary>
@@ -3156,7 +3147,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hPath"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_path_destroy")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_path_destroy")]
         public static extern bool _path_destroy(int hPath);
 
         /// <summary>
@@ -3165,7 +3156,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hPath"></param>
         /// <param name="fCloseFigure"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_path_endfigure")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_path_endfigure")]
         public static extern bool _path_endfigure(int hPath, bool fCloseFigure);
 
         /// <summary>
@@ -3174,7 +3165,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hPath"></param>
         /// <param name="lpBounds"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_path_getbounds")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_path_getbounds")]
         public static extern bool _path_getbounds(int hPath, ref ExRectF lpBounds);
 
         /// <summary>
@@ -3184,7 +3175,7 @@ namespace ExDuiR.NET.Native
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_path_hittest")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_path_hittest")]
         public static extern bool _path_hittest(int hPath, float x, float y);
 
         /// <summary>
@@ -3192,7 +3183,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hPath"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_path_open")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_path_open")]
         public static extern bool _path_open(int hPath);
 
         /// <summary>
@@ -3200,7 +3191,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hPath"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_path_reset")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_path_reset")]
         public static extern bool _path_reset(int hPath);
         #endregion
 
@@ -3214,7 +3205,7 @@ namespace ExDuiR.NET.Native
         /// <param name="dwType"></param>
         /// <param name="nValue"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_layout_absolute_setedge")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_layout_absolute_setedge")]
         public static extern bool _layout_absolute_setedge(int hLayout, int hObjChild, int dwEdge, int dwType, IntPtr nValue);
 
         /// <summary>
@@ -3229,7 +3220,7 @@ namespace ExDuiR.NET.Native
         /// <param name="tWidth"></param>
         /// <param name="tHeight"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_layout_absolute_lock")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_layout_absolute_lock")]
         public static extern bool _layout_absolute_lock(int hLayout, int hObjChild, int tLeft, int tTop, int tRight, int tBottom, int tWidth, int tHeight);
 
         /// <summary>
@@ -3238,7 +3229,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hLayout"></param>
         /// <param name="hObj"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_layout_addchild")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_layout_addchild")]
         public static extern bool _layout_addchild(int hLayout, int hObj);
 
         /// <summary>
@@ -3249,7 +3240,7 @@ namespace ExDuiR.NET.Native
         /// <param name="dwObjClassATOM"></param>
         /// <param name="nCount"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_layout_addchildren")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_layout_addchildren")]
         public static extern bool _layout_addchildren(int hLayout, bool fDesc, int dwObjClassATOM, out int nCount);
 
         /// <summary>
@@ -3258,7 +3249,7 @@ namespace ExDuiR.NET.Native
         /// <param name="nType"></param>
         /// <param name="hObjBind"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_layout_create")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_layout_create")]
         public static extern int _layout_create(int nType, int hObjBind);
 
         /// <summary>
@@ -3266,7 +3257,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hLayout"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_layout_destroy")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_layout_destroy")]
         public static extern bool _layout_destroy(int hLayout);
 
         /// <summary>
@@ -3275,7 +3266,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hLayout"></param>
         /// <param name="hObj"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_layout_deletechild")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_layout_deletechild")]
         public static extern bool _layout_deletechild(int hLayout, int hObj);
 
         /// <summary>
@@ -3284,7 +3275,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hLayout"></param>
         /// <param name="dwObjClassATOM"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_layout_deletechildren")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_layout_deletechildren")]
         public static extern bool _layout_deletechildren(int hLayout, int dwObjClassATOM);
 
         /// <summary>
@@ -3293,7 +3284,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hLayout"></param>
         /// <param name="fUpdateable"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_layout_enableupdate")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_layout_enableupdate")]
         public static extern bool _layout_enableupdate(int hLayout, bool fUpdateable);
 
         /// <summary>
@@ -3304,7 +3295,7 @@ namespace ExDuiR.NET.Native
         /// <param name="dwPropID"></param>
         /// <param name="pvValue"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_layout_getchildprop")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_layout_getchildprop")]
         public static extern bool _layout_getchildprop(int hLayout, int hObj, int dwPropID, out IntPtr pvValue);
 
         /// <summary>
@@ -3314,7 +3305,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hObj"></param>
         /// <param name="lpProps"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_layout_getchildproplist")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_layout_getchildproplist")]
         public static extern bool _layout_getchildproplist(int hLayout, int hObj, out IntPtr lpProps);
 
         /// <summary>
@@ -3323,7 +3314,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hLayout"></param>
         /// <param name="dwPropID"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_layout_getprop")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_layout_getprop")]
         public static extern IntPtr _layout_getprop(int hLayout, int dwPropID);
 
         /// <summary>
@@ -3331,7 +3322,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hLayout"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_layout_getproplist")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_layout_getproplist")]
         public static extern IntPtr _layout_getproplist(int hLayout);
 
         /// <summary>
@@ -3339,7 +3330,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hLayout"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_layout_gettype")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_layout_gettype")]
         public static extern int _layout_gettype(int hLayout);
 
         /// <summary>
@@ -3350,7 +3341,7 @@ namespace ExDuiR.NET.Native
         /// <param name="wParam"></param>
         /// <param name="lParam"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_layout_notify")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_layout_notify")]
         public static extern IntPtr _layout_notify(int hLayout, int nEvent, IntPtr wParam, IntPtr lParam);
 
         /// <summary>
@@ -3361,7 +3352,7 @@ namespace ExDuiR.NET.Native
         /// <param name="dwPropID"></param>
         /// <param name="pvValue"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_layout_setchildprop")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_layout_setchildprop")]
         public static extern bool _layout_setchildprop(int hLayout, int hObj, int dwPropID, IntPtr pvValue);
 
         /// <summary>
@@ -3371,7 +3362,7 @@ namespace ExDuiR.NET.Native
         /// <param name="dwPropID"></param>
         /// <param name="pvValue"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_layout_setprop")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_layout_setprop")]
         public static extern bool _layout_setprop(int hLayout, int dwPropID, IntPtr pvValue);
 
         /// <summary>
@@ -3383,7 +3374,7 @@ namespace ExDuiR.NET.Native
         /// <param name="aCellWidth"></param>
         /// <param name="cCells"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_layout_table_setinfo")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_layout_table_setinfo")]
         public static extern bool _layout_table_setinfo(int hLayout, int[] aRowHeight, int cRows, int[] aCellWidth, int cCells);
 
         /// <summary>
@@ -3391,7 +3382,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hLayout"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_layout_update")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_layout_update")]
         public static extern bool _layout_update(int hLayout);
         #endregion
 
@@ -3406,7 +3397,7 @@ namespace ExDuiR.NET.Native
         /// <param name="height"></param>
         /// <param name="phImg"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_clip")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_clip")]
         public static extern bool _img_clip(int hImg, int left, int top, int width, int height, out int phImg);
 
         /// <summary>
@@ -3415,7 +3406,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hImg"></param>
         /// <param name="dstImg">返回新图像句柄</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_copy")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_copy")]
         public static extern bool _img_copy(int hImg, out int dstImg);
 
         /// <summary>
@@ -3428,7 +3419,7 @@ namespace ExDuiR.NET.Native
         /// <param name="height"></param>
         /// <param name="dstImg">返回新图像句柄</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_copyrect")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_copyrect")]
         public static extern bool _img_copyrect(int hImg, int x, int y, int width, int height, out int dstImg);
 
         /// <summary>
@@ -3438,7 +3429,7 @@ namespace ExDuiR.NET.Native
         /// <param name="height"></param>
         /// <param name="hImg">返回新图像句柄</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_create")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_create")]
         public static extern bool _img_create(int width, int height, out int hImg);
 
         /// <summary>
@@ -3447,7 +3438,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hCanvas"></param>
         /// <param name="dstImg"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_createfromcanvas")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_createfromcanvas")]
         public static extern int _img_createfromcanvas(int hCanvas, out int dstImg);
 
         /// <summary>
@@ -3456,7 +3447,7 @@ namespace ExDuiR.NET.Native
         /// <param name="lpwzFilename"></param>
         /// <param name="hImg"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_createfromfile")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_createfromfile")]
         public static extern bool _img_createfromfile(string lpwzFilename, out int hImg);
 
         /// <summary>
@@ -3467,7 +3458,7 @@ namespace ExDuiR.NET.Native
         /// <param name="fPreAlpha">是否预乘透明通道</param>
         /// <param name="hImg"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_createfromhbitmap")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_createfromhbitmap")]
         public static extern bool _img_createfromhbitmap(IntPtr hBitmap, IntPtr hPalette, bool fPreAlpha, out int hImg);
 
         /// <summary>
@@ -3476,7 +3467,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hIcon"></param>
         /// <param name="hImg"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_createfromhicon")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_createfromhicon")]
         public static extern bool _img_createfromhicon(IntPtr hIcon, out int hImg);
 
         /// <summary>
@@ -3486,7 +3477,7 @@ namespace ExDuiR.NET.Native
         /// <param name="dwLen"></param>
         /// <param name="hImg"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_createfrommemory")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_createfrommemory")]
         public static extern bool _img_createfrommemory(byte[] lpData, IntPtr dwLen, out int hImg);
 
         /// <summary>
@@ -3495,7 +3486,7 @@ namespace ExDuiR.NET.Native
         /// <param name="lpData">缓冲区,前4字节是width,4-8字节是height,8字节之后是数据</param>
         /// <param name="hImg">输出图像句柄</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_createfrompngbits")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_createfrompngbits")]
         public static extern bool _img_createfrompngbits(IntPtr lpData, out int hImg);
 
         /// <summary>
@@ -3506,7 +3497,7 @@ namespace ExDuiR.NET.Native
         /// <param name="lpData">数据</param>
         /// <param name="hImg">输出图像句柄</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_createfrompngbits2")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_createfrompngbits2")]
         public static extern bool _img_createfrompngbits2(int nWidth, int nHeight, IntPtr lpData, out int hImg);
 
         /// <summary>
@@ -3516,7 +3507,7 @@ namespace ExDuiR.NET.Native
         /// <param name="atomPath"></param>
         /// <param name="hImg"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_createfromres")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_createfromres")]
         public static extern bool _img_createfromres(IntPtr hRes, int atomPath, out int hImg);
 
         /// <summary>
@@ -3525,7 +3516,7 @@ namespace ExDuiR.NET.Native
         /// <param name="lpStream"></param>
         /// <param name="dstImg"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_createfromstream")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_createfromstream")]
         public static extern bool _img_createfromstream(IStream lpStream, out int dstImg);
 
         /// <summary>
@@ -3533,7 +3524,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hImg"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_destroy")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_destroy")]
         public static extern bool _img_destroy(int hImg);
 
         /// <summary>
@@ -3543,7 +3534,7 @@ namespace ExDuiR.NET.Native
         /// <param name="lpDelayAry">指针指向图像帧延时数组</param>
         /// <param name="nFrames">返回总帧数</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_getframedelay")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_getframedelay")]
         public static extern bool _img_getframedelay(int hImg, int[] lpDelayAry, out int nFrames);
 
         /// <summary>
@@ -3552,7 +3543,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hImg"></param>
         /// <param name="nFrameCount">返回帧数</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_getframecount")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_getframecount")]
         public static extern bool _img_getframecount(int hImg, out int nFrameCount);
 
         /// <summary>
@@ -3563,7 +3554,7 @@ namespace ExDuiR.NET.Native
         /// <param name="y"></param>
         /// <param name="retPixel">返回ARGB颜色</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_getpixel")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_getpixel")]
         public static extern bool _img_getpixel(int hImg, int x, int y, out int retPixel);
 
         /// <summary>
@@ -3573,7 +3564,7 @@ namespace ExDuiR.NET.Native
         /// <param name="lpWidth"></param>
         /// <param name="lpHeight"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_getsize")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_getsize")]
         public static extern bool _img_getsize(int hImg, out int lpWidth, out int lpHeight);
 
         /// <summary>
@@ -3581,7 +3572,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hImg"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_height")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_height")]
         public static extern int _img_height(int hImg);
 
         /// <summary>
@@ -3593,7 +3584,7 @@ namespace ExDuiR.NET.Native
         /// <param name="PixelFormat">参考:https://msdn.microsoft.com/en-us/library/ms534412(v=vs.85).aspx</param>
         /// <param name="lpLockedBitmapData">BITMAPDATA</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_lock")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_lock")]
         public static extern bool _img_lock(int hImg, ExRect lpRectL, int flags, int PixelFormat, ref ExBitmapData lpLockedBitmapData);
 
         /// <summary>
@@ -3603,7 +3594,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hImgSrc">原图句柄</param>
         /// <param name="nChannel">蒙板通道：0:Alpha,1:R,2:G,3:B</param>
         /// <param name="bBlackMask">蒙版通道是否为 黑色/透明</param>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_mask")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_mask")]
         public static extern bool _img_mask(int hImgDst, int hImgSrc, int nChannel, bool bBlackMask, out int hImgOut);
 
         /// <summary>
@@ -3615,7 +3606,7 @@ namespace ExDuiR.NET.Native
         /// <param name="y">大图粘贴位置纵坐标</param>
         /// <param name="dstImg">输出新图像</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_paste")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_paste")]
         public static extern bool _img_paste(int hDstImg, int hSrcImg, int x, int y, out int dstImg);
 
         /// <summary>
@@ -3625,7 +3616,7 @@ namespace ExDuiR.NET.Native
         /// <param name="rfType">参考:https://msdn.microsoft.com/en-us/library/windows/desktop/ms534171(v=vs.85).aspx</param>
         /// <param name="phImg"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_rotateflip")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_rotateflip")]
         public static extern bool _img_rotateflip(int hImg, int rfType, out int phImg);
 
         /// <summary>
@@ -3634,7 +3625,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hImg"></param>
         /// <param name="lpwzFile"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_savetofile")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_savetofile")]
         public static extern bool _img_savetofile(int hImg, string lpwzFile);
         /// <summary>
         /// 图像保存到缓冲区
@@ -3642,7 +3633,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hImg"></param>
         /// <param name="lpBuffer"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_savetomemory")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_savetomemory")]
         public static extern IntPtr _img_savetomemory(int hImg, IntPtr lpBuffer);
 
         /// <summary>
@@ -3653,7 +3644,7 @@ namespace ExDuiR.NET.Native
         /// <param name="dstHeight"></param>
         /// <param name="dstImg"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_scale")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_scale")]
         public static extern bool _img_scale(int hImage, int dstWidth, int dstHeight, out int dstImg);
 
         /// <summary>
@@ -3662,7 +3653,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hImg"></param>
         /// <param name="nIndex"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_selectactiveframe")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_selectactiveframe")]
         public static extern bool _img_selectactiveframe(int hImg, int nIndex);
 
         /// <summary>
@@ -3673,7 +3664,7 @@ namespace ExDuiR.NET.Native
         /// <param name="y"></param>
         /// <param name="color">Argb颜色</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_setpixel")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_setpixel")]
         public static extern bool _img_setpixel(int hImg, int x, int y, int color);
 
         /// <summary>
@@ -3682,7 +3673,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hImg"></param>
         /// <param name="lpLockedBitmapData"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_unlock")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_unlock")]
         public static extern bool _img_unlock(int hImg, ref ExBitmapData lpLockedBitmapData);
 
         /// <summary>
@@ -3690,7 +3681,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hImg"></param>
         /// <returns>返回宽度</returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_img_width")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_img_width")]
         public static extern int _img_width(int hImg);
         #endregion
 
@@ -3699,7 +3690,7 @@ namespace ExDuiR.NET.Native
         /// 创建默认字体
         /// </summary>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_font_create")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_font_create")]
         public static extern int _font_create();
 
         /// <summary>
@@ -3709,7 +3700,7 @@ namespace ExDuiR.NET.Native
         /// <param name="dwFontSize"></param>
         /// <param name="dwFontStyle"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_font_createfromfamily")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_font_createfromfamily")]
         public static extern int _font_createfromfamily(string lpwzFontFace, int dwFontSize, int dwFontStyle);
 
         /// <summary>
@@ -3719,7 +3710,7 @@ namespace ExDuiR.NET.Native
         /// <param name="dwFontSize"></param>
         /// <param name="dwFontStyle"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_font_createfromfile")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_font_createfromfile")]
         public static extern int _font_createfromfile(string path, int dwFontSize, int dwFontStyle);
 
         /// <summary>
@@ -3727,7 +3718,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="lpLogfont"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_font_createfromlogfont")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_font_createfromlogfont")]
         public static extern int _font_createfromlogfont(ref LogFont lpLogfont);
 
         /// <summary>
@@ -3735,7 +3726,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hFont"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_font_destroy")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_font_destroy")]
         public static extern bool _font_destroy(int hFont);
 
         /// <summary>
@@ -3743,7 +3734,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hFont"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_font_getcontext")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_font_getcontext")]
         public static extern IntPtr _font_getcontext(int hFont);
 
         /// <summary>
@@ -3752,7 +3743,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hFont"></param>
         /// <param name="lpLogFont"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_font_getlogfont")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_font_getlogfont")]
         public static extern bool _font_getlogfont(int hFont, ref LogFont lpLogFont);
         #endregion
 
@@ -3762,7 +3753,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="argb"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_brush_create")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_brush_create")]
         public static extern IntPtr _brush_create(int argb);
 
         /// <summary>
@@ -3770,7 +3761,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hImg"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_brush_createfromimg")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_brush_createfromimg")]
         public static extern IntPtr _brush_createfromimg(int hImg);
 
         /// <summary>
@@ -3778,7 +3769,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hCanvas"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_brush_createfromcanvas")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_brush_createfromcanvas")]
         public static extern IntPtr _brush_createfromcanvas(int hCanvas);
 
         /// <summary>
@@ -3787,7 +3778,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hCanvas"></param>
         /// <param name="alpha"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_brush_createfromcanvas2")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_brush_createfromcanvas2")]
         public static extern IntPtr _brush_createfromcanvas2(int hCanvas, int alpha);
 
         /// <summary>
@@ -3800,7 +3791,7 @@ namespace ExDuiR.NET.Native
         /// <param name="crBegin">起点颜色ARGB</param>
         /// <param name="crEnd">终点颜色ARGB</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_brush_createlinear")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_brush_createlinear")]
         public static extern IntPtr _brush_createlinear(float xStart, float yStart, float xEnd, float yEnd, int crBegin, int crEnd);
 
         /// <summary>
@@ -3813,7 +3804,7 @@ namespace ExDuiR.NET.Native
         /// <param name="arrStopPts">两个点位置和颜色数据,只能两个{位置(0-1.0),颜色(ARGB),位置(0-1.0),颜色(ARGB)}这样传参</param>
         /// <param name="cStopPts">点个数，只能两个传2</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_brush_createlinear_ex")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_brush_createlinear_ex")]
         public static extern IntPtr _brush_createlinear_ex(float xStart, float yStart, float xEnd, float yEnd, IntPtr arrStopPts, int cStopPts);
 
         /// <summary>
@@ -3821,7 +3812,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hBrush"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_brush_destroy")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_brush_destroy")]
         public static extern int _brush_destroy(IntPtr hBrush);
 
         /// <summary>
@@ -3830,7 +3821,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hBrush"></param>
         /// <param name="argb"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_brush_setcolor")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_brush_setcolor")]
         public static extern int _brush_setcolor(IntPtr hBrush, int argb);
 
         /// <summary>
@@ -3839,7 +3830,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hBrush"></param>
         /// <param name="matrix"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_brush_settransform")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_brush_settransform")]
         public static extern int _brush_settransform(IntPtr hBrush, IntPtr matrix);
         #endregion
 
@@ -3849,7 +3840,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hCanvas"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_begindraw")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_begindraw")]
         public static extern bool _canvas_begindraw(int hCanvas);
 
         /// <summary>
@@ -3859,7 +3850,7 @@ namespace ExDuiR.NET.Native
         /// <param name="fDeviation"></param>
         /// <param name="lprc"></param>
         /// <returns>返回是否成功</returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_blur")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_blur")]
         public static extern bool _canvas_blur(int hCanvas, float fDeviation, ref IntPtr lprc);
 
         /// <summary>
@@ -3876,7 +3867,7 @@ namespace ExDuiR.NET.Native
         /// <param name="lpWidth"></param>
         /// <param name="lpHeight"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_calctextsize")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_calctextsize")]
         public static extern bool _canvas_calctextsize(int hCanvas, int hFont, string lpwzText, IntPtr dwLen, int dwDTFormat, IntPtr lParam, float layoutWidth, float layoutHeight, out float lpWidth, out float lpHeight);
 
         /// <summary>
@@ -3885,7 +3876,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hCanvas"></param>
         /// <param name="nColor"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_clear")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_clear")]
         public static extern bool _canvas_clear(int hCanvas, int nColor);
 
         /// <summary>
@@ -3897,7 +3888,7 @@ namespace ExDuiR.NET.Native
         /// <param name="right"></param>
         /// <param name="bottom"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_cliprect")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_cliprect")]
         public static extern bool _canvas_cliprect(int hCanvas, int left, int top, int right, int bottom);
 
         /// <summary>
@@ -3908,7 +3899,7 @@ namespace ExDuiR.NET.Native
         /// <param name="height"></param>
         /// <param name="dwFlags"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_createfromexdui")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_createfromexdui")]
         public static extern int _canvas_createfromexdui(int hExDui, int width, int height, int dwFlags);
 
         /// <summary>
@@ -3919,7 +3910,7 @@ namespace ExDuiR.NET.Native
         /// <param name="uHeight"></param>
         /// <param name="dwFlags"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_createfromobj")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_createfromobj")]
         public static extern int _canvas_createfromobj(int hObj, int uWidth, int uHeight, int dwFlags);
 
         /// <summary>
@@ -3927,7 +3918,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hCanvas"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_destroy")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_destroy")]
         public static extern bool _canvas_destroy(int hCanvas);
 
         /// <summary>
@@ -3944,7 +3935,7 @@ namespace ExDuiR.NET.Native
         /// <param name="dwAlpha"></param>
         /// <param name="dwCompositeMode"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_drawcanvas")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_drawcanvas")]
         public static extern bool _canvas_drawcanvas(int hCanvas, int sCanvas, int dstLeft, int dstTop, int dstRight, int dstBottom, int srcLeft, int srcTop, int dwAlpha, int dwCompositeMode);
 
         /// <summary>
@@ -3959,7 +3950,7 @@ namespace ExDuiR.NET.Native
         /// <param name="strokeWidth"></param>
         /// <param name="strokeStyle"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_drawellipse")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_drawellipse")]
         public static extern bool _canvas_drawellipse(int hCanvas, IntPtr hBrush, float x, float y, float radiusX, float radiusY, float strokeWidth, int strokeStyle);
 
         /// <summary>
@@ -3971,7 +3962,7 @@ namespace ExDuiR.NET.Native
         /// <param name="top"></param>
         /// <param name="alpha"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_drawimage")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_drawimage")]
         public static extern bool _canvas_drawimage(int hCanvas, int hImage, float left, float top, int alpha);
 
         /// <summary>
@@ -3994,7 +3985,7 @@ namespace ExDuiR.NET.Native
         /// <param name="dwFlags"></param>
         /// <param name="dwAlpha"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_drawimagefromgrid")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_drawimagefromgrid")]
         public static extern bool _canvas_drawimagefromgrid(int hCanvas, int hImage, float dstLeft, float dstTop, float dstRight, float dstBottom, float srcLeft, float srcTop, float srcRight, float srcBottom, float gridPaddingLeft, float gridPaddingTop, float gridPaddingRight, float gridPaddingBottom, int dwFlags, int dwAlpha);
 
         /// <summary>
@@ -4008,7 +3999,7 @@ namespace ExDuiR.NET.Native
         /// <param name="bottom"></param>
         /// <param name="alpha"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_drawimagerect")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_drawimagerect")]
         public static extern bool _canvas_drawimagerect(int hCanvas, int hImage, float left, float top, float right, float bottom, int alpha);
 
         /// <summary>
@@ -4026,7 +4017,7 @@ namespace ExDuiR.NET.Native
         /// <param name="srcBottom"></param>
         /// <param name="alpha"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_drawimagerectrect")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_drawimagerectrect")]
         public static extern bool _canvas_drawimagerectrect(int hCanvas, int hImage, float dstLeft, float dstTop, float dstRight, float dstBottom, float srcLeft, float srcTop, float srcRight, float srcBottom, int alpha);
 
         /// <summary>
@@ -4041,7 +4032,7 @@ namespace ExDuiR.NET.Native
         /// <param name="strokeWidth"></param>
         /// <param name="strokeStyle"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_drawline")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_drawline")]
         public static extern bool _canvas_drawline(int hCanvas, IntPtr hBrush, float X1, float Y1, float X2, float Y2, float strokeWidth, int strokeStyle);
 
         /// <summary>
@@ -4053,7 +4044,7 @@ namespace ExDuiR.NET.Native
         /// <param name="strokeWidth"></param>
         /// <param name="strokeStyle"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_drawpath")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_drawpath")]
         public static extern bool _canvas_drawpath(int hCanvas, int hPath, IntPtr hBrush, float strokeWidth, int strokeStyle);
 
         /// <summary>
@@ -4070,7 +4061,7 @@ namespace ExDuiR.NET.Native
         /// <param name="strokeWidth">绘制的线宽</param>
         /// <param name="strokeStyle">绘制的线型</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_drawpolygon")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_drawpolygon")]
         public static extern bool _canvas_drawpolygon(int hCanvas, IntPtr hBrush, float left, float top, float right, float bottom, int numberOfEdges, float angle, float strokeWidth, int strokeStyle);
 
         /// <summary>
@@ -4085,7 +4076,7 @@ namespace ExDuiR.NET.Native
         /// <param name="strokeWidth"></param>
         /// <param name="strokeStyle"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_drawrect")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_drawrect")]
         public static extern bool _canvas_drawrect(int hCanvas, IntPtr hBrush, float left, float top, float right, float bottom, float strokeWidth, int strokeStyle);
 
         /// <summary>
@@ -4102,7 +4093,7 @@ namespace ExDuiR.NET.Native
         /// <param name="strokeWidth">画刷宽度</param>
         /// <param name="strokeStyle"></param>
         /// <returns>返回是否成功</returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_drawroundedrect")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_drawroundedrect")]
         public static extern bool _canvas_drawroundedrect(int hCanvas, IntPtr hBrush, float left, float top, float right, float bottom, float radiusX, float radiusY, float strokeWidth, int strokeStyle);
 
         /// <summary>
@@ -4122,7 +4113,7 @@ namespace ExDuiR.NET.Native
         /// <param name="OffsetX">阴影横向偏移</param>
         /// <param name="OffsetY">阴影纵向偏移</param>
         /// <returns>返回是否成功</returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_drawshadow")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_drawshadow")]
         public static extern bool _canvas_drawshadow(int hCanvas, float fLeft, float fTop, float fRight, float fBottom, float fShadowSize, int crShadow, float radiusTopLeft, float radiusTopRight, float radiusBottomLeft, float radiusBottomRight, float OffsetX, float OffsetY);
 
         /// <summary>
@@ -4139,7 +4130,7 @@ namespace ExDuiR.NET.Native
         /// <param name="right"></param>
         /// <param name="bottom"></param>
         /// <returns>返回是否成功</returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_drawtext")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_drawtext")]
         public static extern bool _canvas_drawtext(int hCanvas, int hFont, int crText, string lpwzText, IntPtr dwLen, int dwDTFormat, float left, float top, float right, float bottom);
 
         /// <summary>
@@ -4156,7 +4147,7 @@ namespace ExDuiR.NET.Native
         /// <param name="right"></param>
         /// <param name="bottom"></param>
         /// <returns>返回是否成功</returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_drawtext2")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_drawtext2")]
         public static extern bool _canvas_drawtext2(int hCanvas, int hFont, IntPtr hBrush, string lpwzText, IntPtr dwLen, int dwDTFormat, float left, float top, float right, float bottom);
 
         /// <summary>
@@ -4176,7 +4167,7 @@ namespace ExDuiR.NET.Native
         /// <param name="crShadow"></param>
         /// <param name="lParam"></param>
         /// <returns>返回是否成功</returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_drawtextex")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_drawtextex")]
         public static extern bool _canvas_drawtextex(int hCanvas, int hFont, int crText, string lpwzText, IntPtr dwLen, int dwDTFormat, float left, float top, float right, float bottom, int iGlowsize, int crShadow, IntPtr lParam);
 
         /// <summary>
@@ -4190,7 +4181,7 @@ namespace ExDuiR.NET.Native
         /// <param name="right"></param>
         /// <param name="bottom"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_drawsvg")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_drawsvg")]
         public static extern bool _canvas_drawsvg(int hCanvas, IntPtr data, int color, float left, float top, float right, float bottom);
 
         /// <summary>
@@ -4204,7 +4195,7 @@ namespace ExDuiR.NET.Native
         /// <param name="right"></param>
         /// <param name="bottom"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_drawsvgfromfile")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_drawsvgfromfile")]
         public static extern bool _canvas_drawsvgfromfile(int hCanvas, string svgName, int color, float left, float top, float right, float bottom);
 
         /// <summary>
@@ -4212,7 +4203,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hCanvas"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_enddraw")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_enddraw")]
         public static extern bool _canvas_enddraw(int hCanvas);
 
         /// <summary>
@@ -4225,7 +4216,7 @@ namespace ExDuiR.NET.Native
         /// <param name="radiusX"></param>
         /// <param name="radiusY"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_fillellipse")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_fillellipse")]
         public static extern bool _canvas_fillellipse(int hCanvas, IntPtr hBrush, float x, float y, float radiusX, float radiusY);
 
         /// <summary>
@@ -4235,7 +4226,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hPath"></param>
         /// <param name="hBrush"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_fillpath")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_fillpath")]
         public static extern bool _canvas_fillpath(int hCanvas, int hPath, IntPtr hBrush);
 
         /// <summary>
@@ -4250,7 +4241,7 @@ namespace ExDuiR.NET.Native
         /// <param name="numberOfEdges">边数</param>
         /// <param name="angle">角度</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_fillpolygon")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_fillpolygon")]
         public static extern int _canvas_fillpolygon(int hCanvas, IntPtr hBrush, float left, float top, float right, float bottom, int numberOfEdges, float angle);
 
         /// <summary>
@@ -4263,7 +4254,7 @@ namespace ExDuiR.NET.Native
         /// <param name="right"></param>
         /// <param name="bottom"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_fillrect")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_fillrect")]
         public static extern bool _canvas_fillrect(int hCanvas, IntPtr hBrush, float left, float top, float right, float bottom);
 
         /// <summary>
@@ -4273,7 +4264,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hRgn"></param>
         /// <param name="hBrush"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_fillregion")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_fillregion")]
         public static extern bool _canvas_fillregion(int hCanvas, IntPtr hRgn, IntPtr hBrush);
 
         /// <summary>
@@ -4291,7 +4282,7 @@ namespace ExDuiR.NET.Native
         /// <param name="number">透明度数量</param>
         /// <param name="crShadow"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_fillroundedimage")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_fillroundedimage")]
         public static extern bool _canvas_fillroundedimage(int hCanvas, IntPtr hImg, float left, float top, float width, float height, float radiusX, float radiusY, IntPtr shadowNum, int number, int crShadow);
 
         /// <summary>
@@ -4306,7 +4297,7 @@ namespace ExDuiR.NET.Native
         /// <param name="radiusX"></param>
         /// <param name="radiusY"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_fillroundedrect")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_fillroundedrect")]
         public static extern bool _canvas_fillroundedrect(int hCanvas, IntPtr hBrush, float left, float top, float right, float bottom, float radiusX, float radiusY);
 
         /// <summary>
@@ -4314,7 +4305,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hCanvas"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_flush")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_flush")]
         public static extern bool _canvas_flush(int hCanvas);
 
         /// <summary>
@@ -4323,7 +4314,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hCanvas"></param>
         /// <param name="nType">画布信息类型 CVC_DX常量</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_getcontext")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_getcontext")]
         public static extern IntPtr _canvas_getcontext(int hCanvas, int nType);
 
         /// <summary>
@@ -4331,7 +4322,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hCanvas"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_getdc")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_getdc")]
         public static extern IntPtr _canvas_getdc(int hCanvas);
 
         /// <summary>
@@ -4341,7 +4332,7 @@ namespace ExDuiR.NET.Native
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_getsize")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_getsize")]
         public static extern bool _canvas_getsize(int hCanvas, out int width, out int height);
 
         /// <summary>
@@ -4351,7 +4342,7 @@ namespace ExDuiR.NET.Native
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_resize")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_resize")]
         public static extern bool _canvas_resize(int hCanvas, int width, int height);
 
         /// <summary>
@@ -4359,7 +4350,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hCanvas"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_releasedc")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_releasedc")]
         public static extern bool _canvas_releasedc(int hCanvas);
 
         /// <summary>
@@ -4367,7 +4358,7 @@ namespace ExDuiR.NET.Native
         /// </summary>
         /// <param name="hCanvas"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_resetclip")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_resetclip")]
         public static extern bool _canvas_resetclip(int hCanvas);
 
         /// <summary>
@@ -4376,7 +4367,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hCanvas"></param>
         /// <param name="fAngle"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_rotate_hue")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_rotate_hue")]
         public static extern bool _canvas_rotate_hue(int hCanvas, float fAngle);
 
         /// <summary>
@@ -4385,7 +4376,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hCanvas"></param>
         /// <param name="pMatrix">0重置</param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_settransform")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_settransform")]
         public static extern bool _canvas_settransform(int hCanvas, IntPtr pMatrix);
 
         /// <summary>
@@ -4394,7 +4385,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hCanvas"></param>
         /// <param name="textAntialiasMode"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_settextantialiasmode")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_settextantialiasmode")]
         public static extern bool _canvas_settextantialiasmode(int hCanvas, bool textAntialiasMode);
 
         /// <summary>
@@ -4403,7 +4394,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hCanvas"></param>
         /// <param name="antialias"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_setantialias")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_setantialias")]
         public static extern bool _canvas_setantialias(int hCanvas, bool antialias);
 
         /// <summary>
@@ -4412,7 +4403,7 @@ namespace ExDuiR.NET.Native
         /// <param name="hCanvas"></param>
         /// <param name="antialias"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "_canvas_setimageantialias")]
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_setimageantialias")]
         public static extern bool _canvas_setimageantialias(int hCanvas, bool antialias);
         #endregion
     }
