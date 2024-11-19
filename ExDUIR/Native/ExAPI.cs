@@ -2735,7 +2735,7 @@ namespace ExDuiR.NET.Native
         /// <param name="nIndexInsert"></param>
         /// <returns></returns>
         [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_imglist_add")]
-        public static extern IntPtr _imglist_add(IntPtr hImageList, byte[] lpImage, IntPtr cbImage, IntPtr nIndexInsert);
+        public static extern IntPtr _imglist_add(IntPtr hImageList, IntPtr nIndexInsert, byte[] lpImage, IntPtr cbImage);
 
         /// <summary>
         /// 图片组添加图片从图片句柄
@@ -2745,7 +2745,7 @@ namespace ExDuiR.NET.Native
         /// <param name="nIndexInsert"></param>
         /// <returns></returns>
         [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_imglist_addimage")]
-        public static extern IntPtr _imglist_addimage(IntPtr hImageList, int hImage, IntPtr nIndexInsert);
+        public static extern IntPtr _imglist_addimage(IntPtr hImageList, IntPtr nIndexInsert, int hImage);
 
         /// <summary>
         /// 图片组获取图片数量
@@ -3805,7 +3805,7 @@ namespace ExDuiR.NET.Native
         /// <param name="cStopPts">点个数，只能两个传2</param>
         /// <returns></returns>
         [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_brush_createlinear_ex")]
-        public static extern IntPtr _brush_createlinear_ex(float xStart, float yStart, float xEnd, float yEnd, IntPtr arrStopPts, int cStopPts);
+        public static extern IntPtr _brush_createlinear_ex(float xStart, float yStart, float xEnd, float yEnd, float[] arrPts, int[] arrColors);
 
         /// <summary>
         /// 画刷销毁

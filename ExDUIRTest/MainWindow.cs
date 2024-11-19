@@ -34,16 +34,16 @@ namespace ExDuiRTest
 
             if (skin.Validate)
             {
-                skin.BackgroundColor = Util.ExRGBA(120, 120, 120, 255);
+                skin.BackgroundColor = Util.ExARGB(120, 120, 120, 255);
                 //设置窗口背景图片
                 //skin.SetBackgroundImage(bkg, 0, 0, 0, default, 0, 255, true);
                 //改变标题栏标题组件颜色
                 var caption = skin.Caption;
                 //标题栏窗口风格就是标题栏子组件的ID,类似关闭，最大化，最小化按钮也可以这样获取
                 var title = caption.GetObjFromID(WINDOW_STYLE_TITLE);
-                title.ColorTextNormal = Util.ExRGBA(120, 230, 21, 255);
+                title.ColorTextNormal = Util.ExARGB(120, 230, 21, 255);
                 //改变窗口阴影色
-                skin.ShadowColor = Util.ExRGBA(30, 30, 250, 255);
+                skin.ShadowColor = Util.ExARGB(30, 30, 250, 255);
                 buttons = new List<ExButton>();
                 buttons.Add(new ExButton(skin, "测试按钮", 10, 30, 100, 30, -1, -1, DT_VCENTER | DT_CENTER));
                 buttons.Add(new ExButton(skin, "测试标签", 10, 70, 100, 30, -1, -1, DT_VCENTER | DT_CENTER));

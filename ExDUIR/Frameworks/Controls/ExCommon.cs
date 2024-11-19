@@ -1407,12 +1407,12 @@ namespace ExDuiR.NET.Frameworks.Controls
     public class ExNavButton : ExControl
     {
         public ExNavButton(IExBaseUIEle oParent, string sTitle, int x, int y, int nWidth, int nHeight)
-            : base(oParent, "NavButtonEx", sTitle, x, y, nWidth, nHeight)
+            : base(oParent, "NavButton", sTitle, x, y, nWidth, nHeight)
         {
         }
 
         public ExNavButton(IExBaseUIEle oParent, string sTitle, int x, int y, int nWidth, int nHeight, int dwStyle = -1, int dwStyleEx = -1, int dwTextFormat = -1, int nID = 0, IntPtr lParam = default, ExObjProcDelegate pfnObjProc = null)
-            : base(oParent, "NavButtonEx", sTitle, x, y, nWidth, nHeight, dwStyle, dwStyleEx, dwTextFormat, nID, lParam, IntPtr.Zero, pfnObjProc)
+            : base(oParent, "NavButton", sTitle, x, y, nWidth, nHeight, dwStyle, dwStyleEx, dwTextFormat, nID, lParam, IntPtr.Zero, pfnObjProc)
         {
         }
         public ExNavButton(int hObj) : base(hObj)
@@ -1452,7 +1452,7 @@ namespace ExDuiR.NET.Frameworks.Controls
         {
             this.SendMessage(BUTTON_MESSAGE_SETIMAGE, (IntPtr)type, (IntPtr)image.handle);
         }
-        public new string ClassName => "NavButtonEx";
+        public new string ClassName => "NavButton";
     }
 
     /// <summary>
@@ -1528,7 +1528,7 @@ namespace ExDuiR.NET.Frameworks.Controls
         {
             set
             {
-                this.SendMessage(PROGRESSBAR_MESSAGE_SETRADIUS, (IntPtr)value, IntPtr.Zero);
+                this.SetLong(PROGRESSBAR_LONG_RADIUS, value);
             }
         }
 
@@ -1539,18 +1539,18 @@ namespace ExDuiR.NET.Frameworks.Controls
         {
             set
             {
-                this.SendMessage(PROGRESSBAR_MESSAGE_SETBKCOLOR, (IntPtr)value, IntPtr.Zero);
+                this.SetLong(PROGRESSBAR_LONG_BACKGROUNDCOLOR, value);
             }
         }
 
         /// <summary>
         /// 设置进度条前景色
         /// </summary>
-        public int ColorFont
+        public int ColorForeground
         {
             set
             {
-                this.SendMessage(PROGRESSBAR_MESSAGE_SETBARCOLOR, (IntPtr)value, IntPtr.Zero);
+                this.SetLong(PROGRESSBAR_LONG_FOREGROUNDCOLOR, value);
             }
         }
 
@@ -1561,11 +1561,11 @@ namespace ExDuiR.NET.Frameworks.Controls
         {
             set
             {
-                this.SendMessage(PROGRESSBAR_MESSAGE_SETPOS, (IntPtr)value, IntPtr.Zero);
+                this.SetLong(PROGRESSBAR_LONG_POS, value);
             }
             get
             {
-                return (int)this.SendMessage(PROGRESSBAR_MESSAGE_GETPOS, IntPtr.Zero, IntPtr.Zero);
+                return (int)this.GetLong(PROGRESSBAR_LONG_POS);
             }
         }
 
@@ -1576,11 +1576,11 @@ namespace ExDuiR.NET.Frameworks.Controls
         {
             set
             {
-                this.SendMessage(PROGRESSBAR_MESSAGE_SETRANGE, (IntPtr)value, IntPtr.Zero);
+                this.SetLong(PROGRESSBAR_LONG_RANGE, value);
             }
             get
             {
-                return (int)this.SendMessage(PROGRESSBAR_MESSAGE_GETRANGE, IntPtr.Zero, IntPtr.Zero);
+                return (int)this.GetLong(PROGRESSBAR_LONG_RANGE);
             }
         }
         public new string ClassName => "ProgressBar";
