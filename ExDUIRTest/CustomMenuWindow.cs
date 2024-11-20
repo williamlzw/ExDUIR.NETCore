@@ -18,6 +18,7 @@ namespace ExDuiRTest
         static private ExWndProcDelegate wndProc;
         static private IntPtr menu;
         static private ExObjProcDelegate buttonMsgProc;
+        static private ExObjProcDelegate objProc;
 
         static public void CreateCustomMenuWindow(ExSkin pOwner)
         {
@@ -31,6 +32,7 @@ namespace ExDuiRTest
                 wndProc = new ExWndProcDelegate(OnMenuWndMsgProc);
                 buttonProc = new ExObjEventProcDelegate(OnButtonEvent);
                 buttonMsgProc = new ExObjProcDelegate(OnMenuBtnMsgProc);
+                objProc = new ExObjProcDelegate(OnMenuItemMsgProc);
                 button.HandleEvent(NM_CLICK, buttonProc);
                 //创建主菜单
                 menu = WinAPI.CreatePopupMenu();
@@ -138,7 +140,7 @@ namespace ExDuiRTest
             if (uMsg == WM_INITMENUPOPUP)
             {
                 ExRect rc = new ExRect();
-                var objproc = new ExObjProcDelegate(OnMenuItemMsgProc);
+                
                 if (wParam == menu)//主菜单
                 {
                     WinAPI.SetProp(hWnd, "IsMainMenu", (IntPtr)1);
@@ -182,7 +184,7 @@ namespace ExDuiRTest
                     var rcObj = find.Client;
                     find.Move(rc.nLeft, t, rc.nRight, rcObj.nBottom - rcObj.nTop, true);
                     find.ColorTextNormal = Util.ExRGB2ARGB(0, 255);
-                    find.ObjProc = Marshal.GetFunctionPointerForDelegate(objproc);
+                    find.ObjProc = Marshal.GetFunctionPointerForDelegate(objProc);
                     t = t + rcObj.nBottom - rcObj.nTop;
                     find = find.GetObj(GW_HWNDNEXT);
                 }

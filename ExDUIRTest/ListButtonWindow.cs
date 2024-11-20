@@ -19,6 +19,7 @@ namespace ExDuiRTest
         static private ExObjProcDelegate listButtonProc;
         static private ExWndProcDelegate listButtonWndProc;
         static private ExObjEventProcDelegate listButtonEventProc;
+        static private ExObjProcDelegate objProc;
         static private List<IntPtr> menuItems;
         static private List<string> menuItemsName;
         static public void CreateListButtonWindow(ExSkin pOwner)
@@ -29,7 +30,7 @@ namespace ExDuiRTest
             if (skin.Validate)
             {
                 skin.BackgroundColor = Util.ExARGB(150, 150, 150, 255);
-
+                objProc = new ExObjProcDelegate(OnMenuItemMsgProc);
                 Dictionary<string, List<string>> itemInfo = new Dictionary<string, List<string>>();
                 //分隔条用"-"
                 itemInfo.Add("文件(&F)", new List<string> { "新建(&N)", "打开(&O)", "保存(&S)", "-", "退出(&E)" });
@@ -244,10 +245,10 @@ namespace ExDuiRTest
             {
                 var nskin = new ExSkin(hExDui);
                 var find = nskin.Find(null, "Item", null);
-                var objproc = new ExObjProcDelegate(OnMenuItemMsgProc);
+                
                 while (find != null)
                 {
-                    find.ObjProc = Marshal.GetFunctionPointerForDelegate(objproc);
+                    find.ObjProc = Marshal.GetFunctionPointerForDelegate(objProc);
                     find = find.GetObj(GW_HWNDNEXT);
                 }
             }
