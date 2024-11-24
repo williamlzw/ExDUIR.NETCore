@@ -609,11 +609,11 @@ namespace ExDuiR.NET.Native
     public struct ExReportListCellInfo
     {
         /// <summary>
-        /// 所在行[IN / OUT]
+        /// 所在行[IN / OUT] 索引从1开始
         /// </summary>
         public int iRow;
         /// <summary>
-        /// 所在列[IN / OUT]
+        /// 所在列[IN / OUT] 索引从1开始
         /// </summary>
         public int iCol;
         /// <summary>
