@@ -13,7 +13,7 @@ namespace ExDuiR.NET.Frameworks.Graphics
 
         public ExPath()
         {
-            ExAPI._path_create(PATH_FLAG_NORMAL, out m_hPath);
+            ExAPI._path_create(PATH_FLAG_DISABLESCALE, out m_hPath);
         }
 
         public ExPath(int hPath)

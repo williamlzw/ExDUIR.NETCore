@@ -191,3 +191,18 @@ win10+， win7 需要安装KB2670838补丁
 
 ### demo taggingboard:
 ![image](demo_image/demo_taggingboard.png)
+
+### demo circleprogressbar:
+![image](demo_image/demo_circleprogressbar.png)
+
+### demo waveprogressbar:
+![image](demo_image/demo_waveprogressbar.png)
+
+### demo linechart:
+![image](demo_image/demo_linechart.png)
+
+### demo chatbox:
+![image](demo_image/demo_chatbox.png)
+
+### demo flowchart:
+![image](demo_image/demo_flowchart.png)
