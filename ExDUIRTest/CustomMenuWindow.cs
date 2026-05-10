@@ -16,7 +16,7 @@ namespace ExDuiRTest
         static private ExButton button;
         static private ExObjEventProcDelegate buttonProc;
         static private ExWndProcDelegate wndProc;
-        static private IntPtr menu;
+        static private int menu;
         static private ExObjProcDelegate buttonMsgProc;
         static private ExObjProcDelegate objProc;
 
@@ -35,21 +35,20 @@ namespace ExDuiRTest
                 objProc = new ExObjProcDelegate(OnMenuItemMsgProc);
                 button.HandleEvent(NM_CLICK, buttonProc);
                 //创建主菜单
-                menu = WinAPI.CreatePopupMenu();
-                var menuItem1 = WinAPI.CreateMenu();
-                WinAPI.AppendMenu(menu, MF_STRING | MF_CHECKED, menuItem1, "Item 1");
+                menu = ExAPI.Ex_MenuCreatePopupMenu();
+                var menuItem1 = ExAPI.Ex_MenuCreateMenu();
+                ExAPI.Ex_MenuAppendMenuW(menu, MF_STRING | MF_CHECKED, (uint)menuItem1, "Item 1");
 
-                var menuItem2 = WinAPI.CreateMenu();
-                WinAPI.AppendMenu(menu, MF_STRING | MF_DISABLED, menuItem2, "Disabled Item");
+                var menuItem2 = ExAPI.Ex_MenuCreateMenu();
+                ExAPI.Ex_MenuAppendMenuW(menu, MF_GRAYED | MF_DISABLED, (uint)menuItem2, "Disabled Item");
 
-                var menuItem3 = WinAPI.CreateMenu();
-                WinAPI.AppendMenu(menu, MF_SEPARATOR, menuItem3, "");
+                var menuItem3 = ExAPI.Ex_MenuCreateMenu();
+                ExAPI.Ex_MenuAppendMenuW(menu, MF_SEPARATOR, (uint)menuItem3, "");
+                var menuItem4 = ExAPI.Ex_MenuCreateMenu();
+                ExAPI.Ex_MenuAppendMenuW(menu, MF_POPUP, (uint)menuItem4, "More");
 
-                var menuItem4 = WinAPI.CreateMenu();
-                WinAPI.AppendMenu(menu, MF_POPUP, menuItem4, "More");
-
-                var subitem = WinAPI.CreatePopupMenu();
-                WinAPI.AppendMenu(menuItem4, MF_STRING, subitem, "SubItem 1");
+                var subitem = ExAPI.Ex_MenuCreatePopupMenu();
+                ExAPI.Ex_MenuAppendMenuW(menuItem4, MF_STRING, (uint)subitem, "SubItem 1");
 
                 skin.Visible = true;
             }
@@ -92,11 +91,11 @@ namespace ExDuiRTest
                 Marshal.WriteInt32(pResult, 1);
                 return (IntPtr)1;
             }
-            else if (uMsg == WM_EX_LCLICK)
+            else if (uMsg == WM_LBUTTONUP)
             {
                 ExControl obj = new ExControl(hObj);
                 Console.WriteLine($"点击按钮id：{obj.ID}");
-                WinAPI.EndMenu();
+                ExAPI.Ex_MenuEnd();
                 Marshal.WriteInt32(pResult, 1);
                 return (IntPtr)1;
             }
@@ -229,7 +228,7 @@ namespace ExDuiRTest
             if (hObj == button.handle)
             {
                 WinAPI.GetCursorPos(out var pt);
-                button.TrackPopupMenu(menu, 0, pt.x, pt.y, (IntPtr)hObj, wndProc, MENU_FLAG_NOSHADOW);
+                button.TrackPopupMenu(menu, 0, pt.x, pt.y, 0);
             }
             return IntPtr.Zero;
         }

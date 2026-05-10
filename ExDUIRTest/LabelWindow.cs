@@ -21,6 +21,7 @@ namespace ExDuiRTest
             {
                 skin.BackgroundColor = Util.ExARGB(150, 150, 150, 255);
                 var bitmap = File.ReadAllBytes("Resources/Loading.gif");
+                Console.WriteLine(bitmap.Length);
                 label = new ExStatic(skin, bitmap, 10, 30, 180, 150);
                 label.SetRadius(10, 10, 15, 10, true);
                 label.GetBackgroundImage(out ExBackgroundImageInfo bkgInfo);

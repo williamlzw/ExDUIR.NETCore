@@ -45,8 +45,10 @@ namespace ExDuiRTest
                 edit5.ColorBackground = Util.ExARGB(200, 120, 130, 100);
                 edit5.ColorTextNormal = Util.ExARGB(23, 115, 1, 100);
                 edit5.SetRadius(10, 10, 10, 0, false);
-                edit6 = new ExEdit(skin, "测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框",
+                edit6 = new ExEdit(skin, "测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\r\n测试多行编辑框\n",
                     10, 230, 150, 100, OBJECT_STYLE_VISIBLE | OBJECT_STYLE_VSCROLL, OBJECT_STYLE_EX_FOCUSABLE | OBJECT_STYLE_EX_COMPOSITED, DT_VCENTER);
+                edit6.AddText("新添加一行");
+                edit6.Focus = true;
                 edit7 = new ExEdit(skin, "测试透明圆角编辑框", 180, 30, 300, 300, OBJECT_STYLE_VISIBLE | OBJECT_STYLE_VSCROLL | OBJECT_STYLE_HSCROLL | EDIT_STYLE_RICHTEXT | EDIT_STYLE_PARSEURL | EDIT_STYLE_ALLOWTAB | EDIT_STYLE_NEWLINE, OBJECT_STYLE_EX_FOCUSABLE, DT_LEFT | DT_TOP, 101);
                 var rtfdata = File.ReadAllBytes("Resources/test.rtf");
                 editNotifyEventProc = new ExObjEventProcDelegate(OnEditNotifyEventProc);

@@ -32,11 +32,7 @@ win10+， win7 需要安装KB2670838补丁
 * 窗口或组件支持接收拖曳文件或文本。
 * 支持模态窗口。
 * 支持限制区域消息通知。
-* 支持net7.0 nativeaot，可以编译为win32二进制exe不能被反编译，运行不依赖.net环境，可以运行在win7。
-
-## Nativeaot编译
-* 创建.net 7.0控制台应用，改为windows应用，项目文件PropertyGroup节点添加\<PublishAot\>true\<\/PublishAot\>
-* 框架只能依赖Microsoft.NETCore.App，不能有WinForm窗口，不能有自定义资源文件Resources.resx。只能是64位编译。
+* 支持net7.0+ nativeaot，可以编译为win32二进制exe不能被反编译，运行不依赖.net环境，可以运行在win7。
 
 ## Demo
 ### demo code:  
@@ -180,17 +176,14 @@ win10+， win7 需要安装KB2670838补丁
 ### trayicon
 ![image](demo_image/demo_trayicon.png)
 
-### winform:  
-![image](demo_image/demo_winform.png)
-
-### cefsharp browser:  
-![image](demo_image/demo_cef.png)
-
 ### login demo
 ![image](demo_image/demo_login.png)
 
 ### demo taggingboard:
 ![image](demo_image/demo_taggingboard.png)
+
+### demo pathandrgn:
+![image](demo_image/demo_pathandrgn.png)
 
 ### demo circleprogressbar:
 ![image](demo_image/demo_circleprogressbar.png)
@@ -203,6 +196,24 @@ win10+， win7 需要安装KB2670838补丁
 
 ### demo chatbox:
 ![image](demo_image/demo_chatbox.png)
+![image](demo_image/demo_chatbox2.png)
+![image](demo_image/demo_chatbox3.png)
+![image](demo_image/demo_chatbox4.png)
 
 ### demo flowchart:
 ![image](demo_image/demo_flowchart.png)
+
+### demo splitter:
+![image](demo_image/demo_splitter.png)
+
+### demo grid:
+![image](demo_image/demo_grid.png)
+
+### demo flowscrollview:
+![image](demo_image/demo_flowscrollview.png)
+
+### demo prototypeboard:
+![image](demo_image/demo_prototypeboard.png)
+
+### demo candlestickchart:
+![image](demo_image/demo_candlestickchart.png)

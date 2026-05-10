@@ -40,19 +40,21 @@ namespace ExDuiRTest
             var obj = new ExStatic(hObj);
             if (uMsg == WM_CREATE)
             {
+               
                 obj.InitPropList(4);
 
                 var path = new ExPath();
                 path.Open();
                 path.BeginFigue(70, 155, PATH_BEGIN_FLAG_FILLED);
+                
                 path.AddArc3(240, 155, 85, 85, 0, 0, true, false);
                 path.EndFigure(true);
-
+                
                 path.BeginFigue(99, 82, PATH_BEGIN_FLAG_HOLLOW);
                 path.AddBezier(99, 82, 94, 76, 85, 78);
                 path.AddBezier(76, 79, 72, 73, 72, 73);
                 path.EndFigure(false);
-
+                
                 path.BeginFigue(154, 56, PATH_BEGIN_FLAG_HOLLOW);
                 path.AddBezier(154, 56, 158, 49, 154, 42);
                 path.AddBezier(149, 34, 154, 27, 154, 27);
@@ -62,7 +64,7 @@ namespace ExDuiRTest
                 path.AddBezier(122, 64, 122, 56, 114, 52);
                 path.AddBezier(106, 49, 105, 41, 105, 41);
                 path.EndFigure(false);
-
+                
                 path.BeginFigue(185, 64, PATH_BEGIN_FLAG_HOLLOW);
                 path.AddBezier(185, 64, 192, 61, 194, 52);
                 path.AddBezier(195, 44, 202, 41, 202, 42);
@@ -74,6 +76,7 @@ namespace ExDuiRTest
                 path.EndFigure(false);
 
                 path.Close();
+               
                 var rgn = new ExRegion(path);
                 obj.SetProp(2, path.handle);
                 obj.SetProp(3, rgn.handle);
@@ -102,9 +105,11 @@ namespace ExDuiRTest
 
                 canvas.DrawPath(path, brush, 1, 1);
                 int relation = -1;
-                if(rgn1.HitTest2(rgn2, ref relation))
+                
+                if (rgn1.HitTest2(rgn2, ref relation))
                 {
-                    if(relation == 3)
+                    
+                    if (relation == 3)
                     {
                         brushRgn.Color = Util.ExARGB(0, 255, 0, 255);
                     }
@@ -116,6 +121,7 @@ namespace ExDuiRTest
                         List<ExPointF> points = new List<ExPointF>();
                         int pointsCount = 0;
                         rgn2.GetLines(ref points, ref pointsCount);
+                        
                         for (int i = 0; i < pointsCount; i++)
                         {
                             if(i != 0)
@@ -129,12 +135,13 @@ namespace ExDuiRTest
                         brushRgn.Color = Util.ExARGB(255, 255, 0, 255);
                     }
                 }
-                canvas.DrawPath(path2, brushRgn, 1, 1);
+                var ret = canvas.DrawPath(path2, brushRgn, 1, 1);
                 obj.EndPaint(ref ps);
                 brush.Dispose();
                 brushRgn.Dispose();
                 path2.Dispose();
                 rgn2.Dispose();
+                return 1;
             }
             else if(uMsg == WM_MOUSEMOVE)
             {

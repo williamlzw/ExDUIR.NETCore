@@ -515,9 +515,9 @@ namespace ExDuiR.NET.Frameworks
         /// <param name="pfnWndProc">回调</param>
         /// <param name="dwFlags">相关常量 EMNF_</param>
         /// <returns></returns>
-        public bool TrackPopupMenu(IntPtr hMenu, int uFlags, int x, int y, IntPtr nReserved, ExWndProcDelegate pfnWndProc, int dwFlags)
+        public bool TrackPopupMenu(int hMenu, int uFlags, int x, int y, int nReserved)
         {
-            return ExAPI.Ex_TrackPopupMenu(hMenu, uFlags, x, y, nReserved, m_hExDUI, IntPtr.Zero, pfnWndProc, dwFlags);
+            return ExAPI.Ex_TrackPopupMenu(hMenu, uFlags, x, y, nReserved, m_hExDUI, IntPtr.Zero);
         }
 
         /// <summary>

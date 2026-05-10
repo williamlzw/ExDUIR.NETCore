@@ -118,6 +118,11 @@ namespace ExDuiR.NET.Frameworks.Utility
             return (int)(((ushort)lowPart) | (uint)(highPart << 16));
         }
 
+        public static IntPtr MakeLParam(int low, int high)
+        {
+            return (IntPtr)((high << 16) | (low & 0xFFFF));
+        }
+
         public static ushort MAKEWORD(byte a, byte b)
         {
             return (ushort)(((short)b << 8) | a);
@@ -200,6 +205,18 @@ namespace ExDuiR.NET.Frameworks.Utility
         public static IntPtr ExLoadImage(byte[] data, int type)
         {
             return ExAPI.Ex_LoadImageFromMemory(data, (IntPtr)data.Length, type, 0);
+        }
+
+        public static IntPtr StrDupW(string str)
+        {
+            if (string.IsNullOrEmpty(str)) return IntPtr.Zero;
+            // Unicode字符串字节长度 = (字符数+1) * 2
+            int byteLen = (str.Length + 1) * 2;
+            // 用进程堆分配（和C++完全一致）
+            IntPtr ptr = WinAPI.HeapAlloc(WinAPI.GetProcessHeap(), 8, byteLen);
+            // 复制字符串到非托管内存
+            Marshal.Copy(str.ToCharArray(), 0, ptr, str.Length);
+            return ptr;
         }
     }
 }

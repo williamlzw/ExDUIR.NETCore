@@ -22,22 +22,22 @@ namespace ExDuiRTest
             {
                 skin.BackgroundColor = Util.ExARGB(150, 150, 150, 255);
                 //打包主题包
-                ExAPI._res_pack("Default", "res/test_theme.ext", (char)PACKAGEHEADER_THEME);
+                ExAPI._res_pack("Default", "Resources/test_theme.ext", (char)PACKAGEHEADER_THEME);
 
                 //打包素材包
-                ExAPI._res_pack("Default", "res/test_res.exr", (char)PACKAGEHEADER_FILES);
-                var res = new ExResource("res/test_res.exr");
+                ExAPI._res_pack("Default", "Resources/test_res.exr", (char)PACKAGEHEADER_FILES);
+                var res = new ExResource("Resources/test_res.exr");
                 IntPtr dataPtr;
                 IntPtr dataLen;
                 res.GetFile("messagebox.png", out dataPtr, out dataLen);
 
                 var img = new ExImage(res, ExAPI.Ex_Atom("messagebox.png"));
-                img.SaveToFile("res/read_from_res1.png");
+                img.SaveToFile("Resources/read_from_res1.png");
                 img.Dispose();
 
                 byte[] byteData = new Byte[(int)dataLen];
                 Marshal.Copy(dataPtr, byteData, 0, (int)dataLen);
-                File.WriteAllBytes("res/read_from_res2.png", byteData);
+                File.WriteAllBytes("Resources/read_from_res2.png", byteData);
                 res.Dispose();
                 skin.Visible = true;
             }

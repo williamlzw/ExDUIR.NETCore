@@ -27,7 +27,7 @@ namespace ExDuiR.NET.Frameworks
 
         ExControl GetFocus();
 
-        bool TrackPopupMenu(IntPtr hMenu, int uFlags, int x, int y, IntPtr nReserved, ExWndProcDelegate pfnWndProc, int dwFlags);
+        bool TrackPopupMenu(int hMenu, int uFlags, int x, int y, int nReserved);
 
         ExControl Find(ExControl pObjChildAfter = null, string sClassName = null, string sTitle = null);
 

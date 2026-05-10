@@ -37,7 +37,6 @@ win10+, win7 need install KB2670838 patch
 
 ## Nativeaot compile
 * Create a .net 7.0 console application, change it to a windows application, and add \<PublishAot\>true\<\/PublishAot\> to the PropertyGroup node of the project file.
-* The framework can only rely on Microsoft.NETCore.App, and cannot have WinForm windows, and cannot have custom resource files Resources.resx. It can only be compiled for 64 bits.
 
 ## Demo
 ### demo code:  
@@ -181,17 +180,14 @@ win10+, win7 need install KB2670838 patch
 ### trayicon
 ![image](demo_image/demo_trayicon.png)
 
-### winform
-![image](demo_image/demo_winform.png)
-
-### cefsharp browser
-![image](demo_image/demo_cef.png)
-
 ### login demo
 ![image](demo_image/demo_login.png)
 
 ### demo taggingboard
 ![image](demo_image/demo_taggingboard.png)
+
+### demo pathandrgn:
+![image](demo_image/demo_pathandrgn.png)
 
 ### demo circleprogressbar:
 ![image](demo_image/demo_circleprogressbar.png)
@@ -204,6 +200,24 @@ win10+, win7 need install KB2670838 patch
 
 ### demo chatbox:
 ![image](demo_image/demo_chatbox.png)
+![image](demo_image/demo_chatbox2.png)
+![image](demo_image/demo_chatbox3.png)
+![image](demo_image/demo_chatbox4.png)
 
 ### demo flowchart:
 ![image](demo_image/demo_flowchart.png)
+
+### demo splitter:
+![image](demo_image/demo_splitter.png)
+
+### demo grid:
+![image](demo_image/demo_grid.png)
+
+### demo flowscrollview:
+![image](demo_image/demo_flowscrollview.png)
+
+### demo prototypeboard:
+![image](demo_image/demo_prototypeboard.png)
+
+### demo candlestickchart:
+![image](demo_image/demo_candlestickchart.png)

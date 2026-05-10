@@ -17,225 +17,308 @@ namespace ExDuiRTest
     {
         static private ExSkin skin;
         static private ExFlowChart flowChart;
-
+        static private ExObjEventProcDelegate flowChartNotifyProc;
+        static private ExObjEventProcDelegate buttonClickProc;
 
         static public void CreateFlowChartWindow(ExSkin pOwner)
         {
-            skin = new ExSkin(pOwner, null, "测试流程图", 0, 0, 1100, 1000,
+            skin = new ExSkin(pOwner, null, "测试流程图", 0, 0, 1400, 900,
             WINDOW_STYLE_NOINHERITBKG | WINDOW_STYLE_BUTTON_CLOSE | WINDOW_STYLE_BUTTON_MIN | WINDOW_STYLE_MOVEABLE |
             WINDOW_STYLE_CENTERWINDOW | WINDOW_STYLE_TITLE | WINDOW_STYLE_HASICON | WINDOW_STYLE_NOSHADOW);
             if (skin.Validate)
             {
-                skin.BackgroundColor = Util.ExARGB(80, 80, 90, 255);
-                flowChart = new ExFlowChart(skin, "", 50, 50, 1000, 750);
-                // 创建第一个节点数据项
-                List<ExFlowChartNodeData> dataitems = new List<ExFlowChartNodeData>();
+                skin.BackgroundColor = Util.ExARGB(150, 150, 150, 255);
+                flowChart = new ExFlowChart(skin, "", 0, 50, 1380, 780, -1, -1, -1, 200);
+                flowChart.SetBackgroundColor(Util.ExARGB(120, 120, 120, 255));
+                // ================= 1:1复刻C++ 5个节点 =================
+                AddNode1_LoadImage();
+                AddNode2_ResizeImage();
+                AddNode3_TextConfig();
+                AddNode4_SaveImage();
+                AddNode5_Preview();
 
-                // 编辑框项
-                ExFlowChartNodeData dataitem0 = new ExFlowChartNodeData();
-                dataitem0.type = FLOWCHART_NODEDATA_TYPE_EDIT;
-                dataitem0.id = 1000;
-                dataitem0.data = Marshal.StringToHGlobalUni("可编辑文本可编辑文本可编辑文本可编辑文本\n可编辑文本");
-                dataitems.Add(dataitem0);
+                // ================= 复刻C++ 所有连线 =================
+                AddAllConnections();
 
-                // 图片项
-                ExFlowChartNodeData dataitem1 = new ExFlowChartNodeData();
-                dataitem1.type = FLOWCHART_NODEDATA_TYPE_IMAGE;
-                dataitem1.id = 1001;
-                // 假设ExImage类返回图片句柄的IntPtr
-                dataitem1.data = new ExImage("Resources/user.png").handle;
-                dataitems.Add(dataitem1);
+                // 绑定节点执行回调
+                flowChartNotifyProc = new ExObjEventProcDelegate(OnFlowChartNotifyProc);
+                flowChart.HandleEvent(FLOWCHART_EVENT_EXECUTE_NODE, flowChartNotifyProc);
+                DelayExecuteNode(1000);
+                // 创建按钮
+                CreateControlButtons();
 
-                // 选项卡项
-                ExFlowChartNodeData dataitem2 = new ExFlowChartNodeData();
-                dataitem2.type = FLOWCHART_NODEDATA_TYPE_COMBO;
-                dataitem2.id = 1002;
-
-                // 创建并填充COMBO数据
-                ExFlowChartNodeComboData comboData = new ExFlowChartNodeComboData();
-                comboData.count = 2;
-                comboData.current = 0;
-
-                // 分配选项数组内存
-                comboData.options = Marshal.AllocHGlobal(2 * IntPtr.Size);
-                string[] options = { "选项1", "选项2" };
-
-                // 分配并写入选项字符串
-                IntPtr optionPtr0 = Marshal.StringToHGlobalUni(options[0]);
-                IntPtr optionPtr1 = Marshal.StringToHGlobalUni(options[1]);
-                Marshal.WriteIntPtr(comboData.options, 0 * IntPtr.Size, optionPtr0);
-                Marshal.WriteIntPtr(comboData.options, 1 * IntPtr.Size, optionPtr1);
-
-                // 分配COMBO数据结构内存
-                IntPtr pComboData = Marshal.AllocHGlobal(Marshal.SizeOf(comboData));
-                Marshal.StructureToPtr(comboData, pComboData, false);
-                dataitem2.data = pComboData;
-                dataitems.Add(dataitem2);
-
-                // 创建第一个节点
-                ExFlowChartNode node = new ExFlowChartNode();
-                node.id = 1001;
-                node.x = 200;
-                node.y = 150;
-                node.width = 200;
-                node.height = 120;
-                node.title = Marshal.StringToHGlobalUni("处理节点");
-
-                // 分配节点数据列表内存
-                int nodeDataSize = Marshal.SizeOf(typeof(ExFlowChartNodeData));
-                node.nodeDataList = Marshal.AllocHGlobal(nodeDataSize * dataitems.Count);
-                for (int i = 0; i < dataitems.Count; i++)
-                {
-                    IntPtr ptr = new IntPtr(node.nodeDataList.ToInt64() + i * nodeDataSize);
-                    Marshal.StructureToPtr(dataitems[i], ptr, false);
-                }
-                node.nodeDataCount = dataitems.Count;
-
-                // 添加输入插槽
-                node.inputCount = 2;
-                node.inputSlots = Marshal.AllocHGlobal(IntPtr.Size * node.inputCount);
-                string[] inputSlots = { "输入A", "输入B" };
-                for (int i = 0; i < node.inputCount; i++)
-                {
-                    IntPtr slotPtr = Marshal.StringToHGlobalUni(inputSlots[i]);
-                    Marshal.WriteIntPtr(node.inputSlots, i * IntPtr.Size, slotPtr);
-                }
-
-                // 添加输出插槽
-                node.outputCount = 2;
-                node.outputSlots = Marshal.AllocHGlobal(IntPtr.Size * node.outputCount);
-                string[] outputSlots = { "结果一", "结果二" };
-                for (int i = 0; i < node.outputCount; i++)
-                {
-                    IntPtr slotPtr = Marshal.StringToHGlobalUni(outputSlots[i]);
-                    Marshal.WriteIntPtr(node.outputSlots, i * IntPtr.Size, slotPtr);
-                }
-
-                // 添加节点
-                IntPtr pNode = Marshal.AllocHGlobal(Marshal.SizeOf(node));
-                Marshal.StructureToPtr(node, pNode, false);
-                flowChart.SendMessage(FLOWCHART_MESSAGE_ADD_NODE, 0, pNode);
-                Marshal.FreeHGlobal(pNode);
-
-                // 创建第二个节点
-                List<ExFlowChartNodeData> dataitems2 = new List<ExFlowChartNodeData>();
-                ExFlowChartNodeData dataitem20 = new ExFlowChartNodeData();
-                dataitem20.type = FLOWCHART_NODEDATA_TYPE_EDIT;
-                dataitem20.id = 2001;
-                dataitem20.data = Marshal.StringToHGlobalUni("可编辑文本");
-                dataitems2.Add(dataitem20);
-
-                ExFlowChartNode node2 = new ExFlowChartNode();
-                node2.id = 2000;
-                node2.x = 500;
-                node2.y = 150;
-                node2.width = 200;
-                node2.height = 120;
-                node2.title = Marshal.StringToHGlobalUni("处理节点2");
-
-                // 分配节点数据列表内存
-                node2.nodeDataList = Marshal.AllocHGlobal(nodeDataSize * dataitems2.Count);
-                for (int i = 0; i < dataitems2.Count; i++)
-                {
-                    IntPtr ptr = new IntPtr(node2.nodeDataList.ToInt64() + i * nodeDataSize);
-                    Marshal.StructureToPtr(dataitems2[i], ptr, false);
-                }
-                node2.nodeDataCount = dataitems2.Count;
-
-                // 添加输入插槽
-                node2.inputCount = 2;
-                node2.inputSlots = Marshal.AllocHGlobal(IntPtr.Size * node2.inputCount);
-                for (int i = 0; i < node2.inputCount; i++)
-                {
-                    IntPtr slotPtr = Marshal.StringToHGlobalUni(inputSlots[i]);
-                    Marshal.WriteIntPtr(node2.inputSlots, i * IntPtr.Size, slotPtr);
-                }
-
-                // 添加输出插槽
-                node2.outputCount = 1;
-                node2.outputSlots = Marshal.AllocHGlobal(IntPtr.Size * node2.outputCount);
-                IntPtr outSlotPtr = Marshal.StringToHGlobalUni("结果");
-                Marshal.WriteIntPtr(node2.outputSlots, 0, outSlotPtr);
-
-                // 添加节点
-                IntPtr pNode2 = Marshal.AllocHGlobal(Marshal.SizeOf(node2));
-                Marshal.StructureToPtr(node2, pNode2, false);
-                flowChart.SendMessage(FLOWCHART_MESSAGE_ADD_NODE, 0, pNode2);
-                Marshal.FreeHGlobal(pNode2);
-                //创建连接线
-                ExFlowChartConnection connect = new ExFlowChartConnection();
-                connect.fromNode = 1001;  // 源节点ID
-                connect.toNode = 2000;    // 目标节点ID
-                connect.fromSlot = 0;     // 源插槽索引
-                connect.toSlot = 0;       // 目标插槽索引
-                connect.controlPoint1 = new ExPointF(200, 50);
-                connect.controlPoint2 = new ExPointF(400, 50);
-                IntPtr pConnect = Marshal.AllocHGlobal(Marshal.SizeOf(connect));
-                Marshal.StructureToPtr(connect, pConnect, false);
-                flowChart.SendMessage(FLOWCHART_MESSAGE_ADD_CONNECTION, 0, pConnect);
-                Marshal.FreeHGlobal(pConnect);
-                //更新节点数据
-                UpdateNodeData(2000, 2001);
-
-                // 释放内存
-                Marshal.FreeHGlobal(comboData.options);
-                Marshal.FreeHGlobal(optionPtr0);
-                Marshal.FreeHGlobal(optionPtr1);
-                Marshal.FreeHGlobal(pComboData);
-
-                Marshal.FreeHGlobal(node.nodeDataList);
-
-                // 释放插槽内存
-                for (int i = 0; i < node.inputCount; i++)
-                {
-                    IntPtr ptr = Marshal.ReadIntPtr(node.inputSlots, i * IntPtr.Size);
-                    Marshal.FreeHGlobal(ptr);
-                }
-                Marshal.FreeHGlobal(node.inputSlots);
-
-                for (int i = 0; i < node.outputCount; i++)
-                {
-                    IntPtr ptr = Marshal.ReadIntPtr(node.outputSlots, i * IntPtr.Size);
-                    Marshal.FreeHGlobal(ptr);
-                }
-                Marshal.FreeHGlobal(node.outputSlots);
-
-
-                Marshal.FreeHGlobal(node2.nodeDataList);
-
-                for (int i = 0; i < node2.inputCount; i++)
-                {
-                    IntPtr ptr = Marshal.ReadIntPtr(node2.inputSlots, i * IntPtr.Size);
-                    Marshal.FreeHGlobal(ptr);
-                }
-                Marshal.FreeHGlobal(node2.inputSlots);
-
-                for (int i = 0; i < node2.outputCount; i++)
-                {
-                    IntPtr ptr = Marshal.ReadIntPtr(node2.outputSlots, i * IntPtr.Size);
-                    Marshal.FreeHGlobal(ptr);
-                }
-                Marshal.FreeHGlobal(node2.outputSlots);
-
-                // 释放标题
-                Marshal.FreeHGlobal(node.title);
-                Marshal.FreeHGlobal(node2.title);
+                // 创建提示文本
+                CreateTipsLabel();
 
                 skin.Visible = true;
             }
         }
 
-        private static void UpdateNodeData(int nodeId, int dataId)
-        {
-            ExFlowChartNodeData dataitem20 = new ExFlowChartNodeData();
-            dataitem20.type = FLOWCHART_NODEDATA_TYPE_EDIT;
-            dataitem20.id = dataId;
-            dataitem20.data = Marshal.StringToHGlobalUni("更新的节点内容");
 
-            IntPtr pData = Marshal.AllocHGlobal(Marshal.SizeOf(dataitem20));
-            Marshal.StructureToPtr(dataitem20, pData, false);
-            flowChart.SendMessage(FLOWCHART_MESSAGE_UPDATE_NODEDATA, nodeId, pData);
-            Marshal.FreeHGlobal(pData);
+        static private void AddNode1_LoadImage()
+        {
+            ExFlowChartNode node = new ExFlowChartNode
+            {
+                id = 1001,
+                x = 50,
+                y = 50,
+                width = 200,
+                height = 260,
+                title = Util.StrDupW("Load Image"),
+                portCount = 3,
+                ports = ExAPI.Ex_MemAlloc(Marshal.SizeOf<ExFlowChartPort>() * 3)
+            };
+
+            // 文本端口：路径输入框
+            flowChart.WritePortToNode_Text(node, 0, 100, FLOWCHART_PORTTYPE_INPUT, FLOWCHART_DATATYPE_STRING, "path", 180, 25, "Resources/user.png");
+            // 图片端口：预览
+            flowChart.WritePortToNode_Image(node, 1, 101, FLOWCHART_PORTTYPE_INTERMEDIATE, FLOWCHART_DATATYPE_IMAGE, "preview", 180, 180);
+            // 普通端口：图片输出
+            flowChart.WritePortToNode(node, 2, 102, FLOWCHART_PORTTYPE_OUTPUT, FLOWCHART_DATATYPE_IMAGE, "IMAGE");
+
+            flowChart.AddNode(node);
         }
+
+        // 2. Resize Image 节点
+        static private void AddNode2_ResizeImage()
+        {
+            ExFlowChartNode node = new ExFlowChartNode
+            {
+                id = 1002,
+                x = 350,
+                y = 50,
+                width = 200,
+                height = 260,
+                title = Util.StrDupW("Resize Image"),
+                portCount = 3,
+                ports = ExAPI.Ex_MemAlloc(Marshal.SizeOf<ExFlowChartPort>() * 3)
+            };
+
+            flowChart.WritePortToNode(node, 0, 200, FLOWCHART_PORTTYPE_INPUT, FLOWCHART_DATATYPE_IMAGE, "image");
+            flowChart.WritePortToNode_Image(node, 1, 201, FLOWCHART_PORTTYPE_INTERMEDIATE, FLOWCHART_DATATYPE_IMAGE, "preview", 180, 180);
+            flowChart.WritePortToNode(node, 2, 202, FLOWCHART_PORTTYPE_OUTPUT, FLOWCHART_DATATYPE_IMAGE, "IMAGE");
+
+            flowChart.AddNode(node);
+        }
+
+        // 3. Text Config 节点
+        static private void AddNode3_TextConfig()
+        {
+            ExFlowChartNode node = new ExFlowChartNode
+            {
+                id = 1003,
+                x = 50,
+                y = 450,
+                width = 200,
+                height = 160,
+                title = Util.StrDupW("Text Config"),
+                portCount = 4,
+                ports = ExAPI.Ex_MemAlloc(Marshal.SizeOf<ExFlowChartPort>() * 4)
+            };
+
+            flowChart.WritePortToNode_Text(node, 0, 300, FLOWCHART_PORTTYPE_INPUT, FLOWCHART_DATATYPE_STRING, "prefix", 180, 25, "output_");
+            flowChart.WritePortToNode_Combo(node, 1, 301, FLOWCHART_PORTTYPE_INPUT, FLOWCHART_DATATYPE_COMBO, "format", 180, 25, CreateComboData(new[] { "PNG", "JPG" }, 0));
+            flowChart.WritePortToNode_Combo(node, 2, 302, FLOWCHART_PORTTYPE_INPUT, FLOWCHART_DATATYPE_COMBO, "type", 180, 25, CreateComboData(new[] { "数据1", "数据2", "数据3" }, 0));
+            flowChart.WritePortToNode(node, 3, 303, FLOWCHART_PORTTYPE_OUTPUT, FLOWCHART_DATATYPE_STRING, "CONFIG");
+
+            flowChart.AddNode(node);
+        }
+
+        // 4. Save Image 节点
+        static private void AddNode4_SaveImage()
+        {
+            ExFlowChartNode node = new ExFlowChartNode
+            {
+                id = 1004,
+                x = 350,
+                y = 450,
+                width = 200,
+                height = 160,
+                title = Util.StrDupW("Save Image"),
+                portCount = 3,
+                ports = ExAPI.Ex_MemAlloc(Marshal.SizeOf<ExFlowChartPort>() * 3)
+            };
+
+            flowChart.WritePortToNode(node, 0, 400, FLOWCHART_PORTTYPE_INPUT, FLOWCHART_DATATYPE_IMAGE, "image");
+            flowChart.WritePortToNode(node, 1, 401, FLOWCHART_PORTTYPE_INPUT, FLOWCHART_DATATYPE_STRING, "config");
+            flowChart.WritePortToNode_Text(node, 2, 402, FLOWCHART_PORTTYPE_INTERMEDIATE, FLOWCHART_DATATYPE_STRING, "result", 300, 100, "等待保存...");
+
+            flowChart.AddNode(node);
+        }
+
+        // 5. Preview 节点
+        static private void AddNode5_Preview()
+        {
+            ExFlowChartNode node = new ExFlowChartNode
+            {
+                id = 1005,
+                x = 650,
+                y = 50,
+                width = 280,
+                height = 320,
+                title = Util.StrDupW("Preview"),
+                portCount = 2,
+                ports = ExAPI.Ex_MemAlloc(Marshal.SizeOf<ExFlowChartPort>() * 2)
+            };
+
+            flowChart.WritePortToNode(node, 0, 500, FLOWCHART_PORTTYPE_INPUT, FLOWCHART_DATATYPE_IMAGE, "image");
+            flowChart.WritePortToNode_Image(node, 1, 501, FLOWCHART_PORTTYPE_INTERMEDIATE, FLOWCHART_DATATYPE_IMAGE, "preview", 250, 250);
+
+            flowChart.AddNode(node);
+        }
+
+        /// <summary>
+        /// 添加所有连线 (与C++一致)
+        /// </summary>
+        static private void AddAllConnections()
+        {
+            flowChart.AddConnection(new ExFlowChartConnection { fromNode = 1001, fromSlot = 2, toNode = 1002, toSlot = 0 });
+            flowChart.AddConnection(new ExFlowChartConnection { fromNode = 1002, fromSlot = 2, toNode = 1005, toSlot = 0 });
+            flowChart.AddConnection(new ExFlowChartConnection { fromNode = 1002, fromSlot = 2, toNode = 1004, toSlot = 0 });
+            flowChart.AddConnection(new ExFlowChartConnection { fromNode = 1003, fromSlot = 3, toNode = 1004, toSlot = 1 });
+        }
+
+        /// <summary>
+        /// 创建按钮
+        /// </summary>
+        static private void CreateControlButtons()
+        {
+            ExButton btnExport = new ExButton(skin, "导出流程图到YAML", 10, 850, 200, 30);
+            ExButton btnImport = new ExButton(skin, "从YAML加载流程图", 240, 850, 200, 30);
+
+            btnExport.ID = 10001;
+            btnImport.ID = 10002;
+
+            buttonClickProc = new ExObjEventProcDelegate(OnFlowChartButtonEvent);
+            btnExport.HandleEvent(NM_CLICK, buttonClickProc);
+            btnImport.HandleEvent(NM_CLICK, buttonClickProc);
+        }
+
+        /// <summary>
+        /// C#异步延时执行节点（替代原生Win32定时器）
+        /// </summary>
+        private static async void DelayExecuteNode(int milliseconds)
+        {
+            // 纯C#延时1秒
+            await Task.Delay(milliseconds);
+            // UI线程安全执行流程图事件
+
+            flowChart.ExecuteNode(1001); // 新版：执行节点
+            flowChart.ExecuteNode(1003);
+
+        }
+
+        /// <summary>
+        /// 按钮点击回调
+        /// </summary>
+        static public IntPtr OnFlowChartButtonEvent(int hObj, int nID, int nCode, IntPtr wParam, IntPtr lParam)
+        {
+            if (nID == 10001)
+            {
+                flowChart.ExportYaml("Resources/flowchart.yaml");
+            }
+            else if (nID == 10002)
+            {
+                flowChart.ImportYaml("Resources/flowchart.yaml"); 
+                DelayExecuteNode(1000);
+            }
+            return IntPtr.Zero;
+        }
+
+        /// <summary>
+        /// 节点执行回调 (核心业务逻辑，与C++一致)
+        /// </summary>
+        static public IntPtr OnFlowChartNotifyProc(int hObj, int nID, int nCode, IntPtr wParam, IntPtr lParam)
+        {
+
+            if (lParam == IntPtr.Zero) return IntPtr.Zero;
+            try
+            {
+                var param = Marshal.PtrToStructure<ExFlowChartExecuteParams>(lParam);
+                int ioSize = Marshal.SizeOf<ExFlowChartNodeIoData>();
+                switch (param.nodeId)
+                {
+                    case 1001:
+                        var input1 = Marshal.PtrToStructure<ExFlowChartNodeIoData>(param.inputs);
+                        if (ExAPI._img_createfromfile(Marshal.PtrToStringUni(input1.data), out int hImg))
+                        {
+                            Marshal.StructureToPtr(new ExFlowChartNodeIoData { data = (IntPtr)hImg }, param.outputs, false);
+                            flowChart.UpdateNodeImage(1001, 101, hImg);
+                        }
+                        break;
+                    case 1002:
+                        var input2 = Marshal.PtrToStructure<ExFlowChartNodeIoData>(param.inputs);
+                        if (ExAPI._img_scale((int)input2.data, 512, 512, out int hDst))
+                        {
+                            Marshal.StructureToPtr(new ExFlowChartNodeIoData { data = (IntPtr)hDst }, param.outputs, false);
+                            flowChart.UpdateNodeImage(1002, 201, hDst);
+                        }
+                        break;
+                    case 1003:
+                        var i0 = Marshal.PtrToStructure<ExFlowChartNodeIoData>(IntPtr.Add(param.inputs, 0 * ioSize));
+                        var i1 = Marshal.PtrToStructure<ExFlowChartNodeIoData>(IntPtr.Add(param.inputs, 1 * ioSize));
+                        var i2 = Marshal.PtrToStructure<ExFlowChartNodeIoData>(IntPtr.Add(param.inputs, 2 * ioSize));
+
+                        string prefix = Marshal.PtrToStringUni(i0.data) ?? "";
+                        var fmt = Marshal.PtrToStructure<ExFlowChartNodeComboData>(i1.data);
+                        var type = Marshal.PtrToStructure<ExFlowChartNodeComboData>(i2.data);
+                        string res = $"{prefix}_{Marshal.PtrToStringUni(Marshal.ReadIntPtr(fmt.options, fmt.current * IntPtr.Size))}_{Marshal.PtrToStringUni(Marshal.ReadIntPtr(type.options, type.current * IntPtr.Size))}";
+
+                        Marshal.StructureToPtr(new ExFlowChartNodeIoData { data = Util.StrDupW(res) }, param.outputs, false);
+                        break;
+                    case 1004:
+                        var imgInput = Marshal.PtrToStructure<ExFlowChartNodeIoData>(IntPtr.Add(param.inputs, 0 * ioSize));
+                        var cfgInput = Marshal.PtrToStructure<ExFlowChartNodeIoData>(IntPtr.Add(param.inputs, 1 * ioSize));
+                        string cfg = Marshal.PtrToStringUni(cfgInput.data);
+
+                        if (!string.IsNullOrEmpty(cfg)) ExAPI._img_savetofile((int)imgInput.data, $"Resources/{cfg}.png");
+                        flowChart.UpdateNodeText(1004, 402, $"保存成功：{cfg}"); // 新版：文本专用方法
+                        ExAPI.Ex_MemFree(cfgInput.data);
+                        break;
+                    case 1005:
+                        var i5 = Marshal.PtrToStructure<ExFlowChartNodeIoData>(param.inputs);
+                        if (ExAPI._img_copy((int)i5.data, out int hCopy))
+                            flowChart.UpdateNodeImage(1005, 501, hCopy);
+                        break;
+                }
+            }
+            catch { }
+            return IntPtr.Zero;
+        }
+
+        /// <summary>
+        /// 创建提示文本
+        /// </summary>
+        static private void CreateTipsLabel()
+        {
+            ExStatic label = new ExStatic(skin, "1.选中连接线按下【DELETE】键删除\n2.按住【SHIFT】键可拉多条连接线", 500, 850, 480, 60, -1);
+            label.SetColor(COLOR_EX_TEXT_NORMAL, Util.ExARGB(133, 33, 53, 255), true);
+        }
+
+        /// <summary>
+        /// 统一添加节点 + 释放内存 (复刻C++ AddTestNode)
+        /// </summary>
+        static private void AddTestNode(ExFlowChartNode node)
+        {
+            // 发送消息添加节点
+            int nodeSize = Marshal.SizeOf<ExFlowChartNode>();
+            IntPtr pNode = ExAPI.Ex_MemAlloc(nodeSize);
+            Marshal.StructureToPtr(node, pNode, false);
+            flowChart.SendMessage(FLOWCHART_MESSAGE_ADD_NODE, IntPtr.Zero, pNode);
+            ExAPI.Ex_MemFree(pNode);
+        }
+
+        /// <summary>
+        /// 创建下拉框数据
+        /// </summary>
+        static private IntPtr CreateComboData(string[] opt, int cur)
+        {
+            IntPtr p = ExAPI.Ex_MemAlloc(Marshal.SizeOf<ExFlowChartNodeComboData>());
+            ExFlowChartNodeComboData data = new ExFlowChartNodeComboData { count = opt.Length, current = cur, options = ExAPI.Ex_MemAlloc(IntPtr.Size * opt.Length) };
+            for (int i = 0; i < opt.Length; i++) Marshal.WriteIntPtr(data.options, i * IntPtr.Size, Util.StrDupW(opt[i]));
+            Marshal.StructureToPtr(data, p, false);
+            return p;
+        }
+
     }
 }

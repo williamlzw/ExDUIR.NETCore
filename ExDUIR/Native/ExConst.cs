@@ -387,11 +387,6 @@
         public const int OBJECT_STYLE_DISABLENOSCROLL = 0x2000000;
 
         /// <summary>
-        /// 组件风格_可调整尺寸
-        /// </summary>
-        public const int OBJECT_STYLE_SIZEBOX = 0x4000000;
-
-        /// <summary>
         /// 组件风格_禁止
         /// </summary>
         public const int OBJECT_STYLE_DISABLED = 0x8000000;
@@ -404,17 +399,17 @@
         /// <summary>
         /// 组件风格_边框
         /// </summary>
-        public const int OBJECT_STYLE_BORDER = 0x20000000;
+        public const int OBJECT_STYLE_BORDER = 0x800000;
 
         /// <summary>
         /// 组件风格_垂直滚动条
         /// </summary>
-        public const int OBJECT_STYLE_VSCROLL = 0x40000000;
+        public const int OBJECT_STYLE_VSCROLL = 0x200000;
 
         /// <summary>
         /// 组件风格_水平滚动条
         /// </summary>
-        public const int OBJECT_STYLE_HSCROLL = -2147483648;
+        public const int OBJECT_STYLE_HSCROLL = 0x100000;
 
         /// <summary>
         /// 组件风格_扩展_自适应尺寸
@@ -1730,18 +1725,6 @@
         public const int ENGINE_FLAG_RENDER_CANVAS_ALIAS = 0x40;
 
         /// <summary>
-        /// 引擎标识_渲染_使用D2D
-        /// </summary>
-        ///
-        public const int ENGINE_FLAG_RENDER_METHOD_D2D = 0x100;
-
-        /// <summary>
-        /// 引擎标识_渲染_使用支持GDI交互的D2D渲染
-        /// </summary>
-        ///
-        public const int ENGINE_FLAG_RENDER_METHOD_D2D_GDI_COMPATIBLE = 0x300;
-
-        /// <summary>
         /// 引擎标识_文本渲染_使用ClearType抗锯齿
         /// </summary>
         ///
@@ -1776,36 +1759,6 @@
         /// </summary>
         ///
         public const int ENGINE_FLAG_OBJECT_SHOWPOSTION = 0x40000;
-
-        /// <summary>
-        /// 引擎标识_允许JS全局对象访问文件
-        /// </summary>
-        ///
-        public const int ENGINE_FLAG_JS_FILE = 0x80000;
-
-        /// <summary>
-        /// 引擎标识_允许JS全局对象访问内存
-        /// </summary>
-        ///
-        public const int ENGINE_FLAG_JS_MEMORY = 0x100000;
-
-        /// <summary>
-        /// 引擎标识_允许JS全局对象申请内存
-        /// </summary>
-        ///
-        public const int ENGINE_FLAG_JS_MEMORY_ALLOC = 0x200000;
-
-        /// <summary>
-        /// 引擎标识_允许JS全局对象创建进程、允许程序、加载DLL
-        /// </summary>
-        ///
-        public const int ENGINE_FLAG_JS_PROCESS = 0x400000;
-
-        /// <summary>
-        /// 引擎标识_允许JS全局对象访问所有资源
-        /// </summary>
-        ///
-        public const int ENGINE_FLAG_JS_ALL = 0x780000;
 
         /// <summary>
         /// 引擎标识_菜单_渲染所有菜单
@@ -3874,6 +3827,12 @@
         /// 文本
         /// </summary>
         public const int MF_STRING = 0;
+
+        /// <summary>
+        /// 灰色显示菜单项，无法选择它
+        /// </summary>
+        public const int MF_GRAYED = 1;
+
         /// <summary>
         /// 指示菜单项已禁用，但未灰显，因此无法选择它
         /// </summary>
@@ -4068,6 +4027,14 @@
         /// 消息_对话盒_设置助手图标
         /// </summary>
         public const int CHATBOX_MESSAGE_SETIMAGE_ASSISTANT = 10016;
+        /// <summary>
+        /// 消息_对话盒_清空消息
+        /// </summary>
+        public const int CHATBOX_MESSAGE_CLEAR = 10017;
+        /// <summary>
+        /// 消息_对话盒_删除表项 wParam:表项索引
+        /// </summary>
+        public const int CHATBOX_MESSAGE_DELITEM = 10018;
         #endregion
 
         #region 事件_对话盒_
@@ -4121,87 +4088,454 @@
         /// 对话盒_项目类型_链接列表
         /// </summary>
         public const int CHATBOX_ITEMTYPE_LINK = 6;
+        /// <summary>
+        /// 对话盒_项目类型_Markdown文本
+        /// </summary>
+        public const int CHATBOX_ITEMTYPE_MARKDOWN = 7;
         #endregion
+
 
         #region 项目类型_流程图_
         /// <summary>
         /// 项目类型_流程图_编辑框
         /// </summary>
-        public const int FLOWCHART_NODEDATA_TYPE_EDIT = 0;
-        /// <summary>
-        /// 项目类型_流程图_图片框
-        /// </summary>
-        public const int FLOWCHART_NODEDATA_TYPE_IMAGE = 1;
+        public const int FLOWCHART_NODEDATA_TYPE_EDIT = 1;
         /// <summary>
         /// 项目类型_流程图_选项卡
         /// </summary>
         public const int FLOWCHART_NODEDATA_TYPE_COMBO = 2;
+        /// <summary>
+        /// 项目类型_流程图_图片框
+        /// </summary>
+        public const int FLOWCHART_NODEDATA_TYPE_IMAGE = 3;
         #endregion
 
         #region 消息_流程图_
         /// <summary>
         /// 消息_流程图_添加节点, lParam: ExFlowChartNode 结构指针
         /// </summary>
-        public const int FLOWCHART_MESSAGE_ADD_NODE = 10000;
+        public const int FLOWCHART_MESSAGE_ADD_NODE = 0x8001;
         /// <summary>
         /// 消息_流程图_移除节点 wParam: 节点ID
         /// </summary>
-        public const int FLOWCHART_MESSAGE_REMOVE_NODE = 10001;
+        public const int FLOWCHART_MESSAGE_REMOVE_NODE = 0x8002;
         /// <summary>
         /// 消息_流程图_添加连接线 lParam: ExFlowChartConnection 结构指针
         /// </summary>
-        public const int FLOWCHART_MESSAGE_ADD_CONNECTION = 10002;
+        public const int FLOWCHART_MESSAGE_ADD_CONNECTION = 0x8003;
         /// <summary>
         /// 消息_流程图_移除连接线 wParam: 连接线ID
         /// </summary>
-        public const int FLOWCHART_MESSAGE_REMOVE_CONNECTION = 10003;
+        public const int FLOWCHART_MESSAGE_REMOVE_CONNECTION = 0x8004;
         /// <summary>
-        /// 消息_流程图_取节点数量
+        /// 消息_流程图_更新节点数据, wParam: 节点ID, lParam: ExFlowchartPort指针
         /// </summary>
-        public const int FLOWCHART_MESSAGE_GET_NODE_COUNT = 10004;
+        public const int FLOWCHART_MESSAGE_UPDATE_NODEDATA = 0x8005;
         /// <summary>
-        /// 消息_流程图_取连接线数量
+        /// 消息_流程图_执行节点, wParam: 节点ID
         /// </summary>
-        public const int FLOWCHART_MESSAGE_GET_CONNECTION_COUNT = 10005;
+        public const int FLOWCHART_MESSAGE_EXECUTE_NODE = 0x8006;
         /// <summary>
-        ///  消息_流程图_更新节点数据 wParam: 节点ID, lParam: ExFlowChartNodeData 结构指针
+        ///  消息_流程图_导出节点到YAML文件,  lParam: yaml文件保存绝对路径 LPCWSTR
         /// </summary>
-        public const int FLOWCHART_MESSAGE_UPDATE_NODEDATA = 10006;
+        public const int FLOWCHART_MESSAGE_EXPORT_YAML = 0x8007;
+        /// <summary>
+        ///  消息_流程图_从YAML文件导入数据,  lParam: yaml文件绝对路径 LPCWSTR
+        /// </summary>
+        public const int FLOWCHART_MESSAGE_IMPORT_YAML = 0x8008;
+        /// <summary>
+        ///  消息_流程图_置背景色, lParam:ExARGB颜色
+        /// </summary>
+        public const int FLOWCHART_MESSAGE_SET_BACKGROUNDCOLOR = 0x8009;
         #endregion
 
-        #region 消息_流程图_
+        #region 事件_流程图_
         /// <summary>
         /// 通知_流程图_节点点击 wParam: 节点ID
         /// </summary>
-        public const int FLOWCHART_EVENT_NODE_CLICKED = 30000;
-        /// <summary>
-        /// 通知_流程图_连接线添加 wParam: 连接线ID
-        /// </summary>
-        public const int FLOWCHART_EVENT_CONNECTION_CREATED = 30001;
-        /// <summary>
-        /// 通知_流程图_删除连接线 wParam: 连接线ID
-        /// </summary>
-        public const int FLOWCHART_EVENT_CONNECTION_REMOVED = 30002;
+        public const int FLOWCHART_EVENT_NODE_CLICKED = 10001;
         /// <summary>
         /// 通知_流程图_节点移动 wParam: 节点ID
         /// </summary>
-        public const int FLOWCHART_EVENT_NODE_MOVED = 30003;
+        public const int FLOWCHART_EVENT_NODE_MOVED = 10002;
+        /// <summary>
+        /// 通知_流程图_连接线添加 wParam: 连接线ID
+        /// </summary>
+        public const int FLOWCHART_EVENT_CONNECTION_CREATED = 10004;
+        /// <summary>
+        /// 通知_流程图_删除连接线 wParam: 连接线ID
+        /// </summary>
+        public const int FLOWCHART_EVENT_CONNECTION_REMOVED = 10005;
         /// <summary>
         /// 通知_流程图_连接线选中 wParam: 节点ID
         /// </summary>
-        public const int FLOWCHART_EVENT_CONNECTION_SELECTED = 30004;
+        public const int FLOWCHART_EVENT_CONNECTION_SELECTED = 10006;
         /// <summary>
         /// 通知_流程图_连接线移动 wParam: 连接线ID
         /// </summary>
-        public const int FLOWCHART_EVENT_CONNECTION_MOVED = 30005;
+        public const int FLOWCHART_EVENT_CONNECTION_MOVED = 10007;
         /// <summary>
-        /// 通知_流程图_节点数据改变 wParam: 节点ID , lParam: ExFlowChartNodeComboData 结构指针
+        /// 通知_流程图_组合框选项改变 wParam: 节点ID , lParam: ExFlowChartNodeComboData 结构指针
         /// </summary>
-        public const int FLOWCHART_EVENT_NODEDATA_CHANGED = 30006;
+        public const int FLOWCHART_EVENT_NODEDATA_COMBO_CHANGED = 10008;
         /// <summary>
-        /// 通知_流程图_节点双击 wParam: 节点ID
+        /// 通知_流程图_执行节点, wParam:节点ID, lParam:ExFlowChartExecuteParams指针
         /// </summary>
-        public const int FLOWCHART_EVENT_NODE_DOUBLE_CLICKED = 30007;
+        public const int FLOWCHART_EVENT_EXECUTE_NODE = 10009;
+        #endregion
+
+        #region 流程图_绑定的子组件数据类型
+        /// <summary>
+        /// 流程图_绑定的子组件数据类型_任何
+        /// </summary>
+        public const int FLOWCHART_DATATYPE_ANY = 0;
+        /// <summary>
+        /// 流程图_绑定的子组件数据类型_图片
+        /// </summary>
+        public const int FLOWCHART_DATATYPE_IMAGE = 1;
+        /// <summary>
+        /// 流程图_绑定的子组件数据类型_文本
+        /// </summary>
+        public const int FLOWCHART_DATATYPE_STRING = 2;
+        /// <summary>
+        /// 流程图_绑定的子组件数据类型_组合框
+        /// </summary>
+        public const int FLOWCHART_DATATYPE_COMBO = 3;
+        #endregion
+
+        #region 流程图_端口类型
+        /// <summary>
+        /// 流程图_端口类型_输入
+        /// </summary>
+        public const int FLOWCHART_PORTTYPE_INPUT = 0;
+        /// <summary>
+        /// 流程图_端口类型_输出
+        /// </summary>
+        public const int FLOWCHART_PORTTYPE_OUTPUT = 1;
+        /// <summary>
+        /// 流程图_端口类型_既不是输入也不是输出，仅作中间数据展示
+        /// </summary>
+        public const int FLOWCHART_PORTTYPE_INTERMEDIATE = 2;
+        #endregion
+
+        #region 分隔条_属性
+        /// <summary>
+        /// 分隔条方向：0-垂直(默认)，1-水平
+        /// </summary>
+        public const int SPLITTER_LONG_DIRECTION = 0;
+        /// <summary>
+        /// 分隔条大小(默认4像素)
+        /// </summary>
+        public const int SPLITTER_LONG_SIZE = 1;
+        /// <summary>
+        /// 分隔条初始位置：使用权重值0-100表示百分位置
+        /// </summary>
+        public const int SPLITTER_LONG_POSITION = 2;
+        /// <summary>
+        /// 分隔条颜色
+        /// </summary>
+        public const int SPLITTER_LONG_COLOR = 3;
+        /// <summary>
+        /// 分隔条锁定状态，0-不锁定(默认)，1-锁定
+        /// </summary>
+        public const int SPLITTER_LONG_LOCK = 4;
+        /// <summary>
+        /// 分隔条当前位置,像素值(此属性用户设置无效)
+        /// </summary>
+        public const int SPLITTER_LONG_CURPOSITION = 5;
+        /// <summary>
+        /// 是否正在拖动分隔条,TRUE/FALSE(此属性用户设置无效)
+        /// </summary>
+        public const int SPLITTER_LONG_DRAGGING = 6;
+        /// <summary>
+        /// 分割面板1，即左侧或上侧(此属性不允许用户设置)
+        /// </summary>
+        public const int SPLITTER_LONG_PANEL1 = 7;
+        /// <summary>
+        /// 分割面板2，即右侧或下侧(此属性不允许用户设置)
+        /// </summary>
+        public const int SPLITTER_LONG_PANEL2 = 8;
+        /// <summary>
+        /// 锁定面板2的宽度和高度值(此属性用户设置无效)
+        /// </summary>
+        public const int SPLITTER_LONG_LOCKSIZE = 9;
+        /// <summary>
+        /// 确定控件 Spliter 调整大小后，哪个面板将保持相同的大小
+        /// </summary>
+        public const int SPLITTER_LONG_FIXEDPANEL = 10;
+        #endregion
+
+        #region 分隔条_消息
+        /// <summary>
+        /// 获取分隔条方向，返回值0-垂直，1-水平
+        /// </summary>
+        public const int SPLITTER_MESSAGE_GET_DIRECTION = 0x400 + 1;
+        /// <summary>
+        /// 设置分隔条方向，wParam传入0-垂直，1-水平，lParam未用
+        /// </summary>
+        public const int SPLITTER_MESSAGE_SET_DIRECTION = 0x400 + 2;
+        /// <summary>
+        /// 获取分隔条位置，返回值为百分位置
+        /// </summary>
+        public const int SPLITTER_MESSAGE_GET_POSITION = 0x400 + 3;
+        /// <summary>
+        /// 设置分隔条位置，wParam传入百分位置，lParam未用
+        /// </summary>
+        public const int SPLITTER_MESSAGE_SET_POSITION = 0x400 + 4;
+        /// <summary>
+        /// 获取分割面板组件，wParam：0-返回左或上面板附加组件句柄；1-返回右或下面板附加组件句柄，lParam未用
+        /// </summary>
+        public const int SPLITTER_MESSAGE_GET_PANEL = 0x400 + 5;
+        /// <summary>
+        /// 设置分割面板组件，wParam传入面板1附加组件句柄，lParam传入面板2附加组件句柄
+        /// </summary>
+        public const int SPLITTER_MESSAGE_SET_PANEL = 0x400 + 6;
+        /// <summary>
+        /// 设置分隔条颜色，wParam传入ARGB颜色值，lParam未用
+        /// </summary>
+        public const int SPLITTER_MESSAGE_SET_COLOR = 0x400 + 7;
+        /// <summary>
+        /// 获取分隔条颜色，返回值为ARGB颜色值
+        /// </summary>
+        public const int SPLITTER_MESSAGE_GET_COLOR = 0x400 + 8 ;
+        /// <summary>
+        /// 设置分隔条锁定面板，wParam传入0-不锁定，1-锁定左或上面板，2-锁定右或下面板，lParam未用
+        /// </summary>
+        public const int SPLITTER_MESSAGE_SET_FIXEDPANEL = 0x400 + 9;
+        /// <summary>
+        /// 获取分隔条大小 , wParam设置尺寸
+        /// </summary>
+        public const int SPLITTER_MESSAGE_SET_SIZE = 0x400 + 10;
+        #endregion
+
+        #region 表格_消息
+        /// <summary>
+        /// 表格消息基值
+        /// </summary>
+        public const int GRID_MESSAGE_BASE = 0x400 + 0x8000; // 等价于 WM_USER + 0x8000
+
+        /// <summary>
+        /// 表格_消息_设置行数 wParam=nRows, lParam=0
+        /// </summary>
+        public const int GRID_MESSAGE_SETROWCOUNT = GRID_MESSAGE_BASE + 1;
+
+        /// <summary>
+        /// 表格_消息_设置列数 wParam=nCols, lParam=0
+        /// </summary>
+        public const int GRID_MESSAGE_SETCOLCOUNT = GRID_MESSAGE_BASE + 2;
+
+        /// <summary>
+        /// 表格_消息_设置固定行数 wParam=nFixedRows, lParam=0
+        /// </summary>
+        public const int GRID_MESSAGE_SETFIXEDROWCOUNT = GRID_MESSAGE_BASE + 3;
+
+        /// <summary>
+        /// 表格_消息_设置固定列数 wParam=nFixedCols, lParam=0
+        /// </summary>
+        public const int GRID_MESSAGE_SETFIXEDCOLCOUNT = GRID_MESSAGE_BASE + 4;
+
+        /// <summary>
+        /// 表格_消息_设置行高 wParam=row, lParam=height
+        /// </summary>
+        public const int GRID_MESSAGE_SETROWHEIGHT = GRID_MESSAGE_BASE + 5;
+
+        /// <summary>
+        /// 表格_消息_设置列宽 wParam=col, lParam=width
+        /// </summary>
+        public const int GRID_MESSAGE_SETCOLWIDTH = GRID_MESSAGE_BASE + 6;
+
+        /// <summary>
+        /// 表格_消息_设置单元格文本 wParam=MAKELPARAM(row, col), lParam=const wchar_t*
+        /// </summary>
+        public const int GRID_MESSAGE_SETITEMTEXT = GRID_MESSAGE_BASE + 7;
+
+        /// <summary>
+        /// 表格_消息_设置单元格类型 wParam=MAKELPARAM(row, col), lParam=GRID_CELL_TYPE
+        /// </summary>
+        public const int GRID_MESSAGE_SETCELLTYPE = GRID_MESSAGE_BASE + 8;
+
+        /// <summary>
+        /// 表格_消息_设置单元格组合框选项 wParam=MAKELPARAM(row, col), lParam=EX_GRID_COMBO_OPTIONS_PARAM*
+        /// </summary>
+        public const int GRID_MESSAGE_SETCOMBOOPTIONS = GRID_MESSAGE_BASE + 9;
+
+        /// <summary>
+        /// 表格_消息_设置单元格背景色 wParam=MAKELPARAM(row, col), lParam=EXARGB
+        /// </summary>
+        public const int GRID_MESSAGE_SETITEMBKCOLOR = GRID_MESSAGE_BASE + 10;
+
+        /// <summary>
+        /// 表格_消息_设置单元格前景色 wParam=MAKELPARAM(row, col), lParam=EXARGB
+        /// </summary>
+        public const int GRID_MESSAGE_SETITEMFGCOLOR = GRID_MESSAGE_BASE + 11;
+
+        /// <summary>
+        /// 表格_消息_设置单元格日期值 wParam=MAKELPARAM(row, col), lParam=time_t*
+        /// </summary>
+        public const int GRID_MESSAGE_SETITEMDATE = GRID_MESSAGE_BASE + 12;
+
+        /// <summary>
+        /// 表格_消息_打印数据 
+        /// </summary>
+        public const int GRID_MESSAGE_PRINT = GRID_MESSAGE_BASE + 13;
+        #endregion
+
+        #region 表格_单元格类型常量
+        /// <summary>
+        /// 表格_单元格类型_默认文本框，输入任意文本
+        /// </summary>
+        public const int GRID_CELL_DEFAULT = 0;
+        /// <summary>
+        /// 表格_单元格类型_组合框，输入受限于组合框选项
+        /// </summary>
+        public const int GRID_CELL_COMBO = 1;
+        /// <summary>
+        /// 表格_单元格类型_日期框，输入受限于日期格式，lParam为time_t*类型指针，指向单元格日期值，单位为秒
+        /// </summary>
+        public const int GRID_CELL_DATE = 2;
+        #endregion
+
+        #region 流式滚动容器_消息
+        /// <summary>
+        /// 流式滚动容器_消息基值
+        /// </summary>
+        public const int FLOWSCROLLVIEW_MESSAGE_BASE = 0x400 + 100;
+
+        /// <summary>
+        /// 流式滚动容器_消息_添加组件到容器 wParam: 组件句柄
+        /// </summary>
+        public const int FLOWSCROLLVIEW_MESSAGE_ADD_COMPONENT = FLOWSCROLLVIEW_MESSAGE_BASE + 0;
+
+        /// <summary>
+        /// 流式滚动容器_消息_设置布局配置 lParam:EX_FLOWSCROLLVIEW_LAYOUT_CONFIG指针
+        /// </summary>
+        public const int FLOWSCROLLVIEW_MESSAGE_SET_LAYOUT_CONFIG = FLOWSCROLLVIEW_MESSAGE_BASE + 1;
+
+        /// <summary>
+        /// 流式滚动容器_消息_更新滚动范围
+        /// </summary>
+        public const int FLOWSCROLLVIEW_MESSAGE_UPDATE_SCROLL_RANGE = FLOWSCROLLVIEW_MESSAGE_BASE + 2;
+
+        /// <summary>
+        /// 流式滚动容器_消息_获取容器句柄
+        /// </summary>
+        public const int FLOWSCROLLVIEW_MESSAGE_GET_CONTAINER_HANDLE = FLOWSCROLLVIEW_MESSAGE_BASE + 3;
+
+        /// <summary>
+        /// 流式滚动容器_消息_从容器移除组件 wParam: 组件句柄
+        /// </summary>
+        public const int FLOWSCROLLVIEW_MESSAGE_REMOVE_COMPONENT = FLOWSCROLLVIEW_MESSAGE_BASE + 4;
+
+        /// <summary>
+        /// 流式滚动容器_消息_清空所有组件
+        /// </summary>
+        public const int FLOWSCROLLVIEW_MESSAGE_CLEAR_COMPONENTS = FLOWSCROLLVIEW_MESSAGE_BASE + 5;
+        #endregion
+
+        #region 原型画板消息
+        /// <summary>
+        /// 原型画板消息_绘制直线
+        /// </summary>
+        public const int PROTOTYPEBOARD_MESSAGE_DRAW_LINE = 100000;
+
+        /// <summary>
+        /// 原型画板消息_绘制矩形
+        /// </summary>
+        public const int PROTOTYPEBOARD_MESSAGE_DRAW_RECT = 100001;
+
+        /// <summary>
+        /// 原型画板消息_绘制椭圆
+        /// </summary>
+        public const int PROTOTYPEBOARD_MESSAGE_DRAW_ELLIPSE = 100002;
+
+        /// <summary>
+        /// 原型画板消息_绘制文本
+        /// </summary>
+        public const int PROTOTYPEBOARD_MESSAGE_DRAW_TEXT = 100003;
+
+        /// <summary>
+        /// 原型画板消息_绘制图像
+        /// </summary>
+        public const int PROTOTYPEBOARD_MESSAGE_DRAW_IMAGE = 100004;
+
+        /// <summary>
+        /// 原型画板消息_改变模式, lParam设置模式PROTOTYPEBOARD_MODE_
+        /// </summary>
+        public const int PROTOTYPEBOARD_MESSAGE_MODE = 100006;
+
+        /// <summary>
+        /// 原型画板消息_设置图片，wParam为图片句柄HEXIMAGE，lParam为是否保持宽高比（1保持，0拉伸）
+        /// </summary>
+        public const int PROTOTYPEBOARD_MESSAGE_SET_IMAGE = 100007;
+
+        /// <summary>
+        /// 原型画板消息_设置文本，wParam为字体句柄HEXFONT，lParam为文本内容指针（WCHAR*）
+        /// </summary>
+        public const int PROTOTYPEBOARD_MESSAGE_SET_TEXT = 100008;
+        #endregion
+
+        #region 原型画板模式
+        /// <summary>
+        /// 原型画板模式_选择
+        /// </summary>
+        public const int PROTOTYPEBOARD_MODE_SELECT = 0;
+        /// <summary>
+        /// 原型画板模式_拖动
+        /// </summary>
+        public const int PROTOTYPEBOARD_MODE_MOVE = 1;
+        /// <summary>
+        /// 原型画板模式_绘制路径
+        /// </summary>
+        public const int PROTOTYPEBOARD_MODE_DRAW = 2;
+        #endregion
+
+        #region K线图消息
+        /// <summary>
+        /// K线图消息_添加数据
+        /// </summary>
+        public const int CANDLESTICKCHART_MESSAGE_ADD_DATA = 100001;
+
+        /// <summary>
+        /// K线图消息_清空数据
+        /// </summary>
+        public const int CANDLESTICKCHART_MESSAGE_CLEAR_DATA = 100002;
+
+        /// <summary>
+        /// K线图消息_设置均线天数
+        /// </summary>
+        public const int CANDLESTICKCHART_MESSAGE_SET_MA_DAYS = 100003;
+
+        /// <summary>
+        /// K线图消息_是否显示均线
+        /// </summary>
+        public const int CANDLESTICKCHART_MESSAGE_SHOW_MA = 100004;
+
+        /// <summary>
+        /// K线图消息_设置价格范围
+        /// </summary>
+        public const int CANDLESTICKCHART_MESSAGE_SET_RANGE = 100005;
+
+        /// <summary>
+        /// K线图消息_取选择
+        /// </summary>
+        public const int CANDLESTICKCHART_MESSAGE_GET_SELECTED = 100006;
+        #endregion
+
+        #region K线图事件
+        /// <summary>
+        /// K线图事件_项目点击
+        /// </summary>
+        public const int CANDLESTICKCHART_EVENT_ITEM_CLICKED = 100;
+
+        /// <summary>
+        /// K线图事件_项目点燃
+        /// </summary>
+        public const int CANDLESTICKCHART_EVENT_ITEM_HOVER = 101;
+
+        /// <summary>
+        /// K线图事件_范围选择
+        /// </summary>
+        public const int CANDLESTICKCHART_EVENT_RANGE_CHANGED = 102;
         #endregion
     }
 }

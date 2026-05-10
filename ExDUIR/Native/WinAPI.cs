@@ -54,6 +54,15 @@ namespace ExDuiR.NET.Native
             public IntPtr hbmpItem;
         }
 
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr GetProcessHeap();
+
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr HeapAlloc(IntPtr hHeap, uint dwFlags, int dwBytes);
+
+        [DllImport("kernel32.dll")]
+        public static extern bool HeapFree(IntPtr hHeap, uint dwFlags, IntPtr lpMem);
+
         [DllImport("User32.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "GetAsyncKeyState")]
         public static extern short GetAsyncKeyState(int nVirtKey);
         [DllImport("User32.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall, EntryPoint = "GetKeyState")]

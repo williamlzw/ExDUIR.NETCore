@@ -23,13 +23,16 @@ namespace ExDuiRTest
 
         static public void CreateDrawingBoardWindow(ExSkin pOwner)
         {
+   
             skin = new ExSkin(pOwner, null, "测试鼠标绘制板", 0, 0, 680, 400,
-            WINDOW_STYLE_NOINHERITBKG | WINDOW_STYLE_BUTTON_CLOSE | WINDOW_STYLE_BUTTON_MIN | WINDOW_STYLE_MOVEABLE |
-            WINDOW_STYLE_CENTERWINDOW | WINDOW_STYLE_TITLE | WINDOW_STYLE_HASICON | WINDOW_STYLE_NOSHADOW);
+           WINDOW_STYLE_NOINHERITBKG | WINDOW_STYLE_BUTTON_CLOSE | WINDOW_STYLE_BUTTON_MIN | WINDOW_STYLE_MOVEABLE |
+           WINDOW_STYLE_CENTERWINDOW | WINDOW_STYLE_TITLE | WINDOW_STYLE_HASICON | WINDOW_STYLE_NOSHADOW);
             if (skin.Validate)
             {
+                
+                drawingboard = new ExDrawingBoard(skin, "", 30, 30, 500, 350, -1, -1);
+
                 skin.BackgroundColor = Util.ExARGB(150, 150, 150, 255);
-                drawingboard = new ExDrawingBoard(skin, "", 30, 30, 500, 350);
                 objProc = new ExObjEventProcDelegate(OnButtonEventProc);
                 switchProc = new ExObjEventProcDelegate(OnDrawingBoardSwitchEvent);
                 switch1 = new ExSwitch(skin, "画笔|橡皮擦", 550, 30, 100, 30);

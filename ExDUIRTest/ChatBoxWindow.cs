@@ -10,6 +10,7 @@ using ExDuiR.NET.Native;
 using static ExDuiR.NET.Native.ExConst;
 using System.Runtime.InteropServices;
 using System;
+using System.Text;
 
 namespace ExDuiRTest
 {
@@ -25,6 +26,85 @@ namespace ExDuiRTest
         static private ExButton button3;
         static private ExButton button4;
         static private ExButton button5;
+        static private string markdownText = """
+            # 🛑 Markdown 全元素测试文档
+            
+            ## 1. 标题层级 (Headers)
+            这是一级到六级标题的演示：
+            # 一级标题 (H1)
+            ## 二级标题 (H2)
+            ### 三级标题 (H3)
+            #### 四级标题 (H4)
+            ##### 五级标题 (H5)
+            ###### 六级标题 (H6)
+                                ---
+            
+            ## 2. 文本样式 (Inline Styles)
+            这是**粗体文本 (Bold)**，这是*斜体文本 (Italic)*。这是***粗斜体文本 (Bold_Italic)***。
+            这是`行内代码var a = 2; (Inline Code)`，这是~~删除线 (Strikethrough)~~。
+            
+            ---
+            
+            ## 3. 列表 (Lists)
+            
+            ### 3.1 无序列表 (Unordered)
+            - 列表项 A
+            - 列表项 B
+              - 嵌套子项 B-1
+              - 嵌套子项 B-2
+            - 列表项 C
+            
+            ### 3.2 有序列表 (Ordered)
+            1. 第一项
+            2. 第二项
+               1. 嵌套有序项
+               2. 嵌套有序项
+            3. 第三项
+            
+            ---
+            
+            ## 4. 引用块 (Blockquote)
+            > **注意**:这是一段引用文本。
+            > 可以包含多行。
+            > > 这是嵌套引用 (Nested Quote)。
+            
+            ---
+            
+            ## 5. 代码块 (Code Blocks)
+            
+            ### 5.1 普通文本块
+            ```plaintext
+            这是一个普通的文本代码块，
+            ⚠️没有语法高亮。 
+            ```
+            ### 5.2 C++ 代码块 
+            ```cpp
+            #include <iostream>
+            int main() {
+                std::cout << "Hello, ExDUIR!" << std::endl;
+                return 0;
+            }
+            ```
+            ### 5.3 Python 代码块  
+            ```python
+            def calculate_days(year, month):
+                import calendar
+                return calendar.monthrange(year, month)[1]
+            print(calculate_days(2026, 4))
+            ```
+            ## 6. 图片与链接 (Images & Links)
+            ### 6.1 图片 (Image)
+            ![测试图片](https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png) 
+            
+            ### 6.2 链接 (Link)
+            - 行内链接：[访问百度](https://www.baidu.com)
+            
+            ## 7.表格
+            | 表头1 | 表头2 | 表头3 |
+            |-------|-------|-------|
+            | 单元格 | 单元格 | 单元格 |
+            | 数据1  | 数据2  | 数据3  |
+            """;
 
         static public void CreateChatBoxWindow(ExSkin pOwner)
         {
@@ -41,7 +121,7 @@ namespace ExDuiRTest
                 
                 button1 = new ExButton(skin, "发送助手", 50, 950, 100, 30, -1, -1, DT_CENTER | DT_VCENTER, 101);
                 button2 = new ExButton(skin, "发送用户", 180, 950, 100, 30, -1, -1, DT_CENTER | DT_VCENTER, 102);
-                button3 = new ExButton(skin, "更新文本", 310, 950, 100, 30, -1, -1, DT_CENTER | DT_VCENTER, 103);
+                button3 = new ExButton(skin, "流式更新文本", 310, 950, 100, 30, -1, -1, DT_CENTER | DT_VCENTER, 103);
                 button4 = new ExButton(skin, "更新卡片", 440, 950, 100, 30, -1, -1, DT_CENTER | DT_VCENTER, 104);
                 button5 = new ExButton(skin, "取内容", 570, 950, 100, 30, -1, -1, DT_CENTER | DT_VCENTER, 105);
                 button1.HandleEvent(NM_CLICK, objProc);
@@ -56,61 +136,6 @@ namespace ExDuiRTest
 
                 chatbox.AssistantImg = new ExImage("Resources/ai.png");
                 chatbox.UserImg = new ExImage("Resources/user.png");
-                chatbox.AddItemText("C#编写的计算当前月天数的方法", true);
-                string assistant = """
-                    以下是一个用C#编写的计算当前月天数的方法：
-                    using System;
-
-                    public class MonthDaysCalculator
-                    {
-                        /// <summary>
-                        /// 获取当前月份的天数
-                        /// </summary>
-                        /// <returns>当前月份的总天数</returns>
-                        public static int GetDaysInCurrentMonth()
-                        {
-                            DateTime today = DateTime.Today;
-                            return DateTime.DaysInMonth(today.Year, today.Month);
-                        }
-
-                        /// <summary>
-                        /// 获取指定年份和月份的天数
-                        /// </summary>
-                        /// <param name="year">年份</param>
-                        /// <param name="month">月份(1-12)</param>
-                        /// <returns>该月的总天数</returns>
-                        public static int GetDaysInMonth(int year, int month)
-                        {
-                            return DateTime.DaysInMonth(year, month);
-                        }
-                    }
-
-                    // 使用示例
-                    class Program
-                    {
-                        static void Main(string[] args)
-                        {
-                            int daysInCurrentMonth = MonthDaysCalculator.GetDaysInCurrentMonth();
-                            Console.WriteLine($"当前月份有 {daysInCurrentMonth} 天");
-
-                            // 也可以查询指定年月
-                            int days = MonthDaysCalculator.GetDaysInMonth(2023, 2);
-                            Console.WriteLine($"2023年2月有 {days} 天");
-                        }
-                    }   
-                    这个方法使用了.NET框架内置的DateTime.DaysInMonth方法，它可以正确处理闰年二月的情况（28天或29天）。
-
-                    主要特点：
-
-                    GetDaysInCurrentMonth()方法无需参数，直接返回当前月份的天数
-
-                    还提供了GetDaysInMonth(int year, int month)方法，可以查询任意年份月份的天数
-
-                    这两个方法都是静态方法，可以直接调用
-
-                    这个方法会正确处理所有月份，包括不同年份的二月天数差异。
-                    """;
-                chatbox.AddItemText(assistant, false);
                 chatbox.AddItemText("输出更多样式", true);
 
                 //============================
@@ -180,6 +205,20 @@ namespace ExDuiRTest
                     "以下是信息列表",
                     unitsInfo);
 
+             
+
+                //============================
+                var links = new List<string>
+                {
+                     "测试条目一",
+                    "测试条目二测试条目二测试条目二", 
+                    "测试条目三\n测试条目三"
+                };
+                chatbox.AddItemInfoLink(
+                    content: "测试标题",
+                    title: "副标题",
+                    linkItems: links
+                );
                 //============================
                 var tableData = new List<string[]>
                 {
@@ -196,18 +235,9 @@ namespace ExDuiRTest
                     totalColumnCount: 4
                 );
 
-                //============================
-                var links = new List<string>
-                {
-                     "测试条目一",
-                    "测试条目二测试条目二测试条目二", 
-                    "测试条目三\n测试条目三"
-                };
-                chatbox.AddItemInfoLink(
-                    content: "测试标题",
-                    title: "副标题",
-                    linkItems: links
-                );
+                chatbox.AddItemMarkdown(markdownText);
+                ExAPI.Ex_Sleep(1000);
+               
                 skin.Visible = true;
             }
         }
@@ -239,11 +269,22 @@ namespace ExDuiRTest
             }
             else if (nID == 103)
             {
-                chatbox.UpdateItemText(0, "更新内容", true);
+                //添加一个空文本项
+                chatbox.AddItemMarkdown("");
+                var itemCount = chatbox.GetItemCount();
+                var nUpdateIndex = itemCount - 1;
+                string streamText = markdownText;
+                StringBuilder currentText = new StringBuilder();
+                foreach(var ch in streamText)
+                {
+                    currentText.Append(ch);
+                    chatbox.UpdateItemMarkdown(nUpdateIndex, currentText.ToString());
+                    ExAPI.Ex_Sleep(100);
+                }
             }
             else if (nID == 104)
             {
-                chatbox.UpdateItemCard(3, new ExImage("Resources/user.png"),
+                chatbox.UpdateItemCard(1, new ExImage("Resources/user.png"),
                     "测试卡片标题2!",
                     "测试卡片内容2测试卡片内容2",
                     "测试卡片子标题2",
@@ -252,10 +293,10 @@ namespace ExDuiRTest
             }
             else if (nID == 105)
             {
-                var type = chatbox.GetItemType(3);
+                var type = chatbox.GetItemType(1);
                 var dataCount = chatbox.GetItemCount();
                 var str = chatbox.GetItemText(0);
-                var card = chatbox.GetItemCard(3);
+                var card = chatbox.GetItemCard(1);
                 Console.WriteLine($"类型{type}, 总数{dataCount}, {str}, {Marshal.PtrToStringUni(card.buttonText)}");
             }
             return IntPtr.Zero;

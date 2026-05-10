@@ -21,6 +21,7 @@ namespace ExDuiRTest
             if (skin.Validate)
             {
                 skin.BackgroundColor = Util.ExARGB(150, 150, 150, 255);
+
                 palette = new ExPalette(skin, "", 50, 50, 300, 150);
                 objProc = new ExObjEventProcDelegate(OnPaletteEvent);
                 palette.HandleEvent(PALETTE_EVENT_MOUSEMOVE, objProc);

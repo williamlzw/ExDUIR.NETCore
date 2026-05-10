@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
@@ -995,7 +996,7 @@ namespace ExDuiR.NET.Native
         /// <summary>
         /// 项目菜单
         /// </summary>
-        public IntPtr nMenu;
+        public int nMenu;
         /// <summary>
         /// 项目文本格式
         /// </summary>
@@ -1783,6 +1784,205 @@ namespace ExDuiR.NET.Native
         private ExChatBoxItemLayoutInfoLink layout;
     };
 
+    
+    /// <summary>
+    /// Markdown块级元素
+    /// </summary>
+    public enum MD_ELEMENT_TYPE
+    {
+        /// <summary>
+        /// 普通文本
+        /// </summary>
+        MD_ELEMENT_TEXT,
+        /// <summary>
+        /// 标题 (#, ##, ###)
+        /// </summary>
+        MD_ELEMENT_TITLE,
+        /// <summary>
+        /// 列表项 (- / * / 1.)
+        /// </summary>
+        MD_ELEMENT_LIST,
+        /// <summary>
+        /// 代码块 (```)
+        /// </summary>
+        MD_ELEMENT_CODE_BLOCK,
+        /// <summary>
+        /// 图片 (![alt](url))
+        /// </summary>
+        MD_ELEMENT_IMAGE,
+        /// <summary>
+        /// 链接 ([text](url))
+        /// </summary>
+        MD_ELEMENT_LINK,
+        /// <summary>
+        /// 引用块 (>)
+        /// </summary>
+        MD_ELEMENT_QUOTE,
+        /// <summary>
+        /// 分隔线 (--- / *** / ___)
+        /// </summary>
+        MD_ELEMENT_HR,
+        /// <summary>
+        /// 行内代码 (`code`)
+        /// </summary>
+        MD_ELEMENT_INLINE_CODE,
+        /// <summary>
+        /// 粗体 (**text**)
+        /// </summary>
+        MD_ELEMENT_BOLD,
+        /// <summary>
+        /// 斜体 (*text*)
+        /// </summary>
+        MD_ELEMENT_ITALIC,
+        /// <summary>
+        /// 删除线 (~~text~~)
+        /// </summary>
+        MD_ELEMENT_STRIKETHROUGH,
+        /// <summary>
+        /// 表格
+        /// </summary>
+        MD_ELEMENT_TABLE,          
+    }
+
+    /// <summary>
+    /// Markdown行内元素
+    /// </summary>
+    public enum MD_INLINE_TYPE
+    {
+        /// <summary>
+        /// 行内文本
+        /// </summary>
+        MD_INLINE_TEXT,
+        /// <summary>
+        /// 粗体 (**text**)
+        /// </summary>
+        MD_INLINE_BOLD,
+        /// <summary>
+        /// 斜体 (*text*)
+        /// </summary>
+        MD_INLINE_ITALIC,
+        /// <summary>
+        /// 粗斜体（***text***）
+        /// </summary>
+        MD_INLINE_BOLD_ITALIC,
+        /// <summary>
+        /// 行内代码（`code`）
+        /// </summary>
+        MD_INLINE_CODE,
+        /// <summary>
+        /// 删除线（~~text~~）
+        /// </summary>
+        MD_INLINE_STRIKETHROUGH,
+        /// <summary>
+        /// 超链接（[text](url)）
+        /// </summary>
+        MD_INLINE_LINK,
+    };
+
+    /// <summary>
+    /// 对话盒_表格单元格
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    public struct ExChatBoxMarkdownTableCell
+    {
+        public string text;
+        public ExRect rcCell;
+    }
+
+    /// <summary>
+    /// 对话盒_块级元素
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    struct ExChatBoxMarkdownElement
+    {
+        /// <summary>
+        /// 元素类型
+        /// </summary>
+        public MD_ELEMENT_TYPE type;
+        /// <summary>
+        /// 文本内容
+        /// </summary>
+        public string text;
+        /// <summary>
+        /// 标题登记(1-3)/图片宽度/列表层级
+        /// </summary>
+        public int level;
+        /// <summary>
+        /// 图片句柄（图片类型专用）
+        /// </summary>
+        public int hImage;
+        /// <summary>
+        /// 元素布局矩形
+        /// </summary>
+        public ExRect rcElement;
+        /// <summary>
+        /// 行内元素 ExChatBoxMarkdownInline 数组,内部使用
+        /// </summary>
+        private IntPtr inlineElements;
+        /// <summary>
+        /// 行内元素 ExChatBoxMarkdownInline 数组数量,内部使用
+        /// </summary>
+        private int inlineCount;
+        /// <summary>
+        /// 表格单元格ExChatBoxMarkdownTableCell数组,内部使用
+        /// </summary>
+        private IntPtr cellList;
+        /// <summary>
+        /// 表格行 内部使用
+        /// </summary>
+        private int rowCount;
+        /// <summary>
+        /// 表格列 内部使用
+        /// </summary>
+        private int columnCount;
+    }
+
+    /// <summary>
+    /// 对话盒_行内元素
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    public struct ExChatBoxMarkdownInline
+    {
+        public MD_INLINE_TYPE type;
+        public string text;
+        public string url;
+        public ExRect rcElement;
+    }
+
+    /// <summary>
+    /// 对话盒_布局
+    /// </summary>
+    public struct ExChatBoxItemLayoutMarkdown
+    {
+        public ExRect rcAvatar;
+        public ExRect rcBubble;
+        public ExRect rcContent;
+    }
+
+    /// <summary>
+    /// 对话盒项目信息_Markdown
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    public struct ExChatBoxItemInfoMarkdown
+    {
+        /// <summary>
+        /// 原始Markdown文本
+        /// </summary>
+        public IntPtr text;
+        /// <summary>
+        /// ExChatBoxMarkdownElement 数组 内部使用
+        /// </summary>
+        private IntPtr elementList;
+        /// <summary>
+        /// 元素数量 内部使用
+        /// </summary>
+        private int elementCount;
+        /// <summary>
+        /// 布局 内部使用
+        /// </summary>
+        private ExChatBoxItemLayoutMarkdown layout;
+    }
+
     /// <summary>
     /// 对话盒项目信息子项目
     /// </summary>
@@ -1812,6 +2012,54 @@ namespace ExDuiR.NET.Native
     };
 
     /// <summary>
+    /// 流程图_节点IO数据结构
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    public struct ExFlowChartNodeIoData
+    {
+        /// <summary>
+        /// 端口Id
+        /// </summary>
+        public int portId;
+        /// <summary>
+        /// 端口数据类型
+        /// </summary>
+        public int dataType;
+        /// <summary>
+        /// 端口数据
+        /// </summary>
+        public IntPtr data;
+    }
+
+    /// <summary>
+    /// 流程图_节点执行参数结构
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    public struct ExFlowChartExecuteParams
+    {
+        /// <summary>
+        /// 节点id
+        /// </summary>
+        public int nodeId;
+        /// <summary>
+        /// 输入节点数组数量
+        /// </summary>
+        public int inputCount;
+        /// <summary>
+        /// ExFlowChartNodeIoData数组
+        /// </summary>
+        public IntPtr inputs;
+        /// <summary>
+        /// 输出节点数组数量
+        /// </summary>
+        public int outputCount;
+        /// <summary>
+        /// ExFlowChartNodeIoData数组
+        /// </summary>
+        public IntPtr outputs;
+    }
+
+    /// <summary>
     /// 流程图节点选项数据结构
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
@@ -1832,33 +2080,65 @@ namespace ExDuiR.NET.Native
     }
 
     /// <summary>
-    /// 流程图节点数据结构
+    /// 流程图端口数据结构
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ExFlowChartNodeData
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    public struct ExFlowChartPort
     {
         /// <summary>
-        /// 数据类型
-        /// </summary>
-        public int type;
-        /// <summary>
-        /// 数据id
+        /// 端口id
         /// </summary>
         public int id;
         /// <summary>
-        /// 该项的位置和大小
+        /// 端口类型,FLOWCHART_PORTTYPE_常量,0=输入, 1=输出, 2=既不是输入也不是输出，仅作中间数据展示
         /// </summary>
-        public ExRect rect;
+        public int portType;
         /// <summary>
-        /// 数据指针（指向字符串、图片句柄或 COMBO 数据结构）
+        /// 数据类型 (用于连接限制)FLOWCHART_DATATYPE_常量
         /// </summary>
-        public IntPtr data;
+        public int dataType;
+        /// <summary>
+        /// 端口名称
+        /// </summary>
+        public IntPtr name;
+        /// <summary>
+        /// 端口圆点位置
+        /// </summary>
+        public ExRect portRect;
+        /// <summary>
+        /// FLOWCHART_NODEDATA_TYPE_常量, 0表示无组件
+        /// </summary>
+        public int widgetType;
+        /// <summary>
+        /// 组件ID
+        /// </summary>
+        public int widgetId;
+        /// <summary>
+        /// 组件宽度
+        /// </summary>
+        public float widgetWidth;
+        /// <summary>
+        /// 组件高度
+        /// </summary>
+        public float widgetHeight;
+        /// <summary>
+        /// 组件区域
+        /// </summary>
+        public ExRect widgetRect;
+        /// <summary>
+        /// 组件数据 (如编辑框文本、COMBO结构)
+        /// </summary>
+        public IntPtr widgetData;
+        /// <summary>
+        /// 当前端口是否已连接
+        /// </summary>
+        public int isConnected;
     };
 
     /// <summary>
     /// 流程图节点结构
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode, Pack = 4)]
     public struct ExFlowChartNode
     {
         /// <summary>
@@ -1869,48 +2149,21 @@ namespace ExDuiR.NET.Native
         public float y;
         public float width;
         public float height;
-        /// <summary>
-        /// 节点标题
-        /// </summary>
         public IntPtr title;
         /// <summary>
-        /// 节点数据列表ExFlowChartNodeData
+        /// 端口数组
         /// </summary>
-        public IntPtr nodeDataList;
+        public IntPtr ports;
         /// <summary>
-        /// 节点数据项数量
+        /// 端口数量
         /// </summary>
-        public int nodeDataCount;
-        /// <summary>
-        /// 输入插槽名称数组
-        /// </summary>
-        public IntPtr inputSlots;
-        /// <summary>
-        /// 输入插槽位置数组
-        /// </summary>
-        public IntPtr inputRects;
-        /// <summary>
-        /// 输入插槽数量
-        /// </summary>
-        public int inputCount;
-        /// <summary>
-        /// 输出插槽名称数组
-        /// </summary>
-        public IntPtr outputSlots;
-        /// <summary>
-        /// 输出插槽位置数组
-        /// </summary>
-        public IntPtr outputRects;
-        /// <summary>
-        /// 输出插槽数量
-        /// </summary>
-        public int outputCount;
+        public int portCount;
     };
 
     /// <summary>
     /// 流程图连接线数据结构
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode, Pack = 4)]
     public struct ExFlowChartConnection
     {
         /// <summary>
@@ -1944,10 +2197,153 @@ namespace ExDuiR.NET.Native
     }
 
     /// <summary>
+    /// 菜单信息结构体
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode, Pack = 4)]
+    public struct ExMENUINFO
+    {
+        public uint cbSize;         // 结构体大小
+        public uint fMask;          // 掩码
+        public uint dwStyle;        // 菜单样式
+        public uint cyMax;          // 最大高度
+        public int hbrBack;      // 背景画刷句柄
+        public uint dwContextHelpID;// 上下文帮助ID
+        public UIntPtr dwMenuData;  // 菜单自定义数据
+    }
+
+    /// <summary>
+    /// 菜单项信息结构体(宽字符版)
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    public struct ExMENUITEMINFOW
+    {
+        public uint cbSize;         // 结构体大小
+        public uint fMask;          // 掩码
+        public uint fType;          // 菜单项类型
+        public uint fState;         // 菜单项状态
+        public uint wID;            // 菜单项ID
+        public int hSubMenu;        // 子菜单句柄(HEXMENU)
+        public int hbmpChecked;     // 选中状态图片(HEXIMAGE)
+        public int hbmpUnchecked;   // 未选中状态图片(HEXIMAGE)
+        public IntPtr dwItemData;  // 菜单项自定义数据
+        public string dwTypeData; // 菜单项文本
+        public uint cch;            // 文本长度
+        public int hbmpItem;        // 菜单项图片(HEXIMAGE)
+    }
+
+    /// <summary>
+    /// 表格控件下拉框选项参数结构体
+    /// 内存布局：顺序对齐，Unicode字符集
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    public struct ExGridComboOptionsParam
+    {
+        /// <summary>
+        /// 对应C++ const wchar_t**：字符串指针数组的首地址
+        /// </summary>
+        public IntPtr Options;
+
+        /// <summary>
+        /// 选项总数
+        /// </summary>
+        public int Count;
+    }
+
+    /// <summary>
+    /// 流式滚动容器布局配置结构体
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ExFlowScrollViewLayoutConfig
+    {
+        /// <summary>
+        /// 水平间距，单位像素
+        /// </summary>
+        public int nHorizontalSpacing;
+        /// <summary>
+        /// 垂直间距，单位像素
+        /// </summary>
+        public int nVerticalSpacing;
+    }
+
+    /// <summary>
+    /// K线图扩展数据结构体
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
+    public struct ExCandlestickData
+    {
+        /// <summary>
+        /// 时间戳
+        /// </summary>
+        public long timestamp;
+
+        /// <summary>
+        /// 开盘价
+        /// </summary>
+        public double open;
+
+        /// <summary>
+        /// 最高价
+        /// </summary>
+        public double high;
+
+        /// <summary>
+        /// 最低价
+        /// </summary>
+        public double low;
+
+        /// <summary>
+        /// 收盘价
+        /// </summary>
+        public double close;
+
+        /// <summary>
+        /// 成交量
+        /// </summary>
+        public double volume;
+
+        /// <summary>
+        /// 5日均线
+        /// </summary>
+        public double ma5;
+
+        /// <summary>
+        /// 10日均线
+        /// </summary>
+        public double ma10;
+
+        /// <summary>
+        /// 20日均线
+        /// </summary>
+        public double ma20;
+
+        /// <summary>
+        /// 30日均线
+        /// </summary>
+        public double ma30;
+    }
+
+    /// <summary>
     /// API声明
     /// </summary>
     public class ExAPI
     {
+
+        /// <summary>
+        /// 获取字符串唯一原子号
+        /// </summary>
+        /// <param name="lptstring"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_Atom")]
+        public static extern int Ex_Atom(string lptstring);
+
+        /// <summary>
+        /// 申请内存
+        /// </summary>
+        /// <param name="dwLen"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_AllocBuffer")]
+        public static extern IntPtr Ex_AllocBuffer(IntPtr dwLen);
+
         /// <summary>
         /// 初始化引擎
         /// </summary>
@@ -1957,12 +2353,12 @@ namespace ExDuiR.NET.Native
         /// <param name="lpszDefaultClassName">默认窗口类名.(值可为0)</param>
         /// <param name="lpDefaultTheme">默认主题包指针</param>
         /// <param name="dwDefaultThemeLen">默认主题包长度</param>
-        /// <param name="lpDefaultI18N">默认语言包指针.(值可为0)</param>
-        /// <param name="dwDefaultI18NLen">默认语言包长度.(值可为0)</param>
+        /// <param name="lpDefaultFontFace">默认字体名称.(值可为0，即默认)</param>
+        /// <param name="dwDefaultFontSize">默认字体大小.((值可为0，即默认)</param>
         /// <returns></returns>
         [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_Init")]
         public static extern bool Ex_Init(IntPtr hInstance, int dwGlobalFlags, IntPtr hDefaultCursor,
-            string lpszDefaultClassName, byte[] lpDefaultTheme, IntPtr dwDefaultThemeLen, byte[] lpDefaultI18N, IntPtr dwDefaultI18NLen);
+            string lpszDefaultClassName, byte[] lpDefaultTheme, IntPtr dwDefaultThemeLen, string lpDefaultFontFace, IntPtr dwDefaultFontSize);
 
         /// <summary>
         /// 反初始化引擎
@@ -1970,29 +2366,8 @@ namespace ExDuiR.NET.Native
         [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_UnInit")]
         public static extern void Ex_UnInit();
 
-        /// <summary>
-        /// 获取最后错误代码.相关常量 :#ERROR_EX_
-        /// </summary>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_GetLastError")]
-        public static extern int Ex_GetLastError();
 
-        /// <summary>
-        /// 设置最后错误代码.相关常量 :#ERROR_EX_
-        /// </summary>
-        /// <param name="nError"></param>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_SetLastError")]
-        public static extern void Ex_SetLastError(int nError);
 
-        /// <summary>
-        /// 加载位图对象自内存
-        /// </summary>
-        /// <param name="lpData">图像数据指针</param>
-        /// <param name="dwLen">图像数据长度</param>
-        /// <param name="retBitMap">返回位图句柄</param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_LoadBitMapFromMemory")]
-        public static extern bool Ex_LoadBitMapFromMemory(byte[] lpData, IntPtr dwLen, ref IntPtr retBitMap);
 
         /// <summary>
         /// 绑定窗口ex
@@ -2006,48 +2381,54 @@ namespace ExDuiR.NET.Native
         [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUIBindWindowEx")]
         public static extern int Ex_DUIBindWindowEx(IntPtr hWnd, IntPtr hTheme, int dwStyle, IntPtr lParam, ExWndProcDelegate lpfnMsgProc);
 
-        /// <summary>
-        /// 注册窗口类
-        /// </summary>
-        /// <param name="lpwzClassName">窗口类名</param>
-        /// <param name="hIcon">窗口大图标句柄</param>
-        /// <param name="hIconsm">窗口小图标句柄</param>
-        /// <param name="hCursor">窗口鼠标句柄</param>
-        /// <returns>返回窗口类原子</returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_WndRegisterClass")]
-        public static extern ushort Ex_WndRegisterClass(string lpwzClassName, IntPtr hIcon, IntPtr hIconsm, IntPtr hCursor);
 
         /// <summary>
-        /// 创建窗口
+        /// 绑定窗口
         /// </summary>
-        /// <param name="hWndParent">父窗口句柄</param>
-        /// <param name="lpwzClassName">窗口类名</param>
-        /// <param name="lpwzWindowName">窗口标题</param>
-        /// <param name="x"></param>
+        /// <param name="hWnd"></param>
+        /// <param name="hTheme"></param>
+        /// <param name="dwStyle"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUIBindWindow")]
+        public static extern IntPtr Ex_DUIBindWindow(IntPtr hWnd, IntPtr hTheme, int dwStyle);
+
+        /// <summary>
+        /// 设置引擎数值
+        /// </summary>
+        /// <param name="hExDui"></param>
+        /// <param name="nIndex"></param>
+        /// <param name="dwNewlong"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUISetLong")]
+        public static extern IntPtr Ex_DUISetLong(int hExDui, int nIndex, IntPtr dwNewlong);
+
+        /// <summary>
+        /// 获取引擎数值
+        /// </summary>
+        /// <param name="hExDui"></param>
+        /// <param name="nIndex"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUIGetLong")]
+        public static extern IntPtr Ex_DUIGetLong(int hExDui, int nIndex);
+
+        /// <summary>
+        /// 获取客户区矩形
+        /// </summary>
+        /// <param name="hExDui"></param>
+        /// <param name="lpClientRect"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUIGetClientRect")]
+        public static extern bool Ex_DUIGetClientRect(int hExDui, out ExRect lpClientRect);
+
+        /// <summary>
+        /// 获取鼠标所在窗口组件句柄
+        /// </summary>
+        /// <param name="handle">0[坐标所在窗口]/窗口句柄/引擎句柄/组件句柄</param>
+        /// <param name="x">handle:0相对屏幕/其他相对窗口</param>
         /// <param name="y"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="dwStyle">窗口风格</param>
-        /// <param name="dwStyleEx">窗口扩展风格</param>
-        /// <returns>返回窗口句柄</returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_WndCreate")]
-        public static extern IntPtr Ex_WndCreate(IntPtr hWndParent, string lpwzClassName, string lpwzWindowName, int x, int y, int width, int height, int dwStyle, int dwStyleEx);
-
-        /// <summary>
-        /// 窗口消息循环
-        /// </summary>
-        /// <returns>返回msg.wParam</returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_WndMsgLoop")]
-        public static extern IntPtr Ex_WndMsgLoop();
-
-        /// <summary>
-        /// 窗口居中
-        /// </summary>
-        /// <param name="hWnd">预居中的原始窗口</param>
-        /// <param name="hWndFrom">预居中的目标窗口,如果为0则为屏幕居中</param>
-        /// <param name="bFullScreen">是否全屏模式</param>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_WndCenterFrom")]
-        public static extern void Ex_WndCenterFrom(IntPtr hWnd, IntPtr hWndFrom, bool bFullScreen);
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUIGetObjFromPoint")]
+        public static extern int Ex_DUIGetObjFromPoint(int handle, int x, int y);
 
         /// <summary>
         /// 显示窗口
@@ -2060,6 +2441,439 @@ namespace ExDuiR.NET.Native
         /// <returns></returns>
         [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUIShowWindow")]
         public static extern bool Ex_DUIShowWindow(int hExDui, int nCmdShow);
+
+
+        /// <summary>
+        /// 设置托盘图标
+        /// </summary>
+        /// <param name="hExDui"></param>
+        /// <param name="hIcon"></param>
+        /// <param name="lpwzTips"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUITrayIconSet")]
+        public static extern bool Ex_DUITrayIconSet(int hExDui, IntPtr hIcon, string lpwzTips);
+
+        /// <summary>
+        /// 从窗口句柄获取引擎句柄
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUIFromWindow")]
+        public static extern int Ex_DUIFromWindow(IntPtr hWnd);
+
+        /// <summary>
+        /// 弹出托盘通知
+        /// </summary>
+        /// <param name="hExDui"></param>
+        /// <param name="lpwzInfo"></param>
+        /// <param name="lpwzInfoTitle"></param>
+        /// <param name="dwInfoFlags"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUITrayIconPopup")]
+        public static extern bool Ex_DUITrayIconPopup(int hExDui, string lpwzInfo, string lpwzInfoTitle, int dwInfoFlags);
+
+        /// <summary>
+        /// 释放内存
+        /// </summary>
+        /// <param name="lpBuffer"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_FreeBuffer")]
+        public static extern bool Ex_FreeBuffer(IntPtr lpBuffer);
+
+        /// <summary>
+        /// 获取最后错误代码.相关常量 :#ERROR_EX_
+        /// </summary>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_GetLastError")]
+        public static extern int Ex_GetLastError();
+
+        /// <summary>
+        /// 加载位图对象自内存
+        /// </summary>
+        /// <param name="lpData">图像数据指针</param>
+        /// <param name="dwLen">图像数据长度</param>
+        /// <param name="retBitMap">返回位图句柄</param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_LoadBitMapFromMemory")]
+        public static extern bool Ex_LoadBitMapFromMemory(byte[] lpData, IntPtr dwLen, ref IntPtr retBitMap);
+
+
+        /// <summary>
+        /// 图像加载自缓冲区
+        /// </summary>
+        /// <param name="lpData"></param>
+        /// <param name="dwLen"></param>
+        /// <param name="uType"></param>
+        /// <param name="nIndex"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_LoadImageFromMemory")]
+        public static extern IntPtr Ex_LoadImageFromMemory(byte[] lpData, IntPtr dwLen, int uType, int nIndex);
+
+        /// <summary>
+        /// 弹出信息框
+        /// </summary>
+        /// <param name="handle"></param>
+        /// <param name="lpText"></param>
+        /// <param name="lpCaption"></param>
+        /// <param name="uType"></param>
+        /// <param name="dwFlags"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MessageBox")]
+        public static extern int Ex_MessageBox(int handle, string lpText, string lpCaption, int uType, int dwFlags);
+
+        /// <summary>
+        /// 弹出信息框Ex
+        /// </summary>
+        /// <param name="handle"></param>
+        /// <param name="lpText"></param>
+        /// <param name="lpCaption"></param>
+        /// <param name="uType"></param>
+        /// <param name="lpCheckBox"></param>
+        /// <param name="lpCheckBoxChecked"></param>
+        /// <param name="dwMilliseconds"></param>
+        /// <param name="dwFlags"></param>
+        /// <param name="lpfnMsgProc"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MessageBoxEx")]
+        public static extern int Ex_MessageBoxEx(int handle, string lpText, string lpCaption, int uType, string lpCheckBox, ref bool lpCheckBoxChecked, int dwMilliseconds, int dwFlags, ExWndProcDelegate lpfnMsgProc);
+
+        /// <summary>
+        /// 添加菜单项目
+        /// </summary>
+        /// <param name="hMenu">菜单句柄</param>
+        /// <param name="flags">标识</param>
+        /// <param name="id">菜单项ID</param>
+        /// <param name="data">菜单项文本</param>
+        /// <returns>成功返回true，失败返回false</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuAppendMenuW")]
+        public static extern bool Ex_MenuAppendMenuW(int hMenu, uint flags, UIntPtr id, string data);
+
+        /// <summary>
+        /// 创建弹出菜单
+        /// </summary>
+        /// <returns>菜单句柄</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuCreatePopupMenu")]
+        public static extern int Ex_MenuCreatePopupMenu();
+
+        /// <summary>
+        /// 创建菜单
+        /// </summary>
+        /// <returns>菜单句柄</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuCreateMenu")]
+        public static extern int Ex_MenuCreateMenu();
+
+        /// <summary>
+        /// 置菜单信息
+        /// </summary>
+        /// <param name="menu">菜单句柄</param>
+        /// <param name="info">菜单信息结构体</param>
+        /// <returns>成功返回true，失败返回false</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuSetInfo")]
+        public static extern bool Ex_MenuSetInfo(int menu, ref ExMENUINFO info);
+
+        /// <summary>
+        /// 取子菜单句柄
+        /// </summary>
+        /// <param name="menu">菜单句柄</param>
+        /// <param name="pos">菜单位置</param>
+        /// <returns>子菜单句柄</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuGetSubMenu")]
+        public static extern int Ex_MenuGetSubMenu(int menu, int pos);
+
+        /// <summary>
+        /// 取菜单信息
+        /// </summary>
+        /// <param name="menu">菜单句柄</param>
+        /// <param name="info">输出菜单信息</param>
+        /// <returns>成功返回true，失败返回false</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuGetInfo")]
+        public static extern bool Ex_MenuGetInfo(int menu, out ExMENUINFO info);
+
+        /// <summary>
+        /// 是否是菜单
+        /// </summary>
+        /// <param name="menu">菜单句柄</param>
+        /// <returns>是菜单返回true，否则false</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuIsMenu")]
+        public static extern bool Ex_MenuIsMenu(int menu);
+
+        /// <summary>
+        /// 编辑菜单信息
+        /// </summary>
+        /// <param name="hMenu">菜单句柄</param>
+        /// <param name="pos">位置</param>
+        /// <param name="flags">标识</param>
+        /// <param name="id">菜单项ID</param>
+        /// <param name="str">菜单项文本</param>
+        /// <returns>成功返回true，失败返回false</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuModifyW")]
+        public static extern bool Ex_MenuModifyW(int hMenu, uint pos, uint flags, UIntPtr id, string str);
+
+        /// <summary>
+        /// 销毁菜单
+        /// </summary>
+        /// <param name="hMenu">菜单句柄</param>
+        /// <returns>成功返回true，失败返回false</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuDestroy")]
+        public static extern bool Ex_MenuDestroy(int hMenu);
+
+        /// <summary>
+        /// 改变菜单信息
+        /// </summary>
+        /// <param name="hMenu">菜单句柄</param>
+        /// <param name="pos">位置</param>
+        /// <param name="data">菜单项文本</param>
+        /// <param name="id">菜单项ID</param>
+        /// <param name="flags">标识</param>
+        /// <returns>成功返回true，失败返回false</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuChangeW")]
+        public static extern bool Ex_MenuChangeW(int hMenu, uint pos, string data, uint id, uint flags);
+
+        /// <summary>
+        /// 取菜单项目ID
+        /// </summary>
+        /// <param name="menu">菜单句柄</param>
+        /// <param name="pos">位置</param>
+        /// <returns>菜单项ID</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuGetItemID")]
+        public static extern uint Ex_MenuGetItemID(int menu, int pos);
+
+        /// <summary>
+        /// 取菜单项目信息
+        /// </summary>
+        /// <param name="hmenu">菜单句柄</param>
+        /// <param name="item">项ID/位置</param>
+        /// <param name="bypos">是否按位置查找</param>
+        /// <param name="lpmii">输出菜单项信息</param>
+        /// <returns>成功返回true，失败返回false</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuGetItemInfoW")]
+        public static extern bool Ex_MenuGetItemInfoW(int hmenu, uint item, bool bypos, ref ExMENUITEMINFOW lpmii);
+
+        /// <summary>
+        /// 取菜单状态
+        /// </summary>
+        /// <param name="menu">菜单句柄</param>
+        /// <param name="item">项ID/位置</param>
+        /// <param name="flags">标识</param>
+        /// <returns>菜单状态值</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuGetState")]
+        public static extern uint Ex_MenuGetState(int menu, uint item, uint flags);
+
+        /// <summary>
+        /// 取菜单项目数量
+        /// </summary>
+        /// <param name="menu">菜单句柄</param>
+        /// <returns>菜单项总数</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuGetItemCount")]
+        public static extern int Ex_MenuGetItemCount(int menu);
+
+        /// <summary>
+        /// 取菜单项目文本
+        /// </summary>
+        /// <param name="menu">菜单句柄</param>
+        /// <param name="item">项ID/位置</param>
+        /// <param name="str">接收文本的缓冲区</param>
+        /// <param name="count">缓冲区长度</param>
+        /// <param name="flags">标识</param>
+        /// <returns>文本长度</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuGetStringW")]
+        public static extern int Ex_MenuGetStringW(int menu, uint item, StringBuilder str, int count, uint flags);
+
+        /// <summary>
+        /// 加载菜单从资源
+        /// </summary>
+        /// <param name="template_">资源模板指针</param>
+        /// <returns>菜单句柄</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuLoadIndirectW")]
+        public static extern int Ex_MenuLoadIndirectW(IntPtr template_);
+
+        /// <summary>
+        /// 加载菜单
+        /// </summary>
+        /// <param name="instance">实例句柄</param>
+        /// <param name="name">菜单名称</param>
+        /// <returns>菜单句柄</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuLoadW")]
+        public static extern int Ex_MenuLoadW(IntPtr instance, string name);
+
+        /// <summary>
+        /// 从鼠标指针获取菜单项目
+        /// </summary>
+        /// <param name="hwnd">窗口句柄</param>
+        /// <param name="menu">菜单句柄</param>
+        /// <param name="pt">坐标点</param>
+        /// <returns>菜单项索引</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuItemFromPoint")]
+        public static extern int Ex_MenuItemFromPoint(IntPtr hwnd, int menu, Point pt);
+
+        /// <summary>
+        /// 启用/禁用菜单项目
+        /// </summary>
+        /// <param name="menu">菜单句柄</param>
+        /// <param name="id">菜单项ID</param>
+        /// <param name="flags">标识</param>
+        /// <returns>成功返回true，失败返回false</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuEnableItem")]
+        public static extern bool Ex_MenuEnableItem(int menu, uint id, uint flags);
+
+        /// <summary>
+        /// 取菜单项目矩形
+        /// </summary>
+        /// <param name="hwnd">窗口句柄</param>
+        /// <param name="handle">菜单句柄</param>
+        /// <param name="item">项ID/位置</param>
+        /// <param name="rect">输出矩形</param>
+        /// <returns>成功返回true，失败返回false</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuGetItemRect")]
+        public static extern bool Ex_MenuGetItemRect(IntPtr hwnd, int handle, uint item, out ExRect rect);
+
+        /// <summary>
+        /// 结束菜单
+        /// </summary>
+        /// <returns>成功返回true，失败返回false</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuEnd")]
+        public static extern bool Ex_MenuEnd();
+
+        /// <summary>
+        /// 检查菜单项目
+        /// </summary>
+        /// <param name="hMenu">菜单句柄</param>
+        /// <param name="id">菜单项ID</param>
+        /// <param name="flags">标识</param>
+        /// <returns>成功返回true，失败返回false</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuCheckItem")]
+        public static extern bool Ex_MenuCheckItem(int hMenu, uint id, uint flags);
+
+        /// <summary>
+        /// 删除菜单项目
+        /// </summary>
+        /// <param name="hMenu">菜单句柄</param>
+        /// <param name="id">项ID/位置</param>
+        /// <param name="flags">标识</param>
+        /// <returns>成功返回true，失败返回false</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuDelete")]
+        public static extern bool Ex_MenuDelete(int hMenu, uint id, uint flags);
+
+        /// <summary>
+        /// 获取系统菜单复选标记尺寸
+        /// </summary>
+        /// <returns>尺寸(高字节高度，低字节宽度)</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuGetCheckMarkDimensions")]
+        public static extern uint Ex_MenuGetCheckMarkDimensions();
+
+        /// <summary>
+        /// 设置菜单项目图片
+        /// </summary>
+        /// <param name="menu">菜单句柄</param>
+        /// <param name="pos">位置</param>
+        /// <param name="flags">标识</param>
+        /// <param name="uncheck">未选中图片</param>
+        /// <param name="check">选中图片</param>
+        /// <returns>成功返回true，失败返回false</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuSetItemBitmaps")]
+        public static extern bool Ex_MenuSetItemBitmaps(int menu, uint pos, uint flags, int uncheck, int check);
+
+        /// <summary>
+        /// 取菜单默认项目
+        /// </summary>
+        /// <param name="menu">菜单句柄</param>
+        /// <param name="bypos">是否按位置</param>
+        /// <param name="flags">标识</param>
+        /// <returns>默认项ID/位置</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuGetDefaultItem")]
+        public static extern uint Ex_MenuGetDefaultItem(int menu, uint bypos, uint flags);
+
+        /// <summary>
+        /// 高亮菜单项目
+        /// </summary>
+        /// <param name="hwnd">窗口句柄</param>
+        /// <param name="handle">菜单句柄</param>
+        /// <param name="item">项ID/位置</param>
+        /// <param name="hilite">高亮标识</param>
+        /// <returns>成功返回true，失败返回false</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuHiliteItem")]
+        public static extern bool Ex_MenuHiliteItem(IntPtr hwnd, int handle, uint item, uint hilite);
+
+        /// <summary>
+        /// 移除菜单项目
+        /// </summary>
+        /// <param name="handle">菜单句柄</param>
+        /// <param name="id">项ID/位置</param>
+        /// <param name="flags">标识</param>
+        /// <returns>成功返回true，失败返回false</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuRemove")]
+        public static extern bool Ex_MenuRemove(int handle, uint id, uint flags);
+
+        /// <summary>
+        /// 置默认菜单项目
+        /// </summary>
+        /// <param name="menu">菜单句柄</param>
+        /// <param name="item">项ID/位置</param>
+        /// <param name="bypos">是否按位置</param>
+        /// <returns>成功返回true，失败返回false</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuSetDefaultItem")]
+        public static extern bool Ex_MenuSetDefaultItem(int menu, uint item, bool bypos);
+
+        /// <summary>
+        /// 置菜单项目信息
+        /// </summary>
+        /// <param name="hmenu">菜单句柄</param>
+        /// <param name="item">项ID/位置</param>
+        /// <param name="bypos">是否按位置</param>
+        /// <param name="lpmii">菜单项信息</param>
+        /// <returns>成功返回true，失败返回false</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuSetItemInfoW")]
+        public static extern bool Ex_MenuSetItemInfoW(int hmenu, uint item, bool bypos, ref ExMENUITEMINFOW lpmii);
+
+        /// <summary>
+        /// 插入菜单
+        /// </summary>
+        /// <param name="hMenu">菜单句柄</param>
+        /// <param name="pos">插入位置</param>
+        /// <param name="flags">标识</param>
+        /// <param name="id">菜单项ID</param>
+        /// <param name="str">菜单项文本</param>
+        /// <returns>成功返回true，失败返回false</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuInsertW")]
+        public static extern bool Ex_MenuInsertW(int hMenu, uint pos, uint flags, UIntPtr id, string str);
+
+        /// <summary>
+        /// 插入菜单项目
+        /// </summary>
+        /// <param name="hMenu">菜单句柄</param>
+        /// <param name="uItem">插入位置/ID</param>
+        /// <param name="bypos">是否按位置</param>
+        /// <param name="lpmii">菜单项信息</param>
+        /// <returns>成功返回true，失败返回false</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MenuInsertItemW")]
+        public static extern bool Ex_MenuInsertItemW(int hMenu, uint uItem, bool bypos, ref ExMENUITEMINFOW lpmii);
+
+        /// <summary>
+        /// 申请内存
+        /// </summary>
+        /// <param name="dwSize"></param>
+        /// <param name="dwFlags"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MemAlloc")]
+        public static extern IntPtr Ex_MemAlloc(IntPtr dwSize, int dwFlags = 64);
+
+
+        /// <summary>
+        /// 重新申请内存
+        /// </summary>
+        /// <param name="hMem"></param>
+        /// <param name="dwSize"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MemReAlloc")]
+        public static extern IntPtr Ex_MemReAlloc(IntPtr hMem, IntPtr dwSize);
+
+        /// <summary>
+        /// 释放内存
+        /// </summary>
+        /// <param name="hMem"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MemFree")]
+        public static extern bool Ex_MemFree(IntPtr hMem);
 
         /// <summary>
         /// 组件默认过程
@@ -2124,13 +2938,6 @@ namespace ExDuiR.NET.Native
         [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjCreateEx")]
         public static extern int Ex_ObjCreateEx(int dwStyleEx, string lptszClassName, string lptszObjTitle, int dwStyle, int x, int y, int width, int height, int hParent, int nID, int dwTextFormat, IntPtr lParam, IntPtr hTheme, ExObjProcDelegate lpfnMsgProc);
 
-        /// <summary>
-        /// 取DPI缩放值
-        /// </summary>
-        /// <param name="n"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_Scale")]
-        public static extern float Ex_Scale(float n);
 
         /// <summary>
         /// 组件销毁
@@ -2389,15 +3196,7 @@ namespace ExDuiR.NET.Native
         [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjTooltipsPopEx")]
         public static extern bool Ex_ObjTooltipsPopEx(int hObj, string lpTitle, string lpText, int x, int y, int dwTime, int nIcon, bool fShow);
 
-        /// <summary>
-        /// 获取鼠标所在窗口组件句柄
-        /// </summary>
-        /// <param name="handle">0[坐标所在窗口]/窗口句柄/引擎句柄/组件句柄</param>
-        /// <param name="x">handle:0相对屏幕/其他相对窗口</param>
-        /// <param name="y"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUIGetObjFromPoint")]
-        public static extern int Ex_DUIGetObjFromPoint(int handle, int x, int y);
+
 
         /// <summary>
         /// 组件设置焦点
@@ -2477,45 +3276,6 @@ namespace ExDuiR.NET.Native
         public static extern bool Ex_ObjSetRedraw(int hObj, bool fCanbeRedraw);
 
         /// <summary>
-        /// 加载主题包自文件
-        /// </summary>
-        /// <param name="lptszFile"></param>
-        /// <param name="lpKey"></param>
-        /// <param name="dwKeyLen"></param>
-        /// <param name="bDefault"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ThemeLoadFromFile")]
-        public static extern IntPtr Ex_ThemeLoadFromFile(string lptszFile, byte[] lpKey, IntPtr dwKeyLen, bool bDefault);
-
-        /// <summary>
-        /// 加载主题包自内存
-        /// </summary>
-        /// <param name="lpData"></param>
-        /// <param name="dwDataLen"></param>
-        /// <param name="lpKey"></param>
-        /// <param name="dwKeyLen"></param>
-        /// <param name="bDefault"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ThemeLoadFromMemory")]
-        public static extern IntPtr Ex_ThemeLoadFromMemory(byte[] lpData, IntPtr dwDataLen, byte[] lpKey, IntPtr dwKeyLen, bool bDefault);
-
-        /// <summary>
-        /// 释放主题
-        /// </summary>
-        /// <param name="hTheme"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ThemeFree")]
-        public static extern bool Ex_ThemeFree(IntPtr hTheme);
-
-        /// <summary>
-        /// 获取字符串唯一原子号
-        /// </summary>
-        /// <param name="lptstring"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_Atom")]
-        public static extern int Ex_Atom(string lptstring);
-
-        /// <summary>
         /// 初始化CEF浏览框路径,创建前使用
         /// </summary>
         /// <param name="hModule">模块句柄</param>
@@ -2529,43 +3289,11 @@ namespace ExDuiR.NET.Native
         [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjCefBrowserInitialize")]
         public static extern bool Ex_ObjCefBrowserInitialize(IntPtr hModule, string libPath, IntPtr dllName, IntPtr cachePath, IntPtr userAgent, int debuggingPort, ExCefBeforeCommandLineCallbackDelegate lpBeforeCommandLine);
 
-        /// <summary>
-        /// 获取组件属性值指针
-        /// </summary>
-        /// <param name="hTheme"></param>
-        /// <param name="atomClass"></param>
-        /// <param name="atomProp"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ThemeGetValuePtr")]
-        public static extern IntPtr Ex_ThemeGetValuePtr(IntPtr hTheme, int atomClass, int atomProp);
 
-        /// <summary>
-        /// 设置引擎数值
-        /// </summary>
-        /// <param name="hExDui"></param>
-        /// <param name="nIndex"></param>
-        /// <param name="dwNewlong"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUISetLong")]
-        public static extern IntPtr Ex_DUISetLong(int hExDui, int nIndex, IntPtr dwNewlong);
 
-        /// <summary>
-        /// 获取引擎数值
-        /// </summary>
-        /// <param name="hExDui"></param>
-        /// <param name="nIndex"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUIGetLong")]
-        public static extern IntPtr Ex_DUIGetLong(int hExDui, int nIndex);
 
-        /// <summary>
-        /// 获取客户区矩形
-        /// </summary>
-        /// <param name="hExDui"></param>
-        /// <param name="lpClientRect"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUIGetClientRect")]
-        public static extern bool Ex_DUIGetClientRect(int hExDui, out ExRect lpClientRect);
+
+
 
         /// <summary>
         /// 组件投递消息
@@ -2593,7 +3321,7 @@ namespace ExDuiR.NET.Native
         /// <param name="fUpdate"></param>
         /// <returns></returns>
         [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjSetBackgroundImage")]
-        public static extern bool Ex_ObjSetBackgroundImage(int handle, byte[] lpImage, int dwImageLen, int X, int Y, int dwRepeat, ref ExRect pRcGrids, int dwFlags, int dwAlpha, bool fUpdate);
+        public static extern bool Ex_ObjSetBackgroundImage(int handle, byte[] lpImage, IntPtr dwImageLen, int X, int Y, int dwRepeat, ref ExRect pRcGrids, int dwFlags, int dwAlpha, bool fUpdate);
 
         /// <summary>
         /// 组件获取背景信息
@@ -2743,43 +3471,6 @@ namespace ExDuiR.NET.Native
         [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjScrollGetPos")]
         public static extern int Ex_ObjScrollGetPos(int hObj, int nBar);
 
-        /// <summary>
-        /// 弹出信息框
-        /// </summary>
-        /// <param name="handle"></param>
-        /// <param name="lpText"></param>
-        /// <param name="lpCaption"></param>
-        /// <param name="uType"></param>
-        /// <param name="dwFlags"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MessageBox")]
-        public static extern int Ex_MessageBox(int handle, string lpText, string lpCaption, int uType, int dwFlags);
-
-        /// <summary>
-        /// 弹出信息框Ex
-        /// </summary>
-        /// <param name="handle"></param>
-        /// <param name="lpText"></param>
-        /// <param name="lpCaption"></param>
-        /// <param name="uType"></param>
-        /// <param name="lpCheckBox"></param>
-        /// <param name="lpCheckBoxChecked"></param>
-        /// <param name="dwMilliseconds"></param>
-        /// <param name="dwFlags"></param>
-        /// <param name="lpfnMsgProc"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_MessageBoxEx")]
-        public static extern int Ex_MessageBoxEx(int handle, string lpText, string lpCaption, int uType, string lpCheckBox, ref bool lpCheckBoxChecked, int dwMilliseconds, int dwFlags, ExWndProcDelegate lpfnMsgProc);
-
-        /// <summary>
-        /// 绑定窗口
-        /// </summary>
-        /// <param name="hWnd"></param>
-        /// <param name="hTheme"></param>
-        /// <param name="dwStyle"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUIBindWindow")]
-        public static extern IntPtr Ex_DUIBindWindow(IntPtr hWnd, IntPtr hTheme, int dwStyle);
 
         /// <summary>
         /// 获取组件句柄自ID
@@ -2809,14 +3500,6 @@ namespace ExDuiR.NET.Native
         [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjHandleEvent")]
         public static extern bool Ex_ObjHandleEvent(int hObj, int nEvent, ExObjEventProcDelegate pfnCallback);
 
-        /// <summary>
-        /// 获取主题相关颜色值
-        /// </summary>
-        /// <param name="hTheme"></param>
-        /// <param name="nIndex"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ThemeGetColor")]
-        public static extern int Ex_ThemeGetColor(IntPtr hTheme, int nIndex);
 
         /// <summary>
         /// 组件获取状态
@@ -2878,51 +3561,7 @@ namespace ExDuiR.NET.Native
         [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjEditSetSelParFormat")]
         public static extern IntPtr Ex_ObjEditSetSelParFormat(int hObj, int dwMask, ushort wNumbering, int dxStartIndent, int dxRightIndent, int offsetX, ushort wAlignment);
 
-        /// <summary>
-        /// 从文件加载资源
-        /// </summary>
-        /// <param name="lpwzFile"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ResLoadFromFile")]
-        public static extern IntPtr Ex_ResLoadFromFile(string lpwzFile);
 
-        /// <summary>
-        /// 从内存加载资源
-        /// </summary>
-        /// <param name="lpData"></param>
-        /// <param name="dwDataLen"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ResLoadFromMemory")]
-        public static extern IntPtr Ex_ResLoadFromMemory(byte[] lpData, IntPtr dwDataLen);
-
-        /// <summary>
-        /// 获取资源文件
-        /// </summary>
-        /// <param name="hRes"></param>
-        /// <param name="lpwzPath"></param>
-        /// <param name="lpFile"></param>
-        /// <param name="dwFileLen"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ResGetFile")]
-        public static extern bool Ex_ResGetFile(IntPtr hRes, string lpwzPath, out IntPtr lpFile, out IntPtr dwFileLen);
-
-        /// <summary>
-        /// 获取资源文件从路径原子
-        /// </summary>
-        /// <param name="hRes"></param>
-        /// <param name="atomPath"></param>
-        /// <param name="lpFile"></param>
-        /// <param name="dwFileLen"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ResGetFileFromAtom")]
-        public static extern bool Ex_ResGetFileFromAtom(IntPtr hRes, int atomPath, out IntPtr lpFile, out IntPtr dwFileLen);
-
-        /// <summary>
-        /// 资源释放
-        /// </summary>
-        /// <param name="hRes"></param>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ResFree")]
-        public static extern void Ex_ResFree(IntPtr hRes);
 
         /// <summary>
         /// 组件分发事件
@@ -2934,77 +3573,6 @@ namespace ExDuiR.NET.Native
         /// <returns></returns>
         [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjDispatchNotify")]
         public static extern IntPtr Ex_ObjDispatchNotify(int hObj, int nCode, IntPtr wParam, IntPtr lParam);
-
-        /// <summary>
-        /// 设置托盘图标
-        /// </summary>
-        /// <param name="hExDui"></param>
-        /// <param name="hIcon"></param>
-        /// <param name="lpwzTips"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUITrayIconSet")]
-        public static extern bool Ex_DUITrayIconSet(int hExDui, IntPtr hIcon, string lpwzTips);
-
-        /// <summary>
-        /// 弹出托盘通知
-        /// </summary>
-        /// <param name="hExDui"></param>
-        /// <param name="lpwzInfo"></param>
-        /// <param name="lpwzInfoTitle"></param>
-        /// <param name="dwInfoFlags"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUITrayIconPopup")]
-        public static extern bool Ex_DUITrayIconPopup(int hExDui, string lpwzInfo, string lpwzInfoTitle, int dwInfoFlags);
-
-        /// <summary>
-        /// 释放内存
-        /// </summary>
-        /// <param name="lpBuffer"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_FreeBuffer")]
-        public static extern bool Ex_FreeBuffer(IntPtr lpBuffer);
-
-        /// <summary>
-        /// 组件默认绘制背景过程
-        /// </summary>
-        /// <param name="hObj"></param>
-        /// <param name="hCanvas"></param>
-        /// <param name="lprcPaint"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjDrawBackgroundProc")]
-        public static extern bool Ex_ObjDrawBackgroundProc(int hObj, int hCanvas, ref ExRect lprcPaint);
-
-        /// <summary>
-        /// 获取焦点组件
-        /// </summary>
-        /// <param name="hExDuiOrhObj"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjGetFocus")]
-        public static extern int Ex_ObjGetFocus(int hExDuiOrhObj);
-
-        /// <summary>
-        /// 绘制主题数据
-        /// </summary>
-        /// <param name="hTheme"></param>
-        /// <param name="hCanvas"></param>
-        /// <param name="dstLeft"></param>
-        /// <param name="dstTop"></param>
-        /// <param name="dstRight"></param>
-        /// <param name="dstBottom"></param>
-        /// <param name="atomClass"></param>
-        /// <param name="atomSrcRect"></param>
-        /// <param name="dwAlpha"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ThemeDrawControl")]
-        public static extern bool Ex_ThemeDrawControl(IntPtr hTheme, int hCanvas, float dstLeft, float dstTop, float dstRight, float dstBottom, int atomClass, int atomSrcRect, int dwAlpha);
-
-        /// <summary>
-        /// 申请内存
-        /// </summary>
-        /// <param name="dwLen"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_AllocBuffer")]
-        public static extern IntPtr Ex_AllocBuffer(IntPtr dwLen);
 
         /// <summary>
         /// 组件获取父组件和引擎句柄
@@ -3024,25 +3592,7 @@ namespace ExDuiR.NET.Native
         [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjGetTextRect")]
         public static extern bool Ex_ObjGetTextRect(int hObj, out ExRect lpRect);
 
-        /// <summary>
-        /// 绘制主题数据Ex
-        /// </summary>
-        /// <param name="hTheme"></param>
-        /// <param name="hCanvas"></param>
-        /// <param name="dstLeft"></param>
-        /// <param name="dstTop"></param>
-        /// <param name="dstRight"></param>
-        /// <param name="dstBottom"></param>
-        /// <param name="atomClass"></param>
-        /// <param name="atomSrcRect"></param>
-        /// <param name="atomBackgroundRepeat"></param>
-        /// <param name="atomBackgroundPositon"></param>
-        /// <param name="atomBackgroundGrid"></param>
-        /// <param name="atomBackgroundFlags"></param>
-        /// <param name="dwAlpha"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ThemeDrawControlEx")]
-        public static extern bool Ex_ThemeDrawControlEx(IntPtr hTheme, int hCanvas, float dstLeft, float dstTop, float dstRight, float dstBottom, int atomClass, int atomSrcRect, int atomBackgroundRepeat, int atomBackgroundPositon, int atomBackgroundGrid, int atomBackgroundFlags, int dwAlpha);
+
 
         /// <summary>
         /// 组件设置提示文本
@@ -3054,28 +3604,22 @@ namespace ExDuiR.NET.Native
         public static extern bool Ex_ObjTooltipsSetText(int hObj, string lpString);
 
         /// <summary>
-        /// 弹出菜单
+        /// 组件默认绘制背景过程
         /// </summary>
-        /// <param name="hMenu"></param>
-        /// <param name="uFlags">相关常量 TPM_</param>
-        /// <param name="x">弹出坐标X(屏幕坐标)</param>
-        /// <param name="y">弹出坐标Y(屏幕坐标)</param>
-        /// <param name="nReserved">保留参数</param>
-        /// <param name="handle">组件句柄/引擎句柄/窗口句柄.(如果该值为窗口句柄且窗口未使用引擎渲染,则以默认菜单弹出)</param>
-        /// <param name="lpRc"></param>
-        /// <param name="pfnCallback"></param>
-        /// <param name="dwFlags">相关常量 EMNF_</param>
+        /// <param name="hObj"></param>
+        /// <param name="hCanvas"></param>
+        /// <param name="lprcPaint"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_TrackPopupMenu")]
-        public static extern bool Ex_TrackPopupMenu(IntPtr hMenu, int uFlags, int x, int y, IntPtr nReserved, int handle, IntPtr lpRc, ExWndProcDelegate pfnCallback, int dwFlags);
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjDrawBackgroundProc")]
+        public static extern bool Ex_ObjDrawBackgroundProc(int hObj, int hCanvas, ref ExRect lprcPaint);
 
         /// <summary>
-        /// 从窗口句柄获取引擎句柄
+        /// 获取焦点组件
         /// </summary>
-        /// <param name="hWnd"></param>
+        /// <param name="hExDuiOrhObj"></param>
         /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_DUIFromWindow")]
-        public static extern int Ex_DUIFromWindow(IntPtr hWnd);
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjGetFocus")]
+        public static extern int Ex_ObjGetFocus(int hExDuiOrhObj);
 
         /// <summary>
         /// 组件获取滚动条范围
@@ -3236,69 +3780,7 @@ namespace ExDuiR.NET.Native
         [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjGetClassInfoEx")]
         public static extern bool Ex_ObjGetClassInfoEx(string wzClassName, out ExClassInfo lpClassInfo);
 
-        /// <summary>
-        /// 缓动创建
-        /// </summary>
-        /// <param name="dwType"></param>
-        /// <param name="pEasingContext"></param>
-        /// <param name="dwMode"></param>
-        /// <param name="pContext"></param>
-        /// <param name="nTotalTime"></param>
-        /// <param name="nInterval"></param>
-        /// <param name="nState"></param>
-        /// <param name="nStart"></param>
-        /// <param name="nStop"></param>
-        /// <param name="param1"></param>
-        /// <param name="param2"></param>
-        /// <param name="param3"></param>
-        /// <param name="param4"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_easing_create")]
-        public static extern IntPtr _easing_create(int dwType, IntPtr pEasingContext, int dwMode, ExEasingProcDelegate pContext, int nTotalTime, int nInterval, int nState, int nStart, int nStop, IntPtr param1, IntPtr param2, IntPtr param3, IntPtr param4);
 
-        /// <summary>
-        /// 缓动创建
-        /// </summary>
-        /// <param name="dwType"></param>
-        /// <param name="pEasingContext"></param>
-        /// <param name="dwMode"></param>
-        /// <param name="pContext"></param>
-        /// <param name="nTotalTime"></param>
-        /// <param name="nInterval"></param>
-        /// <param name="nState"></param>
-        /// <param name="nStart"></param>
-        /// <param name="nStop"></param>
-        /// <param name="param1"></param>
-        /// <param name="param2"></param>
-        /// <param name="param3"></param>
-        /// <param name="param4"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_easing_create")]
-        public static extern IntPtr _easing_create(int dwType, IntPtr pEasingContext, int dwMode, IntPtr pContext, int nTotalTime, int nInterval, int nState, int nStart, int nStop, IntPtr param1, IntPtr param2, IntPtr param3, IntPtr param4);
-
-        /// <summary>
-        /// 缓动置状态
-        /// </summary>
-        /// <param name="pEasing"></param>
-        /// <param name="nState"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_easing_setstate")]
-        public static extern bool _easing_setstate(IntPtr pEasing, int nState);
-
-        /// <summary>
-        /// 暂停
-        /// </summary>
-        /// <param name="us"></param>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_Sleep")]
-        public static extern void Ex_Sleep(int us);
-
-        /// <summary>
-        /// 缓动取状态
-        /// </summary>
-        /// <param name="pEasing"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_easing_getstate")]
-        public static extern int _easing_getstate(IntPtr pEasing);
 
         /// <summary>
         /// 初始化属性列表,要注意每次初始化都会清空之前存储的内容,若存储的是指针需要自己先行释放
@@ -3407,16 +3889,6 @@ namespace ExDuiR.NET.Native
         [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjSetParent")]
         public static extern bool Ex_ObjSetParent(int hObj, int hParent);
 
-        /// <summary>
-        /// 图像加载自缓冲区
-        /// </summary>
-        /// <param name="lpData"></param>
-        /// <param name="dwLen"></param>
-        /// <param name="uType"></param>
-        /// <param name="nIndex"></param>
-        /// <returns></returns>
-        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_LoadImageFromMemory")]
-        public static extern IntPtr Ex_LoadImageFromMemory(byte[] lpData, IntPtr dwLen, int uType, int nIndex);
 
         /// <summary>
         /// 组件校验拖曳格式
@@ -3448,6 +3920,278 @@ namespace ExDuiR.NET.Native
         [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ObjEnablePaintingMsg")]
         public static extern bool Ex_ObjEnablePaintingMsg(int hObj, bool fEnable);
 
+        /// <summary>
+        /// 从文件加载资源
+        /// </summary>
+        /// <param name="lpwzFile"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ResLoadFromFile")]
+        public static extern IntPtr Ex_ResLoadFromFile(string lpwzFile);
+
+        /// <summary>
+        /// 从内存加载资源
+        /// </summary>
+        /// <param name="lpData"></param>
+        /// <param name="dwDataLen"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ResLoadFromMemory")]
+        public static extern IntPtr Ex_ResLoadFromMemory(byte[] lpData, IntPtr dwDataLen);
+
+        /// <summary>
+        /// 获取资源文件
+        /// </summary>
+        /// <param name="hRes"></param>
+        /// <param name="lpwzPath"></param>
+        /// <param name="lpFile"></param>
+        /// <param name="dwFileLen"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ResGetFile")]
+        public static extern bool Ex_ResGetFile(IntPtr hRes, string lpwzPath, out IntPtr lpFile, out IntPtr dwFileLen);
+
+        /// <summary>
+        /// 获取资源文件从路径原子
+        /// </summary>
+        /// <param name="hRes"></param>
+        /// <param name="atomPath"></param>
+        /// <param name="lpFile"></param>
+        /// <param name="dwFileLen"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ResGetFileFromAtom")]
+        public static extern bool Ex_ResGetFileFromAtom(IntPtr hRes, int atomPath, out IntPtr lpFile, out IntPtr dwFileLen);
+
+        /// <summary>
+        /// 资源释放
+        /// </summary>
+        /// <param name="hRes"></param>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ResFree")]
+        public static extern void Ex_ResFree(IntPtr hRes);
+
+        /// <summary>
+        /// 设置最后错误代码.相关常量 :#ERROR_EX_
+        /// </summary>
+        /// <param name="nError"></param>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_SetLastError")]
+        public static extern void Ex_SetLastError(int nError);
+
+
+        /// <summary>
+        /// 暂停
+        /// </summary>
+        /// <param name="us"></param>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_Sleep")]
+        public static extern void Ex_Sleep(int us);
+
+        /// <summary>
+        /// 取DPI缩放值
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_Scale")]
+        public static extern float Ex_Scale(float n);
+
+
+        /// <summary>
+        /// 加载主题包自内存
+        /// </summary>
+        /// <param name="lpData"></param>
+        /// <param name="dwDataLen"></param>
+        /// <param name="lpKey"></param>
+        /// <param name="dwKeyLen"></param>
+        /// <param name="bDefault"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ThemeLoadFromMemory")]
+        public static extern IntPtr Ex_ThemeLoadFromMemory(byte[] lpData, IntPtr dwDataLen, byte[] lpKey, IntPtr dwKeyLen, bool bDefault);
+
+        /// <summary>
+        /// 释放主题
+        /// </summary>
+        /// <param name="hTheme"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ThemeFree")]
+        public static extern bool Ex_ThemeFree(IntPtr hTheme);
+
+
+        /// <summary>
+        /// 绘制主题数据
+        /// </summary>
+        /// <param name="hTheme"></param>
+        /// <param name="hCanvas"></param>
+        /// <param name="dstLeft"></param>
+        /// <param name="dstTop"></param>
+        /// <param name="dstRight"></param>
+        /// <param name="dstBottom"></param>
+        /// <param name="atomClass"></param>
+        /// <param name="atomSrcRect"></param>
+        /// <param name="dwAlpha"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ThemeDrawControl")]
+        public static extern bool Ex_ThemeDrawControl(IntPtr hTheme, int hCanvas, float dstLeft, float dstTop, float dstRight, float dstBottom, int atomClass, int atomSrcRect, int dwAlpha);
+
+
+        /// <summary>
+        /// 获取组件属性值指针
+        /// </summary>
+        /// <param name="hTheme"></param>
+        /// <param name="atomClass"></param>
+        /// <param name="atomProp"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ThemeGetValuePtr")]
+        public static extern IntPtr Ex_ThemeGetValuePtr(IntPtr hTheme, int atomClass, int atomProp);
+
+        /// <summary>
+        /// 获取主题相关颜色值
+        /// </summary>
+        /// <param name="hTheme"></param>
+        /// <param name="nIndex"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ThemeGetColor")]
+        public static extern int Ex_ThemeGetColor(IntPtr hTheme, int nIndex);
+
+        /// <summary>
+        /// 绘制主题数据Ex
+        /// </summary>
+        /// <param name="hTheme"></param>
+        /// <param name="hCanvas"></param>
+        /// <param name="dstLeft"></param>
+        /// <param name="dstTop"></param>
+        /// <param name="dstRight"></param>
+        /// <param name="dstBottom"></param>
+        /// <param name="atomClass"></param>
+        /// <param name="atomSrcRect"></param>
+        /// <param name="atomBackgroundRepeat"></param>
+        /// <param name="atomBackgroundPositon"></param>
+        /// <param name="atomBackgroundGrid"></param>
+        /// <param name="atomBackgroundFlags"></param>
+        /// <param name="dwAlpha"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ThemeDrawControlEx")]
+        public static extern bool Ex_ThemeDrawControlEx(IntPtr hTheme, int hCanvas, float dstLeft, float dstTop, float dstRight, float dstBottom, int atomClass, int atomSrcRect, int atomBackgroundRepeat, int atomBackgroundPositon, int atomBackgroundGrid, int atomBackgroundFlags, int dwAlpha);
+
+        /// <summary>
+        /// 加载主题包自文件
+        /// </summary>
+        /// <param name="lptszFile"></param>
+        /// <param name="lpKey"></param>
+        /// <param name="dwKeyLen"></param>
+        /// <param name="bDefault"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_ThemeLoadFromFile")]
+        public static extern IntPtr Ex_ThemeLoadFromFile(string lptszFile, byte[] lpKey, IntPtr dwKeyLen, bool bDefault);
+
+        /// <summary>
+        /// 弹出菜单
+        /// </summary>
+        /// <param name="hMenu"></param>
+        /// <param name="uFlags">相关常量 TPM_</param>
+        /// <param name="x">弹出坐标X(屏幕坐标)</param>
+        /// <param name="y">弹出坐标Y(屏幕坐标)</param>
+        /// <param name="nReserved">保留参数</param>
+        /// <param name="handle">组件句柄/引擎句柄/窗口句柄.(如果该值为窗口句柄且窗口未使用引擎渲染,则以默认菜单弹出)</param>
+        /// <param name="lpRc"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_TrackPopupMenu")]
+        public static extern bool Ex_TrackPopupMenu(int hMenu, int uFlags, int x, int y, int nReserved, IntPtr handle, IntPtr lpRc);
+
+
+        /// <summary>
+        /// 注册窗口类
+        /// </summary>
+        /// <param name="lpwzClassName">窗口类名</param>
+        /// <param name="hIcon">窗口大图标句柄</param>
+        /// <param name="hIconsm">窗口小图标句柄</param>
+        /// <param name="hCursor">窗口鼠标句柄</param>
+        /// <returns>返回窗口类原子</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_WndRegisterClass")]
+        public static extern ushort Ex_WndRegisterClass(string lpwzClassName, IntPtr hIcon, IntPtr hIconsm, IntPtr hCursor);
+
+        /// <summary>
+        /// 创建窗口
+        /// </summary>
+        /// <param name="hWndParent">父窗口句柄</param>
+        /// <param name="lpwzClassName">窗口类名</param>
+        /// <param name="lpwzWindowName">窗口标题</param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="dwStyle">窗口风格</param>
+        /// <param name="dwStyleEx">窗口扩展风格</param>
+        /// <returns>返回窗口句柄</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_WndCreate")]
+        public static extern IntPtr Ex_WndCreate(IntPtr hWndParent, string lpwzClassName, string lpwzWindowName, int x, int y, int width, int height, int dwStyle, int dwStyleEx);
+
+        /// <summary>
+        /// 窗口消息循环
+        /// </summary>
+        /// <returns>返回msg.wParam</returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_WndMsgLoop")]
+        public static extern IntPtr Ex_WndMsgLoop();
+
+        /// <summary>
+        /// 窗口居中
+        /// </summary>
+        /// <param name="hWnd">预居中的原始窗口</param>
+        /// <param name="hWndFrom">预居中的目标窗口,如果为0则为屏幕居中</param>
+        /// <param name="bFullScreen">是否全屏模式</param>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_WndCenterFrom")]
+        public static extern void Ex_WndCenterFrom(IntPtr hWnd, IntPtr hWndFrom, bool bFullScreen);
+
+        /// <summary>
+        /// 缓动创建
+        /// </summary>
+        /// <param name="dwType"></param>
+        /// <param name="pEasingContext"></param>
+        /// <param name="dwMode"></param>
+        /// <param name="pContext"></param>
+        /// <param name="nTotalTime"></param>
+        /// <param name="nInterval"></param>
+        /// <param name="nState"></param>
+        /// <param name="nStart"></param>
+        /// <param name="nStop"></param>
+        /// <param name="param1"></param>
+        /// <param name="param2"></param>
+        /// <param name="param3"></param>
+        /// <param name="param4"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_easing_create")]
+        public static extern IntPtr _easing_create(int dwType, IntPtr pEasingContext, int dwMode, ExEasingProcDelegate pContext, int nTotalTime, int nInterval, int nState, int nStart, int nStop, IntPtr param1, IntPtr param2, IntPtr param3, IntPtr param4);
+
+        /// <summary>
+        /// 缓动创建
+        /// </summary>
+        /// <param name="dwType"></param>
+        /// <param name="pEasingContext"></param>
+        /// <param name="dwMode"></param>
+        /// <param name="pContext"></param>
+        /// <param name="nTotalTime"></param>
+        /// <param name="nInterval"></param>
+        /// <param name="nState"></param>
+        /// <param name="nStart"></param>
+        /// <param name="nStop"></param>
+        /// <param name="param1"></param>
+        /// <param name="param2"></param>
+        /// <param name="param3"></param>
+        /// <param name="param4"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_easing_create")]
+        public static extern IntPtr _easing_create(int dwType, IntPtr pEasingContext, int dwMode, IntPtr pContext, int nTotalTime, int nInterval, int nState, int nStart, int nStop, IntPtr param1, IntPtr param2, IntPtr param3, IntPtr param4);
+
+        /// <summary>
+        /// 缓动置状态
+        /// </summary>
+        /// <param name="pEasing"></param>
+        /// <param name="nState"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_easing_setstate")]
+        public static extern bool _easing_setstate(IntPtr pEasing, int nState);
+
+        /// <summary>
+        /// 缓动取状态
+        /// </summary>
+        /// <param name="pEasing"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_easing_getstate")]
+        public static extern int _easing_getstate(IntPtr pEasing);
 
         #region 图片组
         /// <summary>

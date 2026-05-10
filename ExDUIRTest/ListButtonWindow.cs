@@ -17,16 +17,18 @@ namespace ExDuiRTest
         static private ExStatusBar statusbar;
         static private ExImageList imglist;
         static private ExObjProcDelegate listButtonProc;
-        static private ExWndProcDelegate listButtonWndProc;
+        static private ExWndProcDelegate wndProc;
         static private ExObjEventProcDelegate listButtonEventProc;
         static private ExObjProcDelegate objProc;
-        static private List<IntPtr> menuItems;
+        static private List<int> menuItems;
         static private List<string> menuItemsName;
+        static private int mainMenu;
         static public void CreateListButtonWindow(ExSkin pOwner)
         {
+            wndProc = new ExWndProcDelegate(OnListButtonWndProc);
             skin = new ExSkin(pOwner, null, "测试列表按钮", 0, 0, 480, 200,
             WINDOW_STYLE_NOINHERITBKG | WINDOW_STYLE_BUTTON_CLOSE | WINDOW_STYLE_BUTTON_MIN | WINDOW_STYLE_MOVEABLE |
-            WINDOW_STYLE_CENTERWINDOW | WINDOW_STYLE_TITLE | WINDOW_STYLE_HASICON | WINDOW_STYLE_NOSHADOW);
+            WINDOW_STYLE_CENTERWINDOW | WINDOW_STYLE_TITLE | WINDOW_STYLE_HASICON | WINDOW_STYLE_NOSHADOW, 0, 0, IntPtr.Zero, wndProc);
             if (skin.Validate)
             {
                 skin.BackgroundColor = Util.ExARGB(150, 150, 150, 255);
@@ -42,72 +44,68 @@ namespace ExDuiRTest
                 List<string> subItem2Str = new List<string> { "https://gitee.com/william_lzw/ExDUIR", "https://github.com/williamlzw/ExDUIR" };
                 List<string> enableItemKey = new List<string> { "粘贴(&P)", "撤销(&U)", "重做(&R)" };
                 List<string> subItemKey = new List<string> { "Git" };
-                //创建主菜单
-                var mainMenu = WinAPI.CreateMenu();
-                menuItems = new List<nint>();
+                mainMenu = ExAPI.Ex_MenuCreateMenu();
+                menuItems = new List<int>();
                 menuItemsName = new List<string>();
+                uint menuIndex = 0;
                 foreach (var index in itemInfo)
                 {
-                    //创建一级菜单
-                    var menuItem = WinAPI.CreatePopupMenu();
+                    //创建一级弹出菜单
+                    var menuItem = ExAPI.Ex_MenuCreatePopupMenu();
                     uint i = 0;
                     foreach (var itemIndex in index.Value)
                     {
-                        //添加一级菜单项目
-                        var subItem = WinAPI.CreateMenu();
-                       
                         if (itemIndex == "-")
                         {
-                            //分隔条
-                            WinAPI.AppendMenu(menuItem, MF_SEPARATOR, subItem, "");
+                            ExAPI.Ex_MenuAppendMenuW(menuItem, MF_SEPARATOR, i, "");
                         }
                         else
                         {
-                            //判断有二级子菜单
                             if (subItemKey.Contains(itemIndex))
                             {
-                                //添加二级菜单项目
+                                var subItem = ExAPI.Ex_MenuCreatePopupMenu();
+                                nuint jj = 0;
                                 foreach (var subItem2Index in subItem2Str)
                                 {
-                                    var subItem2 = WinAPI.CreatePopupMenu();
-                                    WinAPI.AppendMenu(subItem, MF_STRING, subItem2, subItem2Index);
+                                    ExAPI.Ex_MenuAppendMenuW(subItem, MF_STRING, jj, subItem2Index);
+                                    jj++;
                                 }
-                                //一级菜单项目添加二级菜单条目
-                                WinAPI.AppendMenu(menuItem, MF_POPUP, subItem, itemIndex);
+                                // 挂载二级弹出菜单
+                                ExAPI.Ex_MenuAppendMenuW(menuItem, MF_POPUP, (nuint)subItem, itemIndex);
                             }
                             else
                             {
-                                //无二级子菜单
-                                WinAPI.AppendMenu(menuItem, MF_STRING, subItem, itemIndex);
+                                ExAPI.Ex_MenuAppendMenuW(menuItem, MF_STRING, i, itemIndex);
                             }
                         }
 
                         if (enableItemKey.Contains(itemIndex))
                         {
-                            //根据位置禁用项目
-                            WinAPI.EnableMenuItem(menuItem, i, MF_DISABLED | MF_BYPOSITION);
+                            ExAPI.Ex_MenuEnableItem(menuItem, i, MF_DISABLED | MF_BYPOSITION);
                         }
                         i++;
                     }
-                    //一级菜单加入主菜单
-                    WinAPI.AppendMenu(mainMenu, MF_STRING, menuItem, index.Key);
+
+                    // ✅【核心修复1】主菜单添加一级弹出菜单，必须用 MF_POPUP + 菜单句柄
+                    ExAPI.Ex_MenuAppendMenuW(mainMenu, MF_POPUP, (nuint)menuItem, index.Key);
                     menuItems.Add(menuItem);
                     menuItemsName.Add(index.Key);
+                    menuIndex++;
                 }
 
-                menubar = new ExMenuBar(skin, "", 0, 30, 220, 22);
+                menubar = new ExMenuBar(skin, "", 0, 30, 250, 24);
                 menubar.ColorTextNormal = Util.ExRGB2ARGB(0, 255);
                 menubar.ColorTextHover = Util.ExRGB2ARGB(16774117, 255);
                 menubar.ColorTextDown = Util.ExRGB2ARGB(16765337, 255);
-
+         
                 listButtonProc = new ExObjProcDelegate(OnListButtonMsgProc);
-                listButtonWndProc = new ExWndProcDelegate(OnListButtonWndProc);
-                menubar2 = new ExMenuBar(skin, "", 0, 60, 220, 22, -1, -1, -1, 0, IntPtr.Zero, listButtonProc);
+                
+                menubar2 = new ExMenuBar(skin, "", 0, 60, 250, 24, -1, -1, -1, 0, IntPtr.Zero, listButtonProc);
                 menubar2.ColorBackground = Util.ExARGB(110, 120, 55, 255);//改变菜单按钮背景色
                 menubar2.ColorTextNormal = Util.ExARGB(255, 255, 255, 255);//改变菜单按钮字体正常色
                 menubar2.ColorTextHover = Util.ExARGB(255, 255, 255, 55);//改变菜单按钮字体悬浮色
                 menubar2.ColorTextDown = Util.ExARGB(255, 255, 255, 100);//改变菜单按钮字体按下色
-
+                
                 //列表按钮插入一级菜单句柄
                 var j = 0;
                 foreach (var index in menuItems)
@@ -117,37 +115,38 @@ namespace ExDuiRTest
                         wzText = Marshal.StringToHGlobalUni(menuItemsName[j]),
                         nMenu = index
                     };
-
+                    
                     //把一级菜单句柄加入列表按钮
                     menubar.InsertItem(item1info);
                     menubar2.InsertItem(item1info);
                     j++;
                 }
 
-                var bitmap = File.ReadAllBytes("Resources/icon.png");
+                var bitmap = File.ReadAllBytes("Resources/nav1.png");
                 ExImage image = new ExImage(bitmap, bitmap.Length);
                 image.Scale(24, 24, out var smallImg);
-                IntPtr smallImgData = Marshal.AllocHGlobal(24 * 24 * 4);
-                smallImg.SaveToMemory(smallImgData);
-                var hBitmap = Util.IntPtrToBitmap(smallImgData, 24 * 24 * 4);
-                WinAPI.MENUITEMINFO minfo = new WinAPI.MENUITEMINFO();
-                minfo.cbSize = Marshal.SizeOf(minfo);
-                minfo.fMask = 128;
-                var ret = WinAPI.GetMenuItemInfo(menuItems[3], 2, true, ref minfo);
-                if (minfo.hbmpItem != IntPtr.Zero)
-                {
-                    WinAPI.DeleteObject(minfo.hbmpItem);
-                }
-                minfo.hbmpItem = hBitmap;
-                ret = WinAPI.SetMenuItemInfo(menuItems[3], 2, true, ref minfo);
-                smallImg.Dispose();
-                image.Dispose();
+    
+                ExMENUITEMINFOW minfo = new ExMENUITEMINFOW();
+                minfo.cbSize = (uint)Marshal.SizeOf(minfo);
 
-                toolbar = new ExToolBar(skin, "", 0, 90, 400, 22);
+                minfo.fMask = 128;
+                var hSubMenu = ExAPI.Ex_MenuGetSubMenu(mainMenu, 0);
+    
+                var ret = ExAPI.Ex_MenuGetItemInfoW(hSubMenu, 1, true, ref minfo);
+                if (minfo.hbmpItem != 0)
+                {
+                    ExAPI._img_destroy(minfo.hbmpItem);
+                }
+                minfo.hbmpItem = smallImg.handle;
+                ret = ExAPI.Ex_MenuSetItemInfoW(hSubMenu, 1, true,ref minfo);
+                image.Dispose();
+                skin.LParam = (IntPtr)smallImg.handle;//把图片句柄保存到窗口的LParam，窗口销毁时销毁图片
+
+                toolbar = new ExToolBar(skin, "", 0, 90, 400, 24);
                 toolbar.ColorTextNormal = Util.ExRGB2ARGB(0, 255);
                 toolbar.ColorTextHover = Util.ExRGB2ARGB(16774117, 255);
                 toolbar.ColorTextDown = Util.ExRGB2ARGB(16765337, 255);
-
+                bitmap = File.ReadAllBytes("Resources/icon.png");
                 imglist = new ExImageList(18, 18);
                 ExImage image2 = new ExImage(bitmap, bitmap.Length);
                 var nImageIndex = imglist.AddImage(image2, 0);
@@ -192,7 +191,7 @@ namespace ExDuiRTest
                 toolbar.HandleEvent(LISTBUTTON_EVENT_CLICK, listButtonEventProc);
                 toolbar.HandleEvent(LISTBUTTON_EVENT_CHECK, listButtonEventProc);
 
-                statusbar = new ExStatusBar(skin, "", 0, 120, 300, 22);
+                statusbar = new ExStatusBar(skin, "", 0, 120, 300, 24);
                 statusbar.ColorBackground = Util.ExRGB2ARGB(12557930, 255);
                 statusbar.ColorBorder = Util.ExARGB(255, 255, 255, 255);
                 statusbar.ColorTextNormal = Util.ExARGB(255, 255, 255, 255);
@@ -211,8 +210,27 @@ namespace ExDuiRTest
                 item1info3.nIndex = 2;
                 item1info3.wzText = Marshal.StringToHGlobalUni("右对齐");
                 statusbar.InsertItem(item1info3);
+
+
+
                 skin.Visible = true;
             }
+        }
+
+        static private IntPtr OnListButtonWndProc(IntPtr hWnd, int hExDui, int uMsg, IntPtr wParam, IntPtr lParam, IntPtr pResult)
+        {
+            if (uMsg == WM_DESTROY)
+            {
+                ExAPI.Ex_MenuDestroy(mainMenu);
+                mainMenu = 0;
+                var hImg = (int)skin.LParam;
+                if(hImg != 0)
+                {
+                    ExAPI._img_destroy(hImg);
+                    skin.LParam = IntPtr.Zero;
+                }
+            }
+            return IntPtr.Zero;
         }
 
         static private IntPtr OnListButtonEvent(int hObj, int nID, int nCode, IntPtr wParam, IntPtr lParam)
@@ -239,53 +257,21 @@ namespace ExDuiRTest
             return IntPtr.Zero;
         }
 
-        static private IntPtr OnListButtonWndProc(IntPtr hWnd, int hExDui, int uMsg, IntPtr wParam, IntPtr lParam, IntPtr lpResult)
-        {
-            if (uMsg == WM_INITMENUPOPUP)
-            {
-                var nskin = new ExSkin(hExDui);
-                var find = nskin.Find(null, "Item", null);
-                
-                while (find != null)
-                {
-                    find.ObjProc = Marshal.GetFunctionPointerForDelegate(objProc);
-                    find = find.GetObj(GW_HWNDNEXT);
-                }
-            }
-            else if (uMsg == WM_NOTIFY)
-            {
-                var ni = Util.IntPtrToStructure<ExNMHDR>(lParam);
-                if (ni.nCode == NM_CREATE)
-                {
-                    var menubar = new ExMenuBar(ni.hObjFrom);
-                    menubar.ColorTextNormal = Util.ExARGB(210, 120, 55, 255);//改变菜单项目字体正常颜色
-                    menubar.ColorTextHover = Util.ExRGB2ARGB(16711680, 255);//改变菜单项目字体悬浮颜色
-                    menubar.ColorBackground = Util.ExARGB(110, 120, 55, 255);//改变菜单项目背景颜色
-                }
-            }
-            else if (uMsg == MENU_MESSAGE_SELECTITEM && (int)((long)wParam << 32 >> 32) == -1)//恢复正常状态
-            {
-                WinAPI.GetCursorPos(out var point);
-                var currentWnd = WinAPI.WindowFromPoint(point);
-                WinAPI.ScreenToClient(currentWnd, ref point);
-                var obj = skin.GetObjFromPoint(point.x, point.y, (int)currentWnd);
-                if (obj != null)
-                {
-                    var menuBar = new ExMenuBar(obj.handle);
-                    menuBar.PostMessage(LISTBUTTON_MESSAGE_SELECTITEM, IntPtr.Zero, IntPtr.Zero);
-                }
-            }
-            return IntPtr.Zero;
-        }
-
         static private IntPtr OnListButtonMsgProc(IntPtr hWnd, int hObj, int uMsg, IntPtr wParam, IntPtr lParam, IntPtr lpResult)
         {
             if (uMsg == LISTBUTTON_MESSAGE_DOWNITEM)
             {
                 var rcWindow = skin.WindowRect;
-                ExMenuBar button = new ExMenuBar(hObj);
-                var rcObj = button.WindowRect;
-                button.TrackPopupMenu(lParam, 1, rcWindow.nLeft + rcObj.nLeft + (int)wParam, rcWindow.nTop + (int)ExAPI.Ex_Scale(rcObj.nBottom), IntPtr.Zero, listButtonWndProc, MENU_FLAG_NOSHADOW);
+                var itemInfo = Util.IntPtrToStructure<ExListButtonItemInfo>(lParam);
+                int hMenu = (int)itemInfo.nMenu;
+                if(ExAPI.Ex_MenuIsMenu(hMenu))
+                {
+                    ExMenuBar button = new ExMenuBar(hObj);
+                    var rcObj = button.WindowRect;
+                    int posX = rcWindow.nLeft + rcObj.nLeft + itemInfo.nLeft;
+                    button.TrackPopupMenu(hMenu, 1, posX, rcWindow.nTop + (int)ExAPI.Ex_Scale(rcObj.nBottom), 0);
+                }
+                
                 Marshal.WriteInt32(lpResult, 1);
                 return (IntPtr)1;
             }

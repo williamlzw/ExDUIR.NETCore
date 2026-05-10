@@ -19,7 +19,7 @@ namespace ExDuiR.NET.Frameworks
                 IntPtr hInstance = WinAPI.GetModuleHandle(null);
                 if (hInstance != IntPtr.Zero)
                 {
-                    if (!ExAPI.Ex_Init(hInstance, dwGlobalFlags, hDefaultCursor, null, theme, (IntPtr)theme.Length, null, IntPtr.Zero))
+                    if (!ExAPI.Ex_Init(hInstance, dwGlobalFlags, hDefaultCursor, null, theme, (IntPtr)theme.Length, "宋体", IntPtr.Zero))
                     { 
                         throw new ExException(-1, "引擎初始化失败");
                     }

@@ -1,12 +1,13 @@
 ﻿using ExDuiR.NET.Frameworks.Graphics;
-using ExDuiR.NET.Native;
-using static ExDuiR.NET.Native.ExConst;
 using ExDuiR.NET.Frameworks.Utility;
+using ExDuiR.NET.Native;
 using System;
+using System.Diagnostics;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
-using System.Drawing;
-using System.Diagnostics;
+using static ExDuiR.NET.Native.ExConst;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ExDuiR.NET.Frameworks.Controls
 {
@@ -3850,6 +3851,77 @@ namespace ExDuiR.NET.Frameworks.Controls
         }
 
         /// <summary>
+        /// 添加Markdown项目
+        /// </summary>
+        /// <param name="markdownText"></param>
+        public void AddItemMarkdown(string markdownText)
+        {
+            var stringPtr = Marshal.StringToHGlobalUni(markdownText);
+            ExChatBoxItemInfoMarkdown info = new ExChatBoxItemInfoMarkdown
+            {
+                text = stringPtr
+            };
+            int size = Marshal.SizeOf(typeof(ExChatBoxItemInfoMarkdown));
+            IntPtr dataPtr = Marshal.AllocHGlobal(size);
+            ExChatBoxItemInfoSubitem subitem = new ExChatBoxItemInfoSubitem
+            {
+                type = CHATBOX_ITEMTYPE_MARKDOWN,
+                role = CHATBOX_ITEMROLE_ASSISTANT,
+                data = dataPtr
+            };
+            int size2 = Marshal.SizeOf(typeof(ExChatBoxItemInfoSubitem));
+            Marshal.StructureToPtr<ExChatBoxItemInfoMarkdown>(info, subitem.data, false);
+            IntPtr subitemPtr = Marshal.AllocHGlobal(size2);
+            Marshal.StructureToPtr(subitem, subitemPtr, false);
+            this.SendMessage(CHATBOX_MESSAGE_ADDITEM, IntPtr.Zero, subitemPtr);
+            Marshal.FreeHGlobal(dataPtr);
+            Marshal.FreeHGlobal(stringPtr);
+            Marshal.FreeHGlobal(subitemPtr);
+        }
+
+        public void UpdateItemMarkdown(int index, string markdownText)
+        {
+            var stringPtr = Marshal.StringToHGlobalUni(markdownText);
+            ExChatBoxItemInfoMarkdown info = new ExChatBoxItemInfoMarkdown
+            {
+                text = stringPtr
+            };
+            int size = Marshal.SizeOf(typeof(ExChatBoxItemInfoMarkdown));
+            IntPtr dataPtr = Marshal.AllocHGlobal(size);
+            ExChatBoxItemInfoSubitem subitem = new ExChatBoxItemInfoSubitem
+            {
+                type = CHATBOX_ITEMTYPE_MARKDOWN,
+                role = CHATBOX_ITEMROLE_ASSISTANT,
+                data = dataPtr
+            };
+            int size2 = Marshal.SizeOf(typeof(ExChatBoxItemInfoSubitem));
+            Marshal.StructureToPtr<ExChatBoxItemInfoMarkdown>(info, subitem.data, false);
+            IntPtr subitemPtr = Marshal.AllocHGlobal(size2);
+            Marshal.StructureToPtr(subitem, subitemPtr, false);
+            this.SendMessage(CHATBOX_MESSAGE_UPDATEITEM, index, subitemPtr);
+            Marshal.FreeHGlobal(dataPtr);
+            Marshal.FreeHGlobal(stringPtr);
+            Marshal.FreeHGlobal(subitemPtr);
+        }
+
+        /// <summary>
+        /// 删除表项
+        /// </summary>
+        /// <param name="index"></param>
+        public void RemoveItem(int index)
+        {
+            this.SendMessage(CHATBOX_MESSAGE_DELITEM, index, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 清空全部消息
+        /// </summary>
+        public void Clear()
+        {
+            this.SendMessage(CHATBOX_MESSAGE_CLEAR, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        /// <summary>
         /// 取项目类型
         /// </summary>
         /// <param name="index"></param>
@@ -3922,6 +3994,13 @@ namespace ExDuiR.NET.Frameworks.Controls
             return data;
         }
 
+        public ExChatBoxItemInfoMarkdown GetItemMarkdown(int index)
+        {
+            var dataPtr = this.SendMessage(CHATBOX_MESSAGE_GETITEMDATA, (IntPtr)index, IntPtr.Zero);
+            var data = Marshal.PtrToStructure<ExChatBoxItemInfoMarkdown>(dataPtr);
+            return data;
+        }
+
         public new string ClassName => "ChatBox";
     }
 
@@ -3945,6 +4024,939 @@ namespace ExDuiR.NET.Frameworks.Controls
         public ExFlowChart(ExControl parent) : base(parent)
         {
         }
+
+        #region ===================== 核心：分类型 WritePortToNode 方法 =====================
+        /// <summary>
+        /// 写入【普通端口】（纯输入/输出，无UI控件）
+        /// </summary>
+        public void WritePortToNode(ExFlowChartNode node, int index, int portId, int portType, int dataType, string portName)
+        {
+            ExFlowChartPort port = new ExFlowChartPort
+            {
+                id = portId,
+                portType = portType,
+                dataType = dataType,
+                name = Util.StrDupW(portName),
+                widgetType = 0 // 无控件
+            };
+            WritePortToMemory(node, index, port);
+        }
+
+        /// <summary>
+        /// 写入【文本/编辑框端口】（类型1）
+        /// </summary>
+        public void WritePortToNode_Text(ExFlowChartNode node, int index, int portId, int portType, int dataType, string portName, int width, int height, string defaultText)
+        {
+            ExFlowChartPort port = new ExFlowChartPort
+            {
+                id = portId,
+                portType = portType,
+                dataType = dataType,
+                name = Util.StrDupW(portName),
+                widgetType = FLOWCHART_NODEDATA_TYPE_EDIT,
+                widgetWidth = width,
+                widgetHeight = height,
+                widgetData = Util.StrDupW(defaultText)
+            };
+            WritePortToMemory(node, index, port);
+        }
+
+        /// <summary>
+        /// 写入【图片预览端口】（类型3）
+        /// </summary>
+        public void WritePortToNode_Image(ExFlowChartNode node, int index, int portId, int portType, int dataType, string portName, int width, int height)
+        {
+            ExFlowChartPort port = new ExFlowChartPort
+            {
+                id = portId,
+                portType = portType,
+                dataType = dataType,
+                name = Util.StrDupW(portName),
+                widgetType = FLOWCHART_NODEDATA_TYPE_IMAGE,
+                widgetWidth = width,
+                widgetHeight = height,
+                widgetData = IntPtr.Zero
+            };
+            WritePortToMemory(node, index, port);
+        }
+
+        /// <summary>
+        /// 写入【下拉框端口】（类型2）
+        /// </summary>
+        public void WritePortToNode_Combo(ExFlowChartNode node, int index, int portId, int portType, int dataType, string portName, int width, int height, IntPtr comboDataPtr)
+        {
+            ExFlowChartPort port = new ExFlowChartPort
+            {
+                id = portId,
+                portType = portType,
+                dataType = dataType,
+                name = Util.StrDupW(portName),
+                widgetType = FLOWCHART_NODEDATA_TYPE_COMBO,
+                widgetWidth = width,
+                widgetHeight = height,
+                widgetData = comboDataPtr
+            };
+            WritePortToMemory(node, index, port);
+        }
+
+        /// <summary>
+        /// 私有：端口内存写入通用方法
+        /// </summary>
+        private void WritePortToMemory(ExFlowChartNode node, int index, ExFlowChartPort port)
+        {
+            int portSize = Marshal.SizeOf<ExFlowChartPort>();
+            IntPtr ptr = IntPtr.Add(node.ports, index * portSize);
+            Marshal.StructureToPtr(port, ptr, false);
+        }
+        #endregion
+
+        #region 1. 节点基础操作方法
+        /// <summary>
+        /// 添加节点
+        /// </summary>
+        /// <param name="node">节点结构体</param>
+        public void AddNode(ExFlowChartNode node)
+        {
+            int nodeSize = Marshal.SizeOf<ExFlowChartNode>();
+            IntPtr pNode = ExAPI.Ex_MemAlloc(nodeSize);
+            try
+            {
+                Marshal.StructureToPtr(node, pNode, false);
+                SendMessage(FLOWCHART_MESSAGE_ADD_NODE, IntPtr.Zero, pNode);
+            }
+            finally
+            {
+                ExAPI.Ex_MemFree(pNode);
+            }
+        }
+
+        /// <summary>
+        /// 删除节点
+        /// </summary>
+        /// <param name="nodeId">节点ID</param>
+        public void RemoveNode(int nodeId)
+        {
+            SendMessage(FLOWCHART_MESSAGE_REMOVE_NODE, (IntPtr)nodeId, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 执行节点
+        /// </summary>
+        /// <param name="nodeId">节点ID</param>
+        public void ExecuteNode(int nodeId)
+        {
+            SendMessage(FLOWCHART_MESSAGE_EXECUTE_NODE, (IntPtr)nodeId, IntPtr.Zero);
+        }
+        #endregion
+
+        #region 2. 连线基础操作方法
+        /// <summary>
+        /// 添加连线
+        /// </summary>
+        /// <param name="connection">连线结构体</param>
+        public void AddConnection(ExFlowChartConnection connection)
+        {
+            int connSize = Marshal.SizeOf<ExFlowChartConnection>();
+            IntPtr pConn = ExAPI.Ex_MemAlloc(connSize);
+            try
+            {
+                Marshal.StructureToPtr(connection, pConn, false);
+                SendMessage(FLOWCHART_MESSAGE_ADD_CONNECTION, IntPtr.Zero, pConn);
+            }
+            finally
+            {
+                ExAPI.Ex_MemFree(pConn);
+            }
+        }
+
+        /// <summary>
+        /// 删除连线
+        /// </summary>
+        /// <param name="connectionId">连线ID</param>
+        public void RemoveConnection(int connectionId)
+        {
+            SendMessage(FLOWCHART_MESSAGE_REMOVE_CONNECTION, (IntPtr)connectionId, IntPtr.Zero);
+        }
+        #endregion
+
+        #region 3. 按类型拆分 节点数据更新方法（核心：图片/文本/下拉框分离）
+        /// <summary>
+        /// 【类型分离】更新节点-图片数据
+        /// </summary>
+        /// <param name="nodeId">节点ID</param>
+        /// <param name="portId">端口ID</param>
+        /// <param name="imageHandle">图片句柄</param>
+        public void UpdateNodeImage(int nodeId, int portId, int imageHandle)
+        {
+            ExFlowChartPort port = new ExFlowChartPort
+            {
+                id = portId,
+                widgetType = 3, // 图片类型
+                widgetData = (IntPtr)imageHandle
+            };
+
+            int portSize = Marshal.SizeOf<ExFlowChartPort>();
+            IntPtr pPort = ExAPI.Ex_MemAlloc(portSize);
+            try
+            {
+                Marshal.StructureToPtr(port, pPort, false);
+                SendMessage(FLOWCHART_MESSAGE_UPDATE_NODEDATA, (IntPtr)nodeId, pPort);
+            }
+            finally
+            {
+                ExAPI.Ex_MemFree(pPort);
+            }
+        }
+
+        /// <summary>
+        /// 【类型分离】更新节点-文本/编辑框数据
+        /// </summary>
+        /// <param name="nodeId">节点ID</param>
+        /// <param name="portId">端口ID</param>
+        /// <param name="text">文本内容</param>
+        public void UpdateNodeText(int nodeId, int portId, string text)
+        {
+            IntPtr pText = Util.StrDupW(text);
+            ExFlowChartPort port = new ExFlowChartPort
+            {
+                id = portId,
+                widgetType = 1, // 编辑框/文本类型
+                widgetData = pText
+            };
+
+            int portSize = Marshal.SizeOf<ExFlowChartPort>();
+            IntPtr pPort = ExAPI.Ex_MemAlloc(portSize);
+            try
+            {
+                Marshal.StructureToPtr(port, pPort, false);
+                SendMessage(FLOWCHART_MESSAGE_UPDATE_NODEDATA, (IntPtr)nodeId, pPort);
+            }
+            finally
+            {
+                ExAPI.Ex_MemFree(pPort);
+                ExAPI.Ex_MemFree(pText);
+            }
+        }
+
+        /// <summary>
+        /// 【类型分离】更新节点-下拉框数据
+        /// </summary>
+        /// <param name="nodeId">节点ID</param>
+        /// <param name="portId">端口ID</param>
+        /// <param name="comboData">下拉框结构体指针</param>
+        public void UpdateNodeCombo(int nodeId, int portId, IntPtr comboData)
+        {
+            ExFlowChartPort port = new ExFlowChartPort
+            {
+                id = portId,
+                widgetType = 2, // 下拉框类型
+                widgetData = comboData
+            };
+
+            int portSize = Marshal.SizeOf<ExFlowChartPort>();
+            IntPtr pPort = ExAPI.Ex_MemAlloc(portSize);
+            try
+            {
+                Marshal.StructureToPtr(port, pPort, false);
+                SendMessage(FLOWCHART_MESSAGE_UPDATE_NODEDATA, (IntPtr)nodeId, pPort);
+            }
+            finally
+            {
+                ExAPI.Ex_MemFree(pPort);
+            }
+        }
+        #endregion
+
+        #region 4. 配置与样式方法
+        /// <summary>
+        /// 导出流程图为YAML文件
+        /// </summary>
+        /// <param name="filePath">文件路径</param>
+        public void ExportYaml(string filePath)
+        {
+            IntPtr pPath = Util.StrDupW(filePath);
+            try
+            {
+                SendMessage(FLOWCHART_MESSAGE_EXPORT_YAML, IntPtr.Zero, pPath);
+            }
+            finally
+            {
+                ExAPI.Ex_MemFree(pPath);
+            }
+        }
+
+        /// <summary>
+        /// 从YAML文件导入流程图
+        /// </summary>
+        /// <param name="filePath">文件路径</param>
+        public void ImportYaml(string filePath)
+        {
+            IntPtr pPath = Util.StrDupW(filePath);
+            try
+            {
+                SendMessage(FLOWCHART_MESSAGE_IMPORT_YAML, IntPtr.Zero, pPath);
+            }
+            finally
+            {
+                ExAPI.Ex_MemFree(pPath);
+            }
+        }
+
+        /// <summary>
+        /// 设置流程图背景色
+        /// </summary>
+        /// <param name="color">颜色值(ARGB)</param>
+        public void SetBackgroundColor(int color)
+        {
+            SendMessage(FLOWCHART_MESSAGE_SET_BACKGROUNDCOLOR, IntPtr.Zero, (IntPtr)color);
+        }
+        #endregion
         public new string ClassName => "FlowChart";
+    }
+
+    /// <summary>
+    /// 分隔条
+    /// </summary>
+    public class ExSplitter : ExControl
+    {
+        public ExSplitter(IExBaseUIEle oParent, string sTitle, int x, int y, int nWidth, int nHeight)
+            : base(oParent, "Splitter", sTitle, x, y, nWidth, nHeight)
+        {
+        }
+
+        public ExSplitter(IExBaseUIEle oParent, string sTitle, int x, int y, int nWidth, int nHeight, int dwStyle = -1, int dwStyleEx = -1, int dwTextFormat = -1, int nID = 0, IntPtr lParam = default, ExObjProcDelegate pfnObjProc = null)
+            : base(oParent, "Splitter", sTitle, x, y, nWidth, nHeight, dwStyle, dwStyleEx, dwTextFormat, nID, lParam, IntPtr.Zero, pfnObjProc)
+        {
+        }
+        public ExSplitter(int hObj) : base(hObj)
+        {
+        }
+        public ExSplitter(ExControl parent) : base(parent)
+        {
+        }
+
+        #region 消息封装方法
+        /// <summary>
+        /// 获取分割条方向 0-垂直 1-水平
+        /// </summary>
+        public int GetDirection()
+        {
+            return SendMessage(SPLITTER_MESSAGE_GET_DIRECTION, IntPtr.Zero, IntPtr.Zero).ToInt32();
+        }
+
+        /// <summary>
+        /// 设置分割条方向 0-垂直 1-水平
+        /// </summary>
+        public void SetDirection(int direction)
+        {
+            SendMessage(SPLITTER_MESSAGE_SET_DIRECTION, (IntPtr)direction, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 获取分割条百分比位置
+        /// </summary>
+        public int GetPosition()
+        {
+            return SendMessage(SPLITTER_MESSAGE_GET_POSITION, IntPtr.Zero, IntPtr.Zero).ToInt32();
+        }
+
+        /// <summary>
+        /// 设置分割条百分比位置
+        /// </summary>
+        public void SetPosition(int position)
+        {
+            SendMessage(SPLITTER_MESSAGE_SET_POSITION, (IntPtr)position, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 获取面板组件句柄 0-左/上 1-右/下
+        /// </summary>
+        public IntPtr GetPanel(int panelIndex)
+        {
+            return SendMessage(SPLITTER_MESSAGE_GET_PANEL, (IntPtr)panelIndex, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 设置两个面板的附加组件句柄
+        /// </summary>
+        public void SetPanel(IntPtr panel1Handle, IntPtr panel2Handle)
+        {
+            SendMessage(SPLITTER_MESSAGE_SET_PANEL, panel1Handle, panel2Handle);
+        }
+
+        /// <summary>
+        /// 获取分割条ARGB颜色值
+        /// </summary>
+        public int GetColor()
+        {
+            return SendMessage(SPLITTER_MESSAGE_GET_COLOR, IntPtr.Zero, IntPtr.Zero).ToInt32();
+        }
+
+        /// <summary>
+        /// 设置分割条ARGB颜色值
+        /// </summary>
+        public void SetColor(int argbColor)
+        {
+            SendMessage(SPLITTER_MESSAGE_SET_COLOR, (IntPtr)argbColor, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 设置锁定面板 0-不锁定 1-锁定左/上 2-锁定右/下
+        /// </summary>
+        public void SetFixedPanel(int fixedPanelMode)
+        {
+            SendMessage(SPLITTER_MESSAGE_SET_FIXEDPANEL, (IntPtr)fixedPanelMode, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 设置分割条大小
+        /// </summary>
+        public void SetSize(int px)
+        {
+            SendMessage(SPLITTER_MESSAGE_SET_SIZE, (IntPtr)px, IntPtr.Zero);
+        }
+        #endregion
+        public new string ClassName => "Splitter";
+    }
+
+    /// <summary>
+    /// 表格
+    /// </summary>
+    public class ExGrid : ExControl
+    {
+        public ExGrid(IExBaseUIEle oParent, string sTitle, int x, int y, int nWidth, int nHeight)
+            : base(oParent, "GridCtrl", sTitle, x, y, nWidth, nHeight)
+        {
+        }
+
+        public ExGrid(IExBaseUIEle oParent, string sTitle, int x, int y, int nWidth, int nHeight, int dwStyle = -1, int dwStyleEx = -1, int dwTextFormat = -1, int nID = 0, IntPtr lParam = default, ExObjProcDelegate pfnObjProc = null)
+            : base(oParent, "GridCtrl", sTitle, x, y, nWidth, nHeight, dwStyle, dwStyleEx, dwTextFormat, nID, lParam, IntPtr.Zero, pfnObjProc)
+        {
+        }
+        public ExGrid(int hObj) : base(hObj)
+        {
+        }
+        public ExGrid(ExControl parent) : base(parent)
+        {
+        }
+
+        #region 公共方法（消息封装）
+        /// <summary>
+        /// 设置表格行数
+        /// </summary>
+        /// <param name="rowCount">行数</param>
+        public void SetRowCount(int rowCount)
+        {
+            SendMessage(GRID_MESSAGE_SETROWCOUNT, (IntPtr)rowCount, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 设置表格列数
+        /// </summary>
+        /// <param name="columnCount">列数</param>
+        public void SetColumnCount(int columnCount)
+        {
+            SendMessage(GRID_MESSAGE_SETCOLCOUNT, (IntPtr)columnCount, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 设置固定行数量（冻结行）
+        /// </summary>
+        public void SetFixedRowCount(int fixedRowCount)
+        {
+            SendMessage(GRID_MESSAGE_SETFIXEDROWCOUNT, (IntPtr)fixedRowCount, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 设置固定列数量（冻结列）
+        /// </summary>
+        public void SetFixedColumnCount(int fixedColumnCount)
+        {
+            SendMessage(GRID_MESSAGE_SETFIXEDCOLCOUNT, (IntPtr)fixedColumnCount, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 设置指定行的高度
+        /// </summary>
+        /// <param name="row">行索引</param>
+        /// <param name="height">行高</param>
+        public void SetRowHeight(int row, int height)
+        {
+            SendMessage(GRID_MESSAGE_SETROWHEIGHT, (IntPtr)row, (IntPtr)height);
+        }
+
+        /// <summary>
+        /// 设置指定列的宽度
+        /// </summary>
+        /// <param name="col">列索引</param>
+        /// <param name="width">列宽</param>
+        public void SetColumnWidth(int col, int width)
+        {
+            SendMessage(GRID_MESSAGE_SETCOLWIDTH, (IntPtr)col, (IntPtr)width);
+        }
+
+        /// <summary>
+        /// 设置单元格文本（自动处理Unicode字符串，无内存泄漏）
+        /// </summary>
+        /// <param name="row">行索引</param>
+        /// <param name="col">列索引</param>
+        /// <param name="text">文本内容</param>
+        public void SetItemText(int row, int col, string text)
+        {
+            IntPtr pText = Marshal.StringToHGlobalUni(text);
+            try
+            {
+                SendMessage(GRID_MESSAGE_SETITEMTEXT, Util.MakeLParam(row, col), pText);
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(pText); // 释放非托管内存
+            }
+        }
+
+        /// <summary>
+        /// 设置单元格类型
+        /// </summary>
+        /// <param name="row">行索引</param>
+        /// <param name="col">列索引</param>
+        /// <param name="cellType">单元格类型枚举值</param>
+        public void SetCellType(int row, int col, int cellType)
+        {
+            SendMessage(GRID_MESSAGE_SETCELLTYPE, Util.MakeLParam(row, col), (IntPtr)cellType);
+        }
+
+        /// <summary>
+        /// 设置单元格下拉框选项
+        /// </summary>
+        /// <param name="row">行索引</param>
+        /// <param name="col">列索引</param>
+        /// <param name="optionsParam">选项参数结构体指针</param>
+        public void SetComboOptions(int row, int col, IntPtr optionsParam)
+        {
+            SendMessage(GRID_MESSAGE_SETCOMBOOPTIONS, Util.MakeLParam(row, col), optionsParam);
+        }
+
+        /// <summary>
+        /// 设置单元格背景色
+        /// </summary>
+        /// <param name="row">行索引</param>
+        /// <param name="col">列索引</param>
+        /// <param name="color">EXARGB格式颜色值</param>
+        public void SetItemBackColor(int row, int col, int color)
+        {
+            SendMessage(GRID_MESSAGE_SETITEMBKCOLOR, Util.MakeLParam(row, col), (IntPtr)color);
+        }
+
+        /// <summary>
+        /// 设置单元格前景色(文字颜色)
+        /// </summary>
+        public void SetItemForeColor(int row, int col, int color)
+        {
+            SendMessage(GRID_MESSAGE_SETITEMFGCOLOR, Util.MakeLParam(row, col), (IntPtr)color);
+        }
+
+        /// <summary>
+        /// 设置单元格日期值
+        /// </summary>
+        /// <param name="row">行索引</param>
+        /// <param name="col">列索引</param>
+        /// <param name="timePtr">time_t类型时间指针</param>
+        public void SetItemDate(int row, int col, IntPtr timePtr)
+        {
+            SendMessage(GRID_MESSAGE_SETITEMDATE, Util.MakeLParam(row, col), timePtr);
+        }
+
+        /// <summary>
+        /// 执行表格打印
+        /// </summary>
+        public void Print()
+        {
+            SendMessage(GRID_MESSAGE_PRINT, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 设置分隔条大小
+        /// </summary>
+        public void SetSplitterSize(int size)
+        {
+            SendMessage(SPLITTER_MESSAGE_SET_SIZE, (IntPtr)size, IntPtr.Zero);
+        }
+        #endregion
+
+        /// <summary>
+        /// 将C#字符串数组转换为 ExGridComboOptionsParam 非托管结构体
+        /// </summary>
+        /// <param name="options">下拉选项字符串数组</param>
+        /// <returns>分配好内存的结构体</returns>
+        public static ExGridComboOptionsParam ConvertToComboOptions(string[] options)
+        {
+            if (options == null || options.Length == 0)
+                return new ExGridComboOptionsParam { Options = IntPtr.Zero, Count = 0 };
+
+            int count = options.Length;
+            // 1. 分配字符串指针数组内存 (wchar_t* 数组)
+            IntPtr[] stringPointers = new IntPtr[count];
+            try
+            {
+                // 2. 逐个分配Unicode字符串内存
+                for (int i = 0; i < count; i++)
+                {
+                    stringPointers[i] = Marshal.StringToHGlobalUni(options[i] ?? string.Empty);
+                }
+                // 3. 分配指针数组的内存
+                IntPtr arrayPtr = Marshal.AllocHGlobal(stringPointers.Length * IntPtr.Size);
+                Marshal.Copy(stringPointers, 0, arrayPtr, stringPointers.Length);
+
+                return new ExGridComboOptionsParam
+                {
+                    Options = arrayPtr,
+                    Count = count
+                };
+            }
+            catch
+            {
+                // 异常时释放已分配内存
+                foreach (var ptr in stringPointers)
+                {
+                    if (ptr != IntPtr.Zero) Marshal.FreeHGlobal(ptr);
+                }
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 释放 ExGridComboOptionsParam 占用的非托管内存
+        /// </summary>
+        public static void FreeComboOptions(ref ExGridComboOptionsParam param)
+        {
+            if (param.Options == IntPtr.Zero) return;
+
+            // 1. 释放每个字符串的内存
+            IntPtr[] stringPointers = new IntPtr[param.Count];
+            Marshal.Copy(param.Options, stringPointers, 0, param.Count);
+            foreach (var ptr in stringPointers)
+            {
+                if (ptr != IntPtr.Zero) Marshal.FreeHGlobal(ptr);
+            }
+            // 2. 释放指针数组内存
+            Marshal.FreeHGlobal(param.Options);
+            param.Options = IntPtr.Zero;
+            param.Count = 0;
+        }
+
+        public new string ClassName => "GridCtrl";
+    }
+
+    /// <summary>
+    /// 流式滚动容器
+    /// </summary>
+    public class ExFlowScrollView : ExControl
+    {
+        public ExFlowScrollView(IExBaseUIEle oParent, string sTitle, int x, int y, int nWidth, int nHeight)
+            : base(oParent, "FlowScrollView", sTitle, x, y, nWidth, nHeight)
+        {
+        }
+
+        public ExFlowScrollView(IExBaseUIEle oParent, string sTitle, int x, int y, int nWidth, int nHeight, int dwStyle = -1, int dwStyleEx = -1, int dwTextFormat = -1, int nID = 0, IntPtr lParam = default, ExObjProcDelegate pfnObjProc = null)
+            : base(oParent, "FlowScrollView", sTitle, x, y, nWidth, nHeight, dwStyle, dwStyleEx, dwTextFormat, nID, lParam, IntPtr.Zero, pfnObjProc)
+        {
+        }
+        public ExFlowScrollView(int hObj) : base(hObj)
+        {
+        }
+        public ExFlowScrollView(ExControl parent) : base(parent)
+        {
+        }
+
+        #region 公开业务方法（消息封装）
+        /// <summary>
+        /// 添加组件到流式滚动容器
+        /// </summary>
+        /// <param name="item">要添加的控件</param>
+        public void AddComponent(ExControl item)
+        {
+            SendMessage(FLOWSCROLLVIEW_MESSAGE_ADD_COMPONENT, item.handle, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 设置流式滚动容器布局配置
+        /// </summary>
+        /// <param name="layoutConfig">布局配置结构体指针</param>
+        public void SetLayoutConfig(IntPtr layoutConfig)
+        {
+            SendMessage(FLOWSCROLLVIEW_MESSAGE_SET_LAYOUT_CONFIG, IntPtr.Zero, layoutConfig);
+        }
+
+        /// <summary>
+        /// 更新容器滚动范围（自适应内容）
+        /// </summary>
+        public void UpdateScrollRange()
+        {
+            SendMessage(FLOWSCROLLVIEW_MESSAGE_UPDATE_SCROLL_RANGE, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 获取容器内部句柄
+        /// </summary>
+        /// <returns>容器句柄</returns>
+        public int GetContainerHandle()
+        {
+            return (int)SendMessage(FLOWSCROLLVIEW_MESSAGE_GET_CONTAINER_HANDLE, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 从容器中移除指定组件
+        /// </summary>
+        /// <param name="item">要移除的控件</param>
+        public void RemoveComponent(ExControl item)
+        {
+            SendMessage(FLOWSCROLLVIEW_MESSAGE_REMOVE_COMPONENT, item.handle, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 清空容器内所有组件
+        /// </summary>
+        public void ClearComponents()
+        {
+            SendMessage(FLOWSCROLLVIEW_MESSAGE_CLEAR_COMPONENTS, IntPtr.Zero, IntPtr.Zero);
+        }
+        #endregion
+        public new string ClassName => "FlowScrollView";
+    }
+
+    /// <summary>
+    /// 原型画板
+    /// </summary>
+    public class ExPrototypeBoard : ExControl
+    {
+        public ExPrototypeBoard(IExBaseUIEle oParent, string sTitle, int x, int y, int nWidth, int nHeight)
+            : base(oParent, "PrototypeBoard", sTitle, x, y, nWidth, nHeight)
+        {
+        }
+
+        public ExPrototypeBoard(IExBaseUIEle oParent, string sTitle, int x, int y, int nWidth, int nHeight, int dwStyle = -1, int dwStyleEx = -1, int dwTextFormat = -1, int nID = 0, IntPtr lParam = default, ExObjProcDelegate pfnObjProc = null)
+            : base(oParent, "PrototypeBoard", sTitle, x, y, nWidth, nHeight, dwStyle, dwStyleEx, dwTextFormat, nID, lParam, IntPtr.Zero, pfnObjProc)
+        {
+        }
+        public ExPrototypeBoard(int hObj) : base(hObj)
+        {
+        }
+        public ExPrototypeBoard(ExControl parent) : base(parent)
+        {
+        }
+
+        #region 公共方法
+        /// <summary>
+        /// 绘制直线
+        /// </summary>
+        public void DrawLine()
+        {
+            this.SendMessage(PROTOTYPEBOARD_MESSAGE_DRAW_LINE, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 绘制矩形
+        /// </summary>
+        public void DrawRect()
+        {
+            this.SendMessage(PROTOTYPEBOARD_MESSAGE_DRAW_RECT, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 绘制椭圆
+        /// </summary>
+        public void DrawEllipse()
+        {
+            this.SendMessage(PROTOTYPEBOARD_MESSAGE_DRAW_ELLIPSE, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 绘制文本
+        /// </summary>
+        public void DrawText()
+        {
+            this.SendMessage(PROTOTYPEBOARD_MESSAGE_DRAW_TEXT, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 绘制图像
+        /// </summary>
+        public void DrawImage()
+        {
+            this.SendMessage(PROTOTYPEBOARD_MESSAGE_DRAW_IMAGE, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 改变画板模式
+        /// </summary>
+        /// <param name="mode">模式值</param>
+        public void SetMode(int mode)
+        {
+            this.SendMessage(PROTOTYPEBOARD_MESSAGE_MODE, IntPtr.Zero, new IntPtr(mode));
+        }
+
+        /// <summary>
+        /// 设置图片
+        /// </summary>
+        /// <param name="hImage">图片句柄HEXIMAGE</param>
+        /// <param name="keepAspectRatio">true=保持宽高比，false=拉伸</param>
+        public void SetImage(ExImage hImage, bool keepAspectRatio)
+        {
+            IntPtr lParam = new IntPtr(keepAspectRatio ? 1 : 0);
+            this.SendMessage(PROTOTYPEBOARD_MESSAGE_SET_IMAGE, hImage.handle, lParam);
+        }
+
+        /// <summary>
+        /// 设置文本
+        /// </summary>
+        /// <param name="hFont">字体句柄HEXFONT</param>
+        /// <param name="text">文本内容</param>
+        public void SetText(ExFont hFont, string text)
+        {
+            // 转换为Unicode字符串指针（匹配WCHAR*）
+            IntPtr pText = Marshal.StringToHGlobalUni(text);
+            try
+            {
+                this.SendMessage(PROTOTYPEBOARD_MESSAGE_SET_TEXT, hFont.handle, pText);
+            }
+            finally
+            {
+                // 释放非托管内存
+                Marshal.FreeHGlobal(pText);
+            }
+        }
+        #endregion
+        public new string ClassName => "PrototypeBoard";
+    }
+
+    public class ExCandlestickChart : ExControl
+    {
+        public ExCandlestickChart(IExBaseUIEle oParent, string sTitle, int x, int y, int nWidth, int nHeight)
+            : base(oParent, "CandlestickChart", sTitle, x, y, nWidth, nHeight)
+        {
+        }
+
+        public ExCandlestickChart(IExBaseUIEle oParent, string sTitle, int x, int y, int nWidth, int nHeight, int dwStyle = -1, int dwStyleEx = -1, int dwTextFormat = -1, int nID = 0, IntPtr lParam = default, ExObjProcDelegate pfnObjProc = null)
+            : base(oParent, "CandlestickChart", sTitle, x, y, nWidth, nHeight, dwStyle, dwStyleEx, dwTextFormat, nID, lParam, IntPtr.Zero, pfnObjProc)
+        {
+        }
+        public ExCandlestickChart(int hObj) : base(hObj)
+        {
+        }
+        public ExCandlestickChart(ExControl parent) : base(parent)
+        {
+        }
+
+        /// <summary>
+        /// 添加单条K线数据
+        /// </summary>
+        /// <param name="data">K线数据结构体</param>
+        public void AddData(ExCandlestickData data)
+        {
+            int dataSize = Marshal.SizeOf<ExCandlestickData>();
+            IntPtr dataPtr = ExAPI.Ex_MemAlloc(dataSize);
+            try
+            {
+                Marshal.StructureToPtr(data, dataPtr, false);
+                SendMessage(CANDLESTICKCHART_MESSAGE_ADD_DATA, IntPtr.Zero, dataPtr);
+            }
+            finally
+            {
+                ExAPI.Ex_MemFree(dataPtr);
+            }
+        }
+
+        /// <summary>
+        /// 清空所有K线数据
+        /// </summary>
+        public void ClearData()
+        {
+            SendMessage(CANDLESTICKCHART_MESSAGE_CLEAR_DATA, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 【修正】设置均线天数（严格匹配C++原生调用：int[4]数组）
+        /// </summary>
+        /// <param name="maDays">均线天数数组，必须传入4个值（如：5,10,20,30）</param>
+        /// <exception cref="ArgumentException"></exception>
+        public void SetMADays(int[] maDays)
+        {
+            // 严格校验：必须是4个元素的int数组（和C++ INT maDays[4] 对应）
+            if (maDays == null || maDays.Length != 4)
+                throw new ArgumentException("均线天数数组必须为4个整数！");
+
+            // 分配非托管内存（4个int的大小）
+            int size = Marshal.SizeOf<int>() * 4;
+            IntPtr ptr = ExAPI.Ex_MemAlloc(size);
+            try
+            {
+                // 将C#数组复制到非托管内存
+                Marshal.Copy(maDays, 0, ptr, 4);
+                // 发送消息（完全匹配C++：wParam=0, lParam=数组指针）
+                SendMessage(CANDLESTICKCHART_MESSAGE_SET_MA_DAYS, IntPtr.Zero, ptr);
+            }
+            finally
+            {
+                // 确保释放内存，防止内存泄漏
+                ExAPI.Ex_MemFree(ptr);
+            }
+        }
+
+        /// <summary>
+        /// 设置是否显示均线
+        /// </summary>
+        /// <param name="isShow">true-显示，false-隐藏</param>
+        public void ShowMA(bool isShow)
+        {
+            IntPtr wParam = new IntPtr(isShow ? 1 : 0);
+            SendMessage(CANDLESTICKCHART_MESSAGE_SHOW_MA, wParam, IntPtr.Zero);
+        }
+
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct PriceRange
+        {
+            public double Min;
+            public double Max;
+        }
+
+        /// <summary>
+        /// 设置K线价格显示范围
+        /// </summary>
+        /// <param name="minPrice">最低价格</param>
+        /// <param name="maxPrice">最高价格</param>
+        public void SetPriceRange(double minPrice, double maxPrice)
+        {
+            PriceRange range = new PriceRange { Min = minPrice, Max = maxPrice };
+            int size = Marshal.SizeOf<PriceRange>();
+            IntPtr ptr = ExAPI.Ex_MemAlloc(size);
+            try
+            {
+                Marshal.StructureToPtr(range, ptr, false);
+                SendMessage(CANDLESTICKCHART_MESSAGE_SET_RANGE, IntPtr.Zero, ptr);
+            }
+            finally
+            {
+                ExAPI.Ex_MemFree(ptr);
+            }
+        }
+
+        /// <summary>
+        /// 获取当前选中的K线数据指针
+        /// </summary>
+        public IntPtr GetSelectedHandle()
+        {
+            return SendMessage(CANDLESTICKCHART_MESSAGE_GET_SELECTED, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 获取当前选中的K线数据
+        /// </summary>
+        public ExCandlestickData GetSelectedData()
+        {
+            IntPtr ptr = GetSelectedHandle();
+            return ptr == IntPtr.Zero ? default : Marshal.PtrToStructure<ExCandlestickData>(ptr);
+        }
+        public new string ClassName => "CandlestickChart";
     }
 }
