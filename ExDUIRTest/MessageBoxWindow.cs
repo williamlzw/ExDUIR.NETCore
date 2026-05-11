@@ -5,6 +5,7 @@ using ExDuiR.NET.Frameworks.Layout;
 using ExDuiR.NET.Frameworks;
 using ExDuiR.NET.Native;
 using static ExDuiR.NET.Native.ExConst;
+using System.Runtime.InteropServices;
 using System;
 
 namespace ExDuiRTest
@@ -41,7 +42,7 @@ namespace ExDuiRTest
         {
             if (uMsg == WM_NOTIFY)
             {
-                var ni = Util.IntPtrToStructure<ExNMHDR>(lParam);
+                var ni = Marshal.PtrToStructure<ExNMHDR>(lParam);
                 if (ni.nCode == NM_INTDLG)
                 {
                     var nskin = new ExSkin(hExDui);

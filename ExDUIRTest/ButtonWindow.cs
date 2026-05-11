@@ -1,10 +1,11 @@
-﻿using ExDuiR.NET.Frameworks.Controls;
+﻿using ExDuiR.NET.Frameworks;
+using ExDuiR.NET.Frameworks.Controls;
 using ExDuiR.NET.Frameworks.Graphics;
 using ExDuiR.NET.Frameworks.Utility;
-using ExDuiR.NET.Frameworks;
 using ExDuiR.NET.Native;
-using static ExDuiR.NET.Native.ExConst;
 using System;
+using System.Runtime.InteropServices;
+using static ExDuiR.NET.Native.ExConst;
 
 namespace ExDuiRTest
 {
@@ -62,7 +63,7 @@ namespace ExDuiRTest
         {
             if (uMsg == WM_ERASEBKGND)
             {
-                ExPaintStruct ps = Util.IntPtrToStructure<ExPaintStruct>(lParam);
+                ExPaintStruct ps = Marshal.PtrToStructure<ExPaintStruct>(lParam);
                 int crBkg;
                 if ((ps.dwState & STATE_DOWN) == STATE_DOWN)
                 {
@@ -108,7 +109,7 @@ namespace ExDuiRTest
             {
                 if (nCode == NM_CUSTOMDRAW)
                 {
-                    ExPaintStruct ps = Util.IntPtrToStructure<ExPaintStruct>(lParam);
+                    ExPaintStruct ps = Marshal.PtrToStructure<ExPaintStruct>(lParam);
                     int crBkg;
                     if ((ps.dwState & STATE_DOWN) != 0)
                     {

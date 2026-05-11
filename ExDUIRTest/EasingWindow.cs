@@ -5,6 +5,7 @@ using ExDuiR.NET.Frameworks.Layout;
 using ExDuiR.NET.Frameworks;
 using ExDuiR.NET.Native;
 using static ExDuiR.NET.Native.ExConst;
+using System.Runtime.InteropServices;
 using System;
 
 namespace ExDuiRTest
@@ -120,7 +121,7 @@ namespace ExDuiRTest
                 }
                 else if (nCode == NM_EASING)
                 {
-                    var info = Util.IntPtrToStructure<ExEasingInfo>(lParam);
+                    var info = Marshal.PtrToStructure<ExEasingInfo>(lParam);
                     button2.SetPos(0, 0, (int)info.nCurrent, 50, IntPtr.Zero, SWP_NOMOVE | SWP_NOZORDER);
                 }
             }
@@ -143,7 +144,7 @@ namespace ExDuiRTest
                 }
                 else if (nCode == NM_EASING)
                 {
-                    var info = Util.IntPtrToStructure<ExEasingInfo>(lParam);
+                    var info = Marshal.PtrToStructure<ExEasingInfo>(lParam);
                     button3.SetPos(0, 0, (int)info.nCurrent, 50, IntPtr.Zero, SWP_NOMOVE | SWP_NOZORDER);
                 }
             }

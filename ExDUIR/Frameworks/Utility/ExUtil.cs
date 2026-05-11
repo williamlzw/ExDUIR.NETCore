@@ -8,19 +8,6 @@ namespace ExDuiR.NET.Frameworks.Utility
 {
     static public class Util
     {
-        static public T IntPtrToStructure<T>(IntPtr ptr)
-        {
-            object structure = null;
-            int size = Marshal.SizeOf(typeof(T));
-            try
-            {
-                structure = Marshal.PtrToStructure(ptr, typeof(T));
-            }
-            finally
-            {
-            }
-            return (T)structure;
-        }
 
         static public void FloatToIntPtr(IntPtr ptr, float value)
         {

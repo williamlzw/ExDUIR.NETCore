@@ -80,7 +80,7 @@ namespace ExDuiRTest
         {
             if(uMsg == WM_NOTIFY)
             {
-                var ni = Util.IntPtrToStructure<ExNMHDR>(lParam);
+                var ni = Marshal.PtrToStructure<ExNMHDR>(lParam);
                 if(ni.hObjFrom == hObj)
                 {
                     if(ni.nCode == NM_CALCSIZE)//设置表项尺寸事件 默认为列表框宽度/一行文字的高度

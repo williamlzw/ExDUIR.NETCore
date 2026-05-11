@@ -71,7 +71,7 @@ namespace ExDuiRTest
             else if(uMsg == WM_EX_EASING)
             {
                 ExControl Obj = new ExControl(hObj);
-                var es = Util.IntPtrToStructure<ExEasingInfo>(lParam);
+                var es = Marshal.PtrToStructure<ExEasingInfo>(lParam);
                 if(es.nProgress == 1)//如果进度=1则表示缓动结束
                 {
                     Obj.UserData = IntPtr.Zero;

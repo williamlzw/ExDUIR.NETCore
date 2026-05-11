@@ -3,6 +3,7 @@ using ExDuiR.NET.Frameworks.Utility;
 using ExDuiR.NET.Frameworks;
 using ExDuiR.NET.Native;
 using static ExDuiR.NET.Native.ExConst;
+using System.Runtime.InteropServices;
 using System;
 using System.Globalization;
 
@@ -33,7 +34,7 @@ namespace ExDuiRTest
         {
             if(nCode == CALENDAR_EVENT_DATETIME)
             {
-                var dt = Util.IntPtrToStructure<ExDateTimeInfo>(lParam);
+                var dt = Marshal.PtrToStructure<ExDateTimeInfo>(lParam);
                 Console.WriteLine($"日期已更改,{dt.Year},{dt.Mon},{dt.Mday},{dt.Wday}");
             }
             return IntPtr.Zero;

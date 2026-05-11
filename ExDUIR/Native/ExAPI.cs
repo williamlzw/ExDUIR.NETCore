@@ -17,6 +17,7 @@ namespace ExDuiR.NET.Native
     public delegate void ExCefBeforeCommandLineCallbackDelegate(int uMsg, IntPtr handler, int hObj, IntPtr attach1, IntPtr attach2, IntPtr attach3, IntPtr attach4, IntPtr pbHWEBVIEWd, IntPtr lParam);
     public delegate IntPtr ExEasingProcDelegate(IntPtr pEasing, double nProgress, double nCurrent, IntPtr pContext, int nTimeSurplus, IntPtr param1, IntPtr param2, IntPtr param3, IntPtr param4);
 
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExRectF
     {
         public float nLeft;
@@ -32,6 +33,7 @@ namespace ExDuiR.NET.Native
         }
     }
 
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExRect
     {
         public int nLeft { get; set; }
@@ -47,6 +49,7 @@ namespace ExDuiR.NET.Native
         }
     }
 
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExPoint
     {
         public int x;
@@ -58,6 +61,7 @@ namespace ExDuiR.NET.Native
         }
     }
 
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExPointF
     {
         public float x;
@@ -72,6 +76,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 绘制信息结构
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExPaintStruct
     {
         /// <summary>
@@ -124,6 +129,7 @@ namespace ExDuiR.NET.Native
         public IntPtr dwReserved;
     }
 
+    [StructLayout(LayoutKind.Sequential)]
     /// <summary>
     /// 自定义绘制信息结构
     /// </summary>
@@ -174,6 +180,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 背景信息结构
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExBackgroundImageInfo
     {
         /// <summary>
@@ -222,6 +229,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 组件类信息结构
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExClassInfo
     {
         /// <summary>
@@ -261,6 +269,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 接收WM_NOTIFY通知信息结构
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExNMHDR
     {
         /// <summary>
@@ -288,6 +297,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 列表框信息结构,列表框NM_CALCSIZE通知EX_NMHDR.lParam结构体
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExListViewInfo
     {
         /// <summary>
@@ -376,6 +386,7 @@ namespace ExDuiR.NET.Native
         public IntPtr lpItems;
     }
 
+    [StructLayout(LayoutKind.Sequential)]
     public struct NMHDR
     {
         /// <summary>
@@ -439,6 +450,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 图像像素数据结构
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExBitmapData
     {
         /// <summary>
@@ -470,6 +482,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 扩展控件属性信息结构
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExObjProps
     {
         /// <summary>
@@ -541,6 +554,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 报表列信息结构
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExReportListColumnInfo
     {
         /// <summary>
@@ -576,6 +590,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 报表项目信息结构
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExReportListItemInfo
     {
         /// <summary>
@@ -607,6 +622,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 报表列表单元格信息结构
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExReportListCellInfo
     {
         /// <summary>
@@ -646,6 +662,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 报表插入表项结构体
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExReportListRowInfo
     {
         /// <summary>
@@ -673,6 +690,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 报表排序信息结构
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExReportListSortInfo
     {
         /// <summary>
@@ -700,6 +718,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 树形框节点信息结构,不能改变成员顺序
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExTreeViewNodeItem
     {
         /// <summary>
@@ -759,6 +778,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 树形框表项信息结构,不能改变成员顺序
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExTreeViewItemInfo
     {
         /// <summary>
@@ -794,6 +814,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 树形框插入项目信息结构
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExTreeViewInsertInfo
     {
         /// <summary>
@@ -841,6 +862,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 图标列表框插入信息结构
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExIconListViewItemInfo
     {
         /// <summary>
@@ -860,6 +882,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 图像属性信息
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExImageInfo
     {
         /// <summary>
@@ -879,6 +902,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 拖曳信息结构
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExDropInfo
     {
         /// <summary>
@@ -902,6 +926,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 富文本框EM_EXSETSEL消息lParam参数结构
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExCharRange
     {
         public int cpMin;
@@ -945,6 +970,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 富文本框替换文本信息结构
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExSetTextEx
     {
         public int flags;
@@ -1006,6 +1032,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 日期框信息结构
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExDateTimeInfo
     {
         /// <summary>
@@ -1049,6 +1076,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 属性框项目子项目按钮结构布局
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExPropergridItemLayoutButton
     {
         /// <summary>
@@ -1084,6 +1112,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 属性框项目子项目日期框结构布局
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExPropergridItemLayoutDateBox
     {
         /// <summary>
@@ -1119,6 +1148,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 属性框项目子项目编辑框结构布局
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExPropergridItemLayoutColorPicker
     {
         /// <summary>
@@ -1166,6 +1196,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 属性框项目子项目编辑框结构布局
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExPropergridItemLayoutCombobox
     {
         /// <summary>
@@ -1209,6 +1240,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 属性框项目子项目编辑框结构布局
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExPropergridItemLayoutEdit
     {
         /// <summary>
@@ -1252,6 +1284,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 属性框项目子项目分组结构布局
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExPropergridItemLayoutGroup
     {
         /// <summary>
@@ -1427,6 +1460,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 标注板路径数组信息结构
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExPolygonArray
     {
         /// <summary>
@@ -1442,6 +1476,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 标注板路径信息结构
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExPolygon
     {
         /// <summary>
@@ -1454,6 +1489,7 @@ namespace ExDuiR.NET.Native
         public IntPtr points;
     };
 
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExChatBoxItemLayoutText
     {
         public ExRect rcAvatar;
@@ -1477,6 +1513,7 @@ namespace ExDuiR.NET.Native
         private ExChatBoxItemLayoutText layout;
     };
 
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExChatBoxItemLayoutCard
     {
         public ExRect rcAvatar;
@@ -1527,6 +1564,7 @@ namespace ExDuiR.NET.Native
         private ExChatBoxItemLayoutCard layout;
     };
 
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExChatBoxItemLayoutMode
     {
         public ExRect rcAvatar;
@@ -1584,6 +1622,7 @@ namespace ExDuiR.NET.Native
         public IntPtr descriptionText;
     };
 
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExChatBoxItemLayoutErrorList
     {
         public ExRect rcAvatar;
@@ -1640,6 +1679,7 @@ namespace ExDuiR.NET.Native
         public IntPtr description;
     };
 
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExChatBoxItemLayoutInfoList
     {
         public ExRect rcAvatar;
@@ -1698,6 +1738,7 @@ namespace ExDuiR.NET.Native
         public IntPtr columns;
     };
 
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExChatBoxItemLayoutTableList
     {
         public ExRect rcAvatar;
@@ -1747,6 +1788,7 @@ namespace ExDuiR.NET.Native
         public string Text;
     };
 
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExChatBoxItemLayoutInfoLink
     {
         public ExRect rcAvatar;
@@ -1784,7 +1826,7 @@ namespace ExDuiR.NET.Native
         private ExChatBoxItemLayoutInfoLink layout;
     };
 
-    
+
     /// <summary>
     /// Markdown块级元素
     /// </summary>
@@ -1841,7 +1883,7 @@ namespace ExDuiR.NET.Native
         /// <summary>
         /// 表格
         /// </summary>
-        MD_ELEMENT_TABLE,          
+        MD_ELEMENT_TABLE,
     }
 
     /// <summary>
@@ -1952,6 +1994,7 @@ namespace ExDuiR.NET.Native
     /// <summary>
     /// 对话盒_布局
     /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
     public struct ExChatBoxItemLayoutMarkdown
     {
         public ExRect rcAvatar;
@@ -2365,8 +2408,6 @@ namespace ExDuiR.NET.Native
         /// </summary>
         [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "Ex_UnInit")]
         public static extern void Ex_UnInit();
-
-
 
 
         /// <summary>

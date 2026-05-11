@@ -3,6 +3,7 @@ using ExDuiR.NET.Frameworks.Utility;
 using ExDuiR.NET.Frameworks;
 using ExDuiR.NET.Native;
 using static ExDuiR.NET.Native.ExConst;
+using System.Runtime.InteropServices;
 using System;
 
 namespace ExDuiRTest
@@ -36,7 +37,7 @@ namespace ExDuiRTest
         {
             if(uMsg == WM_NOTIFY)
             {
-                var ni = Util.IntPtrToStructure<ExNMHDR>(lParam);
+                var ni = Marshal.PtrToStructure<ExNMHDR>(lParam);
                 if(ni.nCode == NM_TRAYICON)
                 {
                     var type = (Int16)Util.LOWORD((uint)ni.lParam);

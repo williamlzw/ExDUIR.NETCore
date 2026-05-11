@@ -87,7 +87,7 @@ namespace ExDuiRTest
         {
             if (uMsg == WM_NOTIFY)
             {
-                var ni = Util.IntPtrToStructure<ExNMHDR>(lParam);
+                var ni = Marshal.PtrToStructure<ExNMHDR>(lParam);
                 if (hObj == ni.hObjFrom)
                 {
                     if (ni.nCode == NM_CALCSIZE)
@@ -98,7 +98,7 @@ namespace ExDuiRTest
                     }
                     else if (ni.nCode == NM_CUSTOMDRAW)
                     {
-                        var cd = Util.IntPtrToStructure<ExCustomDraw>(ni.lParam);
+                        var cd = Marshal.PtrToStructure<ExCustomDraw>(ni.lParam);
                         var canvas = new ExCanvas(cd.hCanvas);
                         int color = 0;
                         if ((cd.dwState & STATE_SELECT) == STATE_SELECT)

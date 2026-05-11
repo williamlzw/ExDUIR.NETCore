@@ -107,7 +107,7 @@ namespace DemoProject
             var obj = new ExControl(hObj);
             if (uMsg == WM_EX_EASING)
             {
-                var es = Util.IntPtrToStructure<ExEasingInfo>(lParam);
+                var es = Marshal.PtrToStructure<ExEasingInfo>(lParam);
                 obj.Move(OBJECT_POSITION_DEFAULT, (int)(ExAPI.Ex_Scale(80) - es.nCurrent / 100 * ExAPI.Ex_Scale(80)), OBJECT_POSITION_DEFAULT, OBJECT_POSITION_DEFAULT, true);
                 obj.Alpha = (int)(es.nCurrent / 100 * 255);
             }
@@ -119,7 +119,7 @@ namespace DemoProject
             var obj = new ExControl(hObj);
             if (uMsg == WM_EX_EASING)
             {
-                var es = Util.IntPtrToStructure<ExEasingInfo>(lParam);
+                var es = Marshal.PtrToStructure<ExEasingInfo>(lParam);
                 if (es.nProgress == 1 && es.nTimesSurplus == 1)
                 {
                     var easing = new ExEasing(EASING_TYPE_LINEAR, IntPtr.Zero, EASING_MODE_SINGLE | EASING_MODE_DISPATCHNOTIFY | EASING_MODE_THREAD, (IntPtr)bkg.handle, 20, 1, EASING_STATE_PLAY, 0, 100);
@@ -178,7 +178,7 @@ namespace DemoProject
             var obj = new ExControl(hObj);
             if(uMsg == WM_EX_EASING)
             {
-                var es = Util.IntPtrToStructure<ExEasingInfo>(lParam);
+                var es = Marshal.PtrToStructure<ExEasingInfo>(lParam);
                 if(es.nProgress == 1)
                 {
                     obj.UserData = IntPtr.Zero;

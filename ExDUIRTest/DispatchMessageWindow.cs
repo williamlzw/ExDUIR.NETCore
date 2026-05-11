@@ -71,7 +71,7 @@ namespace ExDuiRTest
             {
                 if((int)wParam == 1001)
                 {
-                    var ni = Util.IntPtrToStructure<ExNMHDR>(lParam);
+                    var ni = Marshal.PtrToStructure<ExNMHDR>(lParam);
                     if (ni.nCode == NM_CLICK)
                     {
                         ExMessageBox.Show(new ExSkin(hExDui), "按钮所属窗口收到了单击事件", "");
@@ -89,7 +89,7 @@ namespace ExDuiRTest
             }
             else if(uMsg == WM_NOTIFY)
             {
-                var ni = Util.IntPtrToStructure<ExNMHDR>(lParam);
+                var ni = Marshal.PtrToStructure<ExNMHDR>(lParam);
                 if(ni.hObjFrom == hObj)
                 {
                     if(ni.nCode == NM_CLICK)
@@ -107,7 +107,7 @@ namespace ExDuiRTest
             {
                 if ((int)wParam == 1001)//wParam表示事件对象的ID，1001最里层按钮
                 {
-                    var ni = Util.IntPtrToStructure<ExNMHDR>(lParam);
+                    var ni = Marshal.PtrToStructure<ExNMHDR>(lParam);
                     if (ni.nCode == NM_CLICK)
                     {
                         var obj = new ExControl(hObj);
@@ -128,7 +128,7 @@ namespace ExDuiRTest
             {
                 if((int)wParam == 1001)//wParam表示事件对象的ID，1001最里层按钮
                 {
-                    var ni = Util.IntPtrToStructure<ExNMHDR>(lParam);
+                    var ni = Marshal.PtrToStructure<ExNMHDR>(lParam);
                     if(ni.nCode == NM_CLICK)
                     {
                         var obj = new ExControl(hObj);

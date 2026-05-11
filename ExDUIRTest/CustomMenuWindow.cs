@@ -108,7 +108,7 @@ namespace ExDuiRTest
             {
                 if ((int)Marshal.ReadInt64(lParam, 0) == (int)wParam)
                 {
-                    var ps = Util.IntPtrToStructure<ExPaintStruct>(lParam);
+                    var ps = Marshal.PtrToStructure<ExPaintStruct>(lParam);
                     var canvas = new ExCanvas(ps.hCanvas);
                     if (ps.nHeight > 10)
                     {

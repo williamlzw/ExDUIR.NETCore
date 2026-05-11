@@ -262,7 +262,7 @@ namespace ExDuiRTest
             if (uMsg == LISTBUTTON_MESSAGE_DOWNITEM)
             {
                 var rcWindow = skin.WindowRect;
-                var itemInfo = Util.IntPtrToStructure<ExListButtonItemInfo>(lParam);
+                var itemInfo = Marshal.PtrToStructure<ExListButtonItemInfo>(lParam);
                 int hMenu = (int)itemInfo.nMenu;
                 if(ExAPI.Ex_MenuIsMenu(hMenu))
                 {

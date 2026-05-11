@@ -292,14 +292,14 @@ namespace ExDuiRTest
 
         static public IntPtr OnPropertyGridEvent(int hObj, int nID, int nCode, IntPtr wParam, IntPtr lParam)
         {
-            var itemInfo = Util.IntPtrToStructure<ExPropergridChangeItemInfo>(lParam);
+            var itemInfo = Marshal.PtrToStructure<ExPropergridChangeItemInfo>(lParam);
             Console.WriteLine($"属性框值改变,对应行索引:{wParam},改变后值:{itemInfo.text},改变类型:{itemInfo.type}");
             return IntPtr.Zero;
         }
 
         static public IntPtr OnPropertyGridEventBUTTONCLICK(int hObj, int nID, int nCode, IntPtr wParam, IntPtr lParam)
         {
-            var itemInfo = Util.IntPtrToStructure<ExPropergridChangeItemInfo>(lParam);
+            var itemInfo = Marshal.PtrToStructure<ExPropergridChangeItemInfo>(lParam);
             Console.WriteLine($"按钮被点击,对应行索引:{wParam},改变后值:{itemInfo.text},改变类型:{itemInfo.type}");
             return IntPtr.Zero;
         }

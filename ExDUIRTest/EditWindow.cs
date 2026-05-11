@@ -4,6 +4,7 @@ using ExDuiR.NET.Frameworks.Utility;
 using ExDuiR.NET.Frameworks;
 using ExDuiR.NET.Native;
 using static ExDuiR.NET.Native.ExConst;
+using System.Runtime.InteropServices;
 using System;
 using System.Collections.Generic;
 
@@ -187,12 +188,12 @@ namespace ExDuiRTest
         {
             if (nCode == NM_EN_SELCHANGE)
             {
-                ExSelChange selcha = Util.IntPtrToStructure<ExSelChange>(lParam);
+                ExSelChange selcha = Marshal.PtrToStructure<ExSelChange>(lParam);
                 Console.WriteLine(String.Format("选中区域改变:{0},{1}", selcha.chrg.cpMin, selcha.chrg.cpMax));
             }
             else if (nCode == NM_EN_LINK)
             {
-                ExEnLink selcha = Util.IntPtrToStructure<ExEnLink>(lParam);
+                ExEnLink selcha = Marshal.PtrToStructure<ExEnLink>(lParam);
                 if (selcha.msg == WM_LBUTTONDOWN)
                 {
                     Console.WriteLine(String.Format("链接被按下: {0}", edit7.GetLinkText(selcha)));

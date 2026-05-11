@@ -35,7 +35,7 @@ namespace ExDuiRTest
             if (uMsg == WM_EX_DROP)//先触发本消息
             {
                 Console.WriteLine("aaaaaaaaaaa");
-                var di = Util.IntPtrToStructure<ExDropInfo>(lParam);
+                var di = Marshal.PtrToStructure<ExDropInfo>(lParam);
                 var obj = new ExControl(hObj);
                 Console.WriteLine(Marshal.SizeOf(di));
                 if (obj.CheckDropFormat(di.pDataObject, CF_UNICODETEXT) || obj.CheckDropFormat(di.pDataObject, CF_TEXT))

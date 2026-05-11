@@ -2649,13 +2649,13 @@ namespace ExDuiR.NET.Frameworks.Controls
                 var offsetLeft = this.OffsetLeft;
                 var offsetTop = this.OffsetTop;
                 var scale = this.ImgScale;
-                var polygonArr = Util.IntPtrToStructure<ExPolygonArray>(arrPtr);
+                var polygonArr = Marshal.PtrToStructure<ExPolygonArray>(arrPtr);
                 List<List<ExPoint>> polygons = new List<List<ExPoint>>();
 
                 for (int i = 0; i < polygonArr.count - 1; i++)
                 {
                     var ptr = Marshal.ReadIntPtr(polygonArr.polygons + i * Marshal.SizeOf(typeof(IntPtr)));
-                    var polygon = Util.IntPtrToStructure<ExPolygon>(ptr);
+                    var polygon = Marshal.PtrToStructure<ExPolygon>(ptr);
                     List<ExPoint> points = new List<ExPoint>();
                     if (polygon.count > 0)
                     {
