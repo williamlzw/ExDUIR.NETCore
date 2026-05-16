@@ -25,9 +25,7 @@
   </Target>
 
   <ItemGroup>
-    <Reference Include="ExDUIR">
-      <HintPath>..\ExDUIR\bin\Debug\net10.0\ExDUIR.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\ExDUIR\ExDUIR.csproj" />
   </ItemGroup>
 
   <ItemGroup>

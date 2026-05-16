@@ -44,7 +44,7 @@ namespace ExDuiRTest
                 switchs = new ExSwitch[2];
                 switchs[0] = new ExSwitch(skin, "已开启|已关闭", 150, 110, 80, 30);
                 switchs[1] = new ExSwitch(skin, "", 150, 150, 60, 30);
-                switchs[1].Check = true;
+                switchs[1].Check = false;
                 ExObjProps props = new ExObjProps()
                 {
                     crBkgNormal = Util.ExARGB(255, 255, 255, 100),

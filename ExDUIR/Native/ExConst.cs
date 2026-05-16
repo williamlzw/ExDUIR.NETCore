@@ -4537,5 +4537,44 @@
         /// </summary>
         public const int CANDLESTICKCHART_EVENT_RANGE_CHANGED = 102;
         #endregion
+
+        #region 图片预览列表_消息定义
+        /// <summary>
+        /// 图片预览列表_用户消息
+        /// </summary>
+        public const int LISTVIEW_MESSAGE_USER = 20000;
+        /// <summary>
+        /// 图片预览列表_插入表项 wParam:是否重画 lParam: ExImgPreviewListviewItemInfo信息结构
+        /// </summary>
+        public const int IMGPREVIEWLISTVIEW_MESSAGE_INSERTITEM = LISTVIEW_MESSAGE_USER + 1;
+        /// <summary>
+        /// 图片预览列表_删除表项 wParam:是否重画 lParam: 索引 从1开始
+        /// </summary>
+        public const int IMGPREVIEWLISTVIEW_MESSAGE_DELETEITEM = LISTVIEW_MESSAGE_USER + 2;
+        /// <summary>
+        /// 图片预览列表_删除全部 wParam:是否重画
+        /// </summary>
+        public const int IMGPREVIEWLISTVIEW_MESSAGE_DELETEALLITEMS = LISTVIEW_MESSAGE_USER + 3;
+        /// <summary>
+        /// 图片预览列表_设置宽高, lParam: Util.MAKELONG(width,height)
+        /// </summary>
+        public const int IMGPREVIEWLISTVIEW_MESSAGE_SETITEMSIZE = LISTVIEW_MESSAGE_USER + 4;
+        /// <summary>
+        /// 图片预览列表_获取表项信息 lParam: 索引 从1开始, 返回ExImgPreviewListviewItemInfo信息结构
+        /// </summary>
+        public const int IMGPREVIEWLISTVIEW_MESSAGE_GETITEMINFO = LISTVIEW_MESSAGE_USER + 5;
+        /// <summary>
+        /// 图片预览列表_获取选中 返回索引
+        /// </summary>
+        public const int IMGPREVIEWLISTVIEW_MESSAGE_GETSELECTED = LISTVIEW_MESSAGE_USER + 6;
+        /// <summary>
+        /// 图片预览列表_获取图片总数 返回总数
+        /// </summary>
+        public const int IMGPREVIEWLISTVIEW_MESSAGE_GETCOUNT = LISTVIEW_MESSAGE_USER + 7;
+        /// <summary>
+        /// 图片预览列表_更新
+        /// </summary>
+        public const int IMGPREVIEWLISTVIEW_MESSAGE_UPDATE = LISTVIEW_MESSAGE_UPDATE;
+        #endregion
     }
 }

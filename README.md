@@ -217,3 +217,6 @@ win10+， win7 需要安装KB2670838补丁
 
 ### demo candlestickchart:
 ![image](demo_image/demo_candlestickchart.png)
+
+### demo imgpreviewlistview:
+![image](demo_image/demo_imgpreviewlistview.png)

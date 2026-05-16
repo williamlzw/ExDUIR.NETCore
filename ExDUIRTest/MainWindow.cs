@@ -31,8 +31,8 @@ namespace ExDuiRTest
             "模板列表",       "鼠标绘制板", "调色板",        "属性框",     "原生子窗口", "全屏置顶",
             "路径与区域",     "VLC播放器",  "自定字体和SVG", "卷帘菜单",   "托盘图标",   "蒙板",
             "标注画板",       "效果器",     "打包",          "环形进度条", "水波进度条", "折线图",
-            "对话盒",         "流程图",     "分隔条",        "D3D绘制" ,  "表格",       "webview2浏览器",
-            "流式滚动容器",    "原型画板",   "K线图"
+            "对话盒",         "流程图",     "分隔条",        "D3D绘制" ,   "表格",       "webview2浏览器",
+            "流式滚动容器",   "原型画板",   "K线图",         "图片预览列表"
         };
 
         // 对标C++ buttonProc 函数指针数组
@@ -201,6 +201,7 @@ namespace ExDuiRTest
             testFuncArray[66] = FlowScrollViewWindow.CreateFlowScrollViewWindow;
             testFuncArray[67] = PrototypeBoardWindow.CreatePrototypeBoardWindow;
             testFuncArray[68] = CandlestickChartWindow.CreateCandlestickChartWindow;
+            testFuncArray[69] = ImgPreviewListviewWindow.CreateImgPreviewListviewWindow;
         }
 
         /// <summary>
@@ -243,7 +244,7 @@ namespace ExDuiRTest
             if (hImg == IntPtr.Zero) return;
 
             // 缩放为30x30
-            ExAPI._img_scale(hImg, 30, 30, out var hImgSmall);
+            ExAPI._img_scale(hImg, (int)ExAPI.Ex_Scale(30), (int)ExAPI.Ex_Scale(30), out var hImgSmall);
             ExAPI._img_destroy(hImg);
 
             // 设置图标

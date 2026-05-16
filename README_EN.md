@@ -221,3 +221,6 @@ win10+, win7 need install KB2670838 patch
 
 ### demo candlestickchart:
 ![image](demo_image/demo_candlestickchart.png)
+
+### demo imgpreviewlistview:
+![image](demo_image/demo_imgpreviewlistview.png)

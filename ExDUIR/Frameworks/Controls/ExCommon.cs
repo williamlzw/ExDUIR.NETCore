@@ -1972,7 +1972,7 @@ namespace ExDuiR.NET.Frameworks.Controls
         }
         public bool Check
         {
-            set => this.SendMessage(BUTTON_MESSAGE_SETCHECK, (IntPtr)1, IntPtr.Zero);
+            set => this.SendMessage(BUTTON_MESSAGE_SETCHECK, value ? (IntPtr)1 : IntPtr.Zero, IntPtr.Zero);
             get => Convert.ToBoolean(this.SendMessage(BUTTON_MESSAGE_GETCHECK, IntPtr.Zero, IntPtr.Zero));
         }
 
@@ -4958,5 +4958,177 @@ namespace ExDuiR.NET.Frameworks.Controls
             return ptr == IntPtr.Zero ? default : Marshal.PtrToStructure<ExCandlestickData>(ptr);
         }
         public new string ClassName => "CandlestickChart";
+    }
+
+    public class ExImagePreviewListView : ExControl
+    {
+        public ExImagePreviewListView(IExBaseUIEle oParent, string sTitle, int x, int y, int nWidth, int nHeight)
+            : base(oParent, "ImagePreviewListView", sTitle, x, y, nWidth, nHeight)
+        {
+        }
+
+        public ExImagePreviewListView(IExBaseUIEle oParent, string sTitle, int x, int y, int nWidth, int nHeight, int dwStyle = -1, int dwStyleEx = -1, int dwTextFormat = -1, int nID = 0, IntPtr lParam = default, ExObjProcDelegate pfnObjProc = null)
+            : base(oParent, "ImagePreviewListView", sTitle, x, y, nWidth, nHeight, dwStyle, dwStyleEx, dwTextFormat, nID, lParam, IntPtr.Zero, pfnObjProc)
+        {
+        }
+        public ExImagePreviewListView(int hObj) : base(hObj)
+        {
+        }
+        public ExImagePreviewListView(ExControl parent) : base(parent)
+        {
+        }
+
+        #region 公开封装方法（对外调用入口）
+        /// <summary>
+        /// 插入图片项（正确传路径指针）
+        /// </summary>
+        public void InsertItem(int insertIndex, string imgPath, bool bRedraw = false)
+        {
+            // 分配非托管宽字符内存
+            IntPtr pPath = Marshal.StringToHGlobalUni(imgPath);
+
+            ExImgPreviewListviewItemInfo item = new ExImgPreviewListviewItemInfo
+            {
+                nIndex = insertIndex,
+                pwzPath = pPath
+            };
+
+            int size = Marshal.SizeOf<ExImgPreviewListviewItemInfo>();
+            IntPtr ptrItem = ExAPI.Ex_MemAlloc(size);
+            try
+            {
+                Marshal.StructureToPtr(item, ptrItem, false);
+                SendMessage(IMGPREVIEWLISTVIEW_MESSAGE_INSERTITEM, bRedraw ? (IntPtr)1 : IntPtr.Zero, ptrItem);
+            }
+            finally
+            {
+                ExAPI.Ex_MemFree(ptrItem);
+                // 释放路径内存
+                Marshal.FreeHGlobal(pPath);
+            }
+        }
+
+        /// <summary>
+        /// 删除指定索引的图片项
+        /// </summary>
+        /// <param name="index">项索引（从1开始）</param>
+        /// <param name="bRedraw">删除后是否重绘控件（默认true）</param>
+        /// <exception cref="ArgumentOutOfRangeException">索引小于1时抛出异常</exception>
+        public void DeleteItem(int index, bool bRedraw = true)
+        {
+            if (index < 1)
+                throw new ArgumentOutOfRangeException(nameof(index), "索引必须从1开始");
+
+            // wParam：是否重画；lParam：项索引
+            SendMessage(IMGPREVIEWLISTVIEW_MESSAGE_DELETEITEM, bRedraw ? new IntPtr(1) : IntPtr.Zero, new IntPtr(index));
+        }
+
+        /// <summary>
+        /// 删除所有图片项
+        /// </summary>
+        /// <param name="bRedraw">删除后是否重绘控件（默认true）</param>
+        public void DeleteAllItems(bool bRedraw = true)
+        {
+            // wParam：是否重画
+            SendMessage(IMGPREVIEWLISTVIEW_MESSAGE_DELETEALLITEMS, bRedraw ? new IntPtr(1) : IntPtr.Zero, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 设置图片项的宽高
+        /// </summary>
+        /// <param name="width">宽度</param>
+        /// <param name="height">高度</param>
+        public void SetItemSize(int width, int height)
+        {
+            // wParam=宽度，lParam=高度（适配底层消息规则）
+            SendMessage(IMGPREVIEWLISTVIEW_MESSAGE_SETITEMSIZE, 0, new IntPtr(Util.MAKELONG((uint)width, (uint)height)));
+        }
+
+        /// <summary>
+        /// 获取选中项完整信息+路径（修复空路径）
+        /// </summary>
+        public bool GetSelectedItemInfo(out int idx, out string filePath)
+        {
+            idx = GetSelectedIndex();
+            filePath = string.Empty;
+            if (idx <= 0) return false;
+
+            IntPtr pItem = SendMessage(IMGPREVIEWLISTVIEW_MESSAGE_GETITEMINFO, IntPtr.Zero, (IntPtr)idx);
+            if (pItem == IntPtr.Zero) return false;
+
+            ExImgPreviewListviewItemInfo info = Marshal.PtrToStructure<ExImgPreviewListviewItemInfo>(pItem);
+            filePath = Marshal.PtrToStringUni(info.pwzPath);
+            return true;
+        }
+
+        /// <summary>
+        /// 删除当前选中项
+        /// </summary>
+        public void DeleteSelectedItem()
+        {
+            int index = GetSelectedIndex();
+            if (index > 0) DeleteItem(index);
+        }
+
+        /// <summary>
+        /// 获取当前选中项的索引
+        /// </summary>
+        /// <returns>选中项索引（从1开始，无选中返回0）</returns>
+        public int GetSelectedIndex()
+        {
+            IntPtr result = SendMessage(IMGPREVIEWLISTVIEW_MESSAGE_GETSELECTED, IntPtr.Zero, IntPtr.Zero);
+            return result.ToInt32();
+        }
+
+        /// <summary>
+        /// 获取图片总数
+        /// </summary>
+        /// <returns></returns>
+        public int GetItemCount()
+        {
+            IntPtr result = SendMessage(IMGPREVIEWLISTVIEW_MESSAGE_GETCOUNT, IntPtr.Zero, IntPtr.Zero);
+            return result.ToInt32();
+        }
+
+        /// <summary>
+        /// 获取单个项信息（内部用）
+        /// </summary>
+        private ExImgPreviewListviewItemInfo GetItemInfo(int index)
+        {
+            if (index < 1) throw new ArgumentOutOfRangeException(nameof(index));
+            IntPtr pItem = SendMessage(IMGPREVIEWLISTVIEW_MESSAGE_GETITEMINFO, IntPtr.Zero, (IntPtr)index);
+            return Marshal.PtrToStructure<ExImgPreviewListviewItemInfo>(pItem);
+        }
+
+        /// <summary>
+        /// 获取列表中所有图片的索引和路径
+        /// </summary>
+        public List<(int Index, string FilePath)> GetAllItems()
+        {
+            List<(int, string)> itemList = new List<(int, string)>();
+            // 获取原生总数
+            int totalCount = GetItemCount();
+
+            // 从1开始遍历所有项（控件索引从1开始）
+            for (int i = 1; i <= totalCount; i++)
+            {
+                var info = GetItemInfo(i);
+                // 转换路径指针为字符串
+                string path = Marshal.PtrToStringUni(info.pwzPath);
+                itemList.Add((i, path));
+            }
+
+            return itemList;
+        }
+
+        /// <summary>
+        /// 刷新/更新控件
+        /// </summary>
+        public void Update()
+        {
+            SendMessage(IMGPREVIEWLISTVIEW_MESSAGE_UPDATE, IntPtr.Zero, IntPtr.Zero);
+        }
+        #endregion
+        public new string ClassName => "ImagePreviewListView";
     }
 }

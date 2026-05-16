@@ -2366,6 +2366,22 @@ namespace ExDuiR.NET.Native
     }
 
     /// <summary>
+    /// 图片预览列表数据结构体
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    public struct ExImgPreviewListviewItemInfo
+    {
+        /// <summary>
+        /// 索引
+        /// </summary>
+        public int nIndex;
+        /// <summary>
+        /// 图片路径
+        /// </summary>
+        public IntPtr pwzPath;
+    }
+
+    /// <summary>
     /// API声明
     /// </summary>
     public class ExAPI
