@@ -5742,6 +5742,25 @@ namespace ExDuiR.NET.Native
         public static extern bool _canvas_drawtextex(int hCanvas, int hFont, int crText, string lpwzText, IntPtr dwLen, int dwDTFormat, float left, float top, float right, float bottom, int iGlowsize, int crShadow, IntPtr lParam);
 
         /// <summary>
+        /// 画布_挂接事件处理文本复制
+        /// </summary>
+        /// <param name="hCanvas"></param>
+        /// <param name="uMsg"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_handle_mouse_event_for_text")]
+        public static extern bool _canvas_handle_mouse_event_for_text(int hCanvas, int uMsg, float x, float y);
+
+        /// <summary>
+        /// 画布_复制选中文本到剪贴板
+        /// </summary>
+        /// <param name="hCanvas"></param>
+        /// <returns></returns>
+        [DllImport("libexdui.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl, EntryPoint = "_canvas_copy_selected_text")]
+        public static extern bool _canvas_copy_selected_text(int hCanvas);
+
+        /// <summary>
         /// 画布画SVG从句柄
         /// </summary>
         /// <param name="hCanvas"></param>

@@ -1949,6 +1949,11 @@
         /// 引擎数值_标题栏组件句柄
         /// </summary>
         public const int ENGINE_LONG_OBJCAPTION = -54;
+
+        /// <summary>
+        /// 引擎数值_画布句柄
+        /// </summary>
+        public const int ENGINE_LONG_HCANVAS = -55;
         #endregion
 
         #region 消息_扩展_
@@ -3526,6 +3531,10 @@
         /// 文本对齐_单行模式
         /// </summary>
         public const int DT_SINGLELINE = 0x00000020;
+        /// <summary>
+        /// 文本对齐_可选中
+        /// </summary>
+        public const int DT_SELECTABLE = 0x00800000;
         public const int DT_EXPANDTABS = 0x00000040;
         public const int DT_TABSTOP = 0x00000080;
         public const int DT_NOCLIP = 0x00000100;
@@ -3533,6 +3542,7 @@
         public const int DT_CALCRECT = 0x00000400;
         public const int DT_NOPREFIX = 0x00000800;
         public const int DT_INTERNAL = 0x00001000;
+       
         #endregion
 
         #region 窗口消息_

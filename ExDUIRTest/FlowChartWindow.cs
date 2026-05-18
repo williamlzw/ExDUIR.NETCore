@@ -116,9 +116,9 @@ namespace ExDuiRTest
                 ports = ExAPI.Ex_MemAlloc(Marshal.SizeOf<ExFlowChartPort>() * 4)
             };
 
-            flowChart.WritePortToNode_Text(node, 0, 300, FLOWCHART_PORTTYPE_INPUT, FLOWCHART_DATATYPE_STRING, "prefix", 180, 25, "output_");
-            flowChart.WritePortToNode_Combo(node, 1, 301, FLOWCHART_PORTTYPE_INPUT, FLOWCHART_DATATYPE_COMBO, "format", 180, 25, CreateComboData(new[] { "PNG", "JPG" }, 0));
-            flowChart.WritePortToNode_Combo(node, 2, 302, FLOWCHART_PORTTYPE_INPUT, FLOWCHART_DATATYPE_COMBO, "type", 180, 25, CreateComboData(new[] { "数据1", "数据2", "数据3" }, 0));
+            flowChart.WritePortToNode_Text(node, 0, 300, FLOWCHART_PORTTYPE_INTERMEDIATE, FLOWCHART_DATATYPE_STRING, "prefix", 180, 25, "output_");
+            flowChart.WritePortToNode_Combo(node, 1, 301, FLOWCHART_PORTTYPE_INTERMEDIATE, FLOWCHART_DATATYPE_COMBO, "format", 180, 25, CreateComboData(new[] { "PNG", "JPG" }, 0));
+            flowChart.WritePortToNode_Combo(node, 2, 302, FLOWCHART_PORTTYPE_INTERMEDIATE, FLOWCHART_DATATYPE_COMBO, "type", 180, 25, CreateComboData(new[] { "数据1", "数据2", "数据3" }, 0));
             flowChart.WritePortToNode(node, 3, 303, FLOWCHART_PORTTYPE_OUTPUT, FLOWCHART_DATATYPE_STRING, "CONFIG");
 
             flowChart.AddNode(node);

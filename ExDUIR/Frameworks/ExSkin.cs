@@ -282,6 +282,14 @@ namespace ExDuiR.NET.Frameworks
             }
         }
 
+        public int hCanvas
+        {
+            get
+            {
+                return (int)ExAPI.Ex_DUIGetLong(m_hExDUI, ENGINE_LONG_HCANVAS);
+            }
+        }
+
         /// <summary>
         /// 取/置窗口标题
         /// </summary>

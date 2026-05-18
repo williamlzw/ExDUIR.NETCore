@@ -328,5 +328,15 @@ namespace ExDuiR.NET.Frameworks.Graphics
         {
             return ExAPI._canvas_drawcanvas(m_hCanvas, sCanvas.handle, dstLeft, dstTop, dstRight, dstBottom, srcLeft, srcTop, dwAlpha, dwCompositeMode);
         }
+
+        public bool HandleMouseEventForText(int uMsg, float x, float y)
+        {
+            return ExAPI._canvas_handle_mouse_event_for_text(m_hCanvas, uMsg, x, y);
+        }
+
+        public bool CopySelectedText()
+        {
+            return ExAPI._canvas_copy_selected_text(m_hCanvas);
+        }
     }
 }
