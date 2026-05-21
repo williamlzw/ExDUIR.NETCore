@@ -102,8 +102,9 @@ namespace ExDuiRTest
             ## 7.表格
             | 表头1 | 表头2 | 表头3 |
             |-------|-------|-------|
-            | 单元格 | 单元格 | 单元格 |
-            | 数据1  | 数据2  | 数据3  |
+            | *** 单元格 *** | `单元格` | [访问百度](https://www.baidu.com) |
+            | ** 数据1 ** | ~~数据2~~  | 数据3  |
+            | * 改动点 * | 说明 | 数据4  |
             """;
 
         static public void CreateChatBoxWindow(ExSkin pOwner)
