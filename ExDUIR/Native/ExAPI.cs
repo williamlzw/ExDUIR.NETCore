@@ -2382,6 +2382,23 @@ namespace ExDuiR.NET.Native
     }
 
     /// <summary>
+    /// 素材编辑框_条目
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    public struct ExEditMaterialItem
+    {
+        /// <summary>
+        /// 素材名
+        /// </summary>
+        [MarshalAs(UnmanagedType.LPWStr)]
+        public string szName;
+        /// <summary>
+        /// 素材图像句柄（编辑框销毁时统一销毁）
+        /// </summary>
+        public int hImage;
+    }
+
+    /// <summary>
     /// API声明
     /// </summary>
     public class ExAPI

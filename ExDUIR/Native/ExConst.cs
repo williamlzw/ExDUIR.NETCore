@@ -4586,5 +4586,59 @@
         /// </summary>
         public const int IMGPREVIEWLISTVIEW_MESSAGE_UPDATE = LISTVIEW_MESSAGE_UPDATE;
         #endregion
+
+        #region 素材编辑框_通知定义
+        /// <summary>
+        /// 素材编辑框_通知_素材被选中, lParam=素材索引
+        /// </summary>
+        public const int EDITMATERIAL_EVENT_SELECTED = 90001;
+        #endregion
+
+
+        #region 素材编辑框_消息定义
+        /// <summary>
+        /// 素材编辑框_消息_添加素材：wParam=0, lParam=ExEditMaterialItem指针
+        /// </summary>
+        public const int EDITMATERIAL_MESSAGE_ADDMATERIAL = 80001;
+        /// <summary>
+        /// 素材编辑框_消息_移除素材：wParam=0, lParam=素材名LPCWSTR
+        /// </summary>
+        public const int EDITMATERIAL_MESSAGE_REMOVEMATERIAL = 80002;
+        /// <summary>
+        /// 素材编辑框_消息_清空素材
+        /// </summary>
+        public const int EDITMATERIAL_MESSAGE_CLEARMATERIALS = 80003;
+        /// <summary>
+        /// 素材编辑框_消息_获取纯文本（@{素材名}格式）：wParam=缓冲区大小, lParam=LPWSTR缓冲区, 返回字符数
+        /// </summary>
+        public const int EDITMATERIAL_MESSAGE_GETPLAINTEXT = 80004;
+        /// <summary>
+        /// 素材编辑框_消息_设置初始化文本(解析@{素材名}), lParam 文本指针
+        /// </summary>
+        public const int EDITMATERIAL_MESSAGE_SETINITTEXT = 80005;
+        #endregion
+
+        #region 日志框_消息定义
+        /// <summary>
+        /// 日志框_消息_添加消息 wParam=文本内容LPCWSTR, lParam:ARGB颜色
+        /// </summary>
+        public const int CONSOLEBOX_MESSAGE_ADDITEM = 0x400 + 2001;
+        /// <summary>
+        ///  日志框_消息_清空消息
+        /// </summary>
+        public const int CONSOLEBOX_MESSAGE_CLEAR = 0x400 + 2002;
+        /// <summary>
+        /// 日志框_消息_设置是否自动滚动 wParam=BOOL是否自动滚动
+        /// </summary>
+        public const int CONSOLEBOX_MESSAGE_SETAUTOSCROLL = 0x400 + 2003;
+        /// <summary>
+        /// 日志框_消息_设置字体 wParam=字体句柄,内部销毁
+        /// </summary>
+        public const int CONSOLEBOX_MESSAGE_SETFONT = 0x400 + 2004;
+        /// <summary>
+        /// 日志框_消息_设置背景颜色 wParam:ARGB颜色值
+        /// </summary>
+        public const int CONSOLEBOX_MESSAGE_SETBACKCOLOR = 0x400 + 2005;
+        #endregion
     }
 }

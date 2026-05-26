@@ -220,3 +220,10 @@ win10+， win7 需要安装KB2670838补丁
 
 ### demo imgpreviewlistview:
 ![image](demo_image/demo_imgpreviewlistview.png)
+
+### demo editmaterial:
+![image](demo_image/demo_editmaterial1.png)
+![image](demo_image/demo_editmaterial2.png)
+
+### demo consolebox:
+![image](demo_image/demo_consolebox.png)

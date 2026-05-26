@@ -32,7 +32,7 @@ namespace ExDuiRTest
             "路径与区域",     "VLC播放器",  "自定字体和SVG", "卷帘菜单",   "托盘图标",   "蒙板",
             "标注画板",       "效果器",     "打包",          "环形进度条", "水波进度条", "折线图",
             "对话盒",         "流程图",     "分隔条",        "D3D绘制" ,   "表格",       "webview2浏览器",
-            "流式滚动容器",   "原型画板",   "K线图",         "图片预览列表"
+            "流式滚动容器",   "原型画板",   "K线图",         "图片预览列表", "素材编辑框", "日志框"
         };
 
         // 对标C++ buttonProc 函数指针数组
@@ -202,6 +202,8 @@ namespace ExDuiRTest
             testFuncArray[67] = PrototypeBoardWindow.CreatePrototypeBoardWindow;
             testFuncArray[68] = CandlestickChartWindow.CreateCandlestickChartWindow;
             testFuncArray[69] = ImgPreviewListviewWindow.CreateImgPreviewListviewWindow;
+            testFuncArray[70] = EditMaterialWindow.CreateEditMaterialWindow;
+            testFuncArray[71] = ConsoleBoxWindow.CreateConsoleBoxWindow;
         }
 
         /// <summary>

@@ -224,3 +224,10 @@ win10+, win7 need install KB2670838 patch
 
 ### demo imgpreviewlistview:
 ![image](demo_image/demo_imgpreviewlistview.png)
+
+### demo editmaterial:
+![image](demo_image/demo_editmaterial1.png)
+![image](demo_image/demo_editmaterial2.png)
+
+### demo consolebox:
+![image](demo_image/demo_consolebox.png)

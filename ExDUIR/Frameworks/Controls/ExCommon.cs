@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using static ExDuiR.NET.Native.ExConst;
 using static System.Net.Mime.MediaTypeNames;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ExDuiR.NET.Frameworks.Controls
 {
@@ -4960,6 +4961,9 @@ namespace ExDuiR.NET.Frameworks.Controls
         public new string ClassName => "CandlestickChart";
     }
 
+    /// <summary>
+    /// 图像预览列表
+    /// </summary>
     public class ExImagePreviewListView : ExControl
     {
         public ExImagePreviewListView(IExBaseUIEle oParent, string sTitle, int x, int y, int nWidth, int nHeight)
@@ -5130,5 +5134,192 @@ namespace ExDuiR.NET.Frameworks.Controls
         }
         #endregion
         public new string ClassName => "ImagePreviewListView";
+    }
+
+    /// <summary>
+    /// 素材编辑框
+    /// </summary>
+    public class ExEditMaterial : ExControl
+    {
+        public ExEditMaterial(IExBaseUIEle oParent, string sTitle, int x, int y, int nWidth, int nHeight)
+            : base(oParent, "EditMaterial", sTitle, x, y, nWidth, nHeight)
+        {
+        }
+
+        public ExEditMaterial(IExBaseUIEle oParent, string sTitle, int x, int y, int nWidth, int nHeight, int dwStyle = -1, int dwStyleEx = -1, int dwTextFormat = -1, int nID = 0, IntPtr lParam = default, ExObjProcDelegate pfnObjProc = null)
+            : base(oParent, "EditMaterial", sTitle, x, y, nWidth, nHeight, dwStyle, dwStyleEx, dwTextFormat, nID, lParam, IntPtr.Zero, pfnObjProc)
+        {
+        }
+        public ExEditMaterial(int hObj) : base(hObj)
+        {
+        }
+        public ExEditMaterial(ExControl parent) : base(parent)
+        {
+        }
+
+        /// <summary>
+        /// 添加素材
+        /// </summary>
+        /// <param name="item"></param>
+        public void AddMaterial(ExEditMaterialItem item)
+        {
+            int dataSize = Marshal.SizeOf<ExEditMaterialItem>();
+            IntPtr dataPtr = ExAPI.Ex_MemAlloc(dataSize);
+            try
+            {
+                Marshal.StructureToPtr(item, dataPtr, false);
+                SendMessage(EDITMATERIAL_MESSAGE_ADDMATERIAL, IntPtr.Zero, dataPtr);
+            }
+            finally
+            {
+                ExAPI.Ex_MemFree(dataPtr);
+            }
+        }
+
+        /// <summary>
+        /// 删除素材（按名称）
+        /// </summary>
+        /// <param name="materialName"></param>
+        public void RemoveMaterial(string materialName)
+        {
+            IntPtr ptr = Marshal.StringToHGlobalUni(materialName);
+            try
+            {
+                SendMessage(EDITMATERIAL_MESSAGE_REMOVEMATERIAL, IntPtr.Zero, ptr);
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(ptr); // 释放内存
+            }
+        }
+
+        /// <summary>
+        /// 清空素材
+        /// </summary>
+        public void ClearMaterials()
+        {
+            SendMessage(EDITMATERIAL_MESSAGE_CLEARMATERIALS, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 获取纯文本（@{素材名}格式）
+        /// </summary>
+        public string GetPlainText()
+        {
+            IntPtr ptrSize = Marshal.AllocHGlobal(4);
+            try
+            {
+                // 第一次获取长度
+                SendMessage(EDITMATERIAL_MESSAGE_GETPLAINTEXT, ptrSize, IntPtr.Zero);
+                int size = Marshal.ReadInt32(ptrSize);
+                if (size <= 0) return string.Empty;
+
+                // 第二次获取文本
+                IntPtr ptrStr = Marshal.AllocHGlobal(size);
+                try
+                {
+                    SendMessage(EDITMATERIAL_MESSAGE_GETPLAINTEXT, ptrSize, ptrStr);
+                    return Marshal.PtrToStringUni(ptrStr);
+                }
+                finally
+                {
+                    Marshal.FreeHGlobal(ptrStr);
+                }
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(ptrSize);
+            }
+        }
+
+        /// <summary>
+        /// 设置初始文本（支持@{素材名}解析）
+        /// </summary>
+        /// <param name="str"></param>
+        public void SetInitText(string str)
+        {
+            IntPtr ptr = Util.StrDupW(str);
+            try
+            {
+                SendMessage(EDITMATERIAL_MESSAGE_SETINITTEXT, IntPtr.Zero, ptr);
+            }
+            finally
+            {
+                ExAPI.Ex_MemFree(ptr);
+            }
+        }
+
+        public new string ClassName => "EditMaterial";
+    }
+
+    /// <summary>
+    /// 日志框
+    /// </summary>
+    public class ExConsoleBox : ExControl
+    {
+        public ExConsoleBox(IExBaseUIEle oParent, string sTitle, int x, int y, int nWidth, int nHeight)
+            : base(oParent, "ConsoleBox", sTitle, x, y, nWidth, nHeight)
+        {
+        }
+
+        public ExConsoleBox(IExBaseUIEle oParent, string sTitle, int x, int y, int nWidth, int nHeight, int dwStyle = -1, int dwStyleEx = -1, int dwTextFormat = -1, int nID = 0, IntPtr lParam = default, ExObjProcDelegate pfnObjProc = null)
+            : base(oParent, "ConsoleBox", sTitle, x, y, nWidth, nHeight, dwStyle, dwStyleEx, dwTextFormat, nID, lParam, IntPtr.Zero, pfnObjProc)
+        {
+        }
+        public ExConsoleBox(int hObj) : base(hObj)
+        {
+        }
+        public ExConsoleBox(ExControl parent) : base(parent)
+        {
+        }
+
+        /// <summary>
+        /// 添加消息
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="color">ARGB颜色</param>
+        public void AddItem(string str, int color)
+        {
+            var ptr = Util.StrDupW(str);
+            SendMessage(CONSOLEBOX_MESSAGE_ADDITEM, ptr, color);
+            ExAPI.Ex_MemFree(ptr);
+        }
+
+        /// <summary>
+        /// 清空消息
+        /// </summary>
+        public void ClearAll()
+        {
+            SendMessage(CONSOLEBOX_MESSAGE_CLEAR, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 设置是否自动滚动
+        /// </summary>
+        /// <param name="enable"></param>
+        public void SetAutoScroll(bool enable)
+        {
+            SendMessage(CONSOLEBOX_MESSAGE_SETAUTOSCROLL, enable ? 1 : 0, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 设置字体 内部会自动销毁该句柄
+        /// </summary>
+        /// <param name="font"></param>
+        public void SetFont(ExFont font)
+        {
+            SendMessage(CONSOLEBOX_MESSAGE_SETFONT, font.handle, IntPtr.Zero);
+        }
+
+        /// <summary>
+        /// 置背景色
+        /// </summary>
+        /// <param name="color"></param>
+        public void SetBackColor(int color)
+        {
+            SendMessage(CONSOLEBOX_MESSAGE_SETBACKCOLOR, color, IntPtr.Zero);
+        }
+
+        public new string ClassName => "ConsoleBox";
     }
 }
